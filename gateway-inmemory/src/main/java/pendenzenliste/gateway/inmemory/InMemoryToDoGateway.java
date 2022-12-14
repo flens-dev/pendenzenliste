@@ -13,8 +13,7 @@ import pendenzenliste.gateway.ToDoGateway;
  */
 public final class InMemoryToDoGateway implements ToDoGateway
 {
-  private static final Map<ToDoIdentityValueObject, ToDoEntity> STORE =
-      new ConcurrentHashMap<>();
+  private static final Map<ToDoIdentityValueObject, ToDoEntity> STORE = new ConcurrentHashMap<>();
 
   /**
    * {@inheritDoc}
@@ -38,5 +37,14 @@ public final class InMemoryToDoGateway implements ToDoGateway
     }
 
     return false;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void store(final ToDoEntity todo)
+  {
+    STORE.put(todo.identity(), todo);
   }
 }

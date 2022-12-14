@@ -14,13 +14,16 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.assertj.core.api.SoftAssertions;
+import pendenzenliste.domain.CompletedTimestampValueObject;
 import pendenzenliste.domain.CreatedTimestampValueObject;
 import pendenzenliste.domain.DescriptionValueObject;
 import pendenzenliste.domain.HeadlineValueObject;
 import pendenzenliste.domain.LastModifiedTimestampValueObject;
 import pendenzenliste.domain.ToDoEntity;
 import pendenzenliste.domain.ToDoIdentityValueObject;
+import pendenzenliste.domain.ToDoState;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.ports.in.CompleteToDoRequest;
 import pendenzenliste.ports.in.DeleteToDoRequest;
 import pendenzenliste.ports.in.FetchToDoRequest;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
@@ -70,7 +73,7 @@ public class ToDoSteps
 
 
   @Given("that the following ToDo exists:")
-  public void thatTheFollowingToDoExists(DataTable data)
+  public void givenThatTheFollowingToDoExists(DataTable data)
   {
     for (final Map<String, String> row : data.asMaps())
     {
@@ -78,6 +81,18 @@ public class ToDoSteps
 
       when(gateway.findById(identity)).thenReturn(Optional.of(parseToDoFrom(row)));
     }
+  }
+
+  @Given("that deleting the ToDo fails")
+  public void givenThatDeletingTheToDoFails()
+  {
+    when(gateway.delete(new ToDoIdentityValueObject(id))).thenReturn(false);
+  }
+
+  @Given("that deleting the ToDo succeeds")
+  public void givenThatDeletingTheToDoSucceeds()
+  {
+    when(gateway.delete(new ToDoIdentityValueObject(id))).thenReturn(true);
   }
 
   @When("I try to fetch the ToDo")
@@ -97,6 +112,13 @@ public class ToDoSteps
     updateResponse = factory.delete().execute(request);
   }
 
+  @When("I try to complete the ToDo")
+  public void whenITryToCompleteTheToDo()
+  {
+    final var request = new CompleteToDoRequest(id);
+
+    updateResponse = factory.complete().execute(request);
+  }
 
   @Then("fetching the ToDo should have failed with the message: {string}")
   public void thenFetchingTheToDoShouldHaveFailedWithTheMessage(final String expectedMessage)
@@ -140,25 +162,11 @@ public class ToDoSteps
         assertions.assertThat(response.description()).isEqualTo(todo.description().value());
         assertions.assertThat(response.created()).isEqualTo(todo.created().value());
         assertions.assertThat(response.lastModified()).isEqualTo(todo.lastModified().value());
+        assertions.assertThat(response.state()).isEqualTo(todo.state().name());
 
         assertions.assertAll();
       }
     });
-  }
-
-  /**
-   * Parses a ToDo from the given row.
-   *
-   * @param row The row that should be parsed.
-   * @return The parsed entity.
-   */
-  private static ToDoEntity parseToDoFrom(final Map<String, String> row)
-  {
-    return new ToDoEntity(new ToDoIdentityValueObject(row.get("identity")),
-        new HeadlineValueObject(row.get("headline")),
-        new DescriptionValueObject(row.get("description")),
-        new CreatedTimestampValueObject(LocalDateTime.parse(row.get("created"))),
-        new LastModifiedTimestampValueObject(LocalDateTime.parse(row.get("last modified"))));
   }
 
   @Then("the todo update should have failed with the message: {string}")
@@ -180,18 +188,6 @@ public class ToDoSteps
     });
   }
 
-  @Given("that deleting the ToDo fails")
-  public void givenThatDeletingTheToDoFails()
-  {
-    when(gateway.delete(new ToDoIdentityValueObject(id))).thenReturn(false);
-  }
-
-  @Given("that deleting the ToDo succeeds")
-  public void givenThatDeletingTheToDoSucceeds()
-  {
-    when(gateway.delete(new ToDoIdentityValueObject(id))).thenReturn(true);
-  }
-
   @Then("the todo update should have been successful")
   public void theTodoUpdateShouldHaveBeenSuccessful()
   {
@@ -209,5 +205,26 @@ public class ToDoSteps
         fail(response.reason());
       }
     });
+  }
+
+
+  /**
+   * Parses a ToDo from the given row.
+   *
+   * @param row The row that should be parsed.
+   * @return The parsed entity.
+   */
+  private static ToDoEntity parseToDoFrom(final Map<String, String> row)
+  {
+    return new ToDoEntity(new ToDoIdentityValueObject(row.get("identity")),
+        new HeadlineValueObject(row.get("headline")),
+        new DescriptionValueObject(row.get("description")),
+        new CreatedTimestampValueObject(LocalDateTime.parse(row.get("created"))),
+        new LastModifiedTimestampValueObject(LocalDateTime.parse(row.get("last modified"))),
+        Optional.ofNullable(row.getOrDefault("completed", null))
+            .map(LocalDateTime::parse)
+            .map(CompletedTimestampValueObject::new)
+            .orElse(null),
+        ToDoState.valueOf(row.get("state")));
   }
 }

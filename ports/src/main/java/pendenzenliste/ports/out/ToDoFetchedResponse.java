@@ -6,7 +6,8 @@ import java.time.LocalDateTime;
  * A response that can be used to represent a fetched ToDo.
  */
 public record ToDoFetchedResponse(String identity, String headline, String description,
-                                  LocalDateTime created, LocalDateTime lastModified)
+                                  LocalDateTime created, LocalDateTime lastModified,
+                                  LocalDateTime completed, String state)
     implements FetchToDoResponse
 {
   /**

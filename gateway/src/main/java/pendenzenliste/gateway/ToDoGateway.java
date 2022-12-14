@@ -25,4 +25,11 @@ public interface ToDoGateway
    * @return True if the ToDo has been deleted, otherwise false.
    */
   boolean delete(ToDoIdentityValueObject id);
+
+  /**
+   * Updates the todo.
+   *
+   * @param todo The todo.
+   */
+  void store(final ToDoEntity todo);
 }

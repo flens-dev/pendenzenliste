@@ -33,11 +33,11 @@ Feature: Fetch ToDo
 
     Given that I enter the ID '42'
     And that the following ToDo exists:
-      | identity | headline | description | created             | last modified       |
-      | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 |
+      | identity | headline | description | created             | last modified       | state |
+      | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | OPEN  |
 
     When I try to fetch the ToDo
 
     Then the fetched Todo should have the following values:
-      | identity | headline | description | created             | last modified       |
-      | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 |
+      | identity | headline | description | created             | last modified       | state |
+      | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | OPEN  |

@@ -1,9 +1,11 @@
 package pendenzenliste.usecases;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
+import pendenzenliste.domain.CompletedTimestampValueObject;
 import pendenzenliste.domain.ToDoEntity;
 import pendenzenliste.domain.ToDoIdentityValueObject;
 import pendenzenliste.gateway.ToDoGateway;
@@ -63,6 +65,10 @@ public class FetchToDoUseCase implements FetchToDoInputBoundary
         todo.headline().value(),
         todo.description().value(),
         todo.created().value(),
-        todo.lastModified().value());
+        todo.lastModified().value(),
+        Optional.ofNullable(todo.completed())
+            .map(CompletedTimestampValueObject::value)
+            .orElse(null),
+        todo.state().name());
   }
 }

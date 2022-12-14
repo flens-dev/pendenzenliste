@@ -55,14 +55,7 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary
    */
   private static Function<Boolean, UpdateToDoResponse> mapDeletedFlagToResponse()
   {
-    return deleted -> {
-      if (deleted)
-      {
-        return new ToDoUpdatedResponse();
-      } else
-      {
-        return new ToDoUpdateFailedResponse("Failed to delete the ToDo");
-      }
-    };
+    return deleted -> deleted ? new ToDoUpdatedResponse() :
+        new ToDoUpdateFailedResponse("Failed to delete the ToDo");
   }
 }

@@ -3,6 +3,7 @@ package pendenzenliste.usecases;
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.gateway.ToDoGatewayProvider;
+import pendenzenliste.ports.in.DeleteToDoInputBoundary;
 import pendenzenliste.ports.in.FetchToDoInputBoundary;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
 
@@ -30,5 +31,14 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public FetchToDoInputBoundary fetch()
   {
     return new FetchToDoUseCase(provider.getInstance());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public DeleteToDoInputBoundary delete()
+  {
+    return new DeleteToDoUseCase(provider.getInstance());
   }
 }

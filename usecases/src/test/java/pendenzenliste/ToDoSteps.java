@@ -21,12 +21,17 @@ import pendenzenliste.domain.LastModifiedTimestampValueObject;
 import pendenzenliste.domain.ToDoEntity;
 import pendenzenliste.domain.ToDoIdentityValueObject;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.ports.in.DeleteToDoRequest;
 import pendenzenliste.ports.in.FetchToDoRequest;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
 import pendenzenliste.ports.out.FetchToDoFailedResponse;
 import pendenzenliste.ports.out.FetchToDoOutputBoundary;
 import pendenzenliste.ports.out.FetchToDoResponse;
 import pendenzenliste.ports.out.ToDoFetchedResponse;
+import pendenzenliste.ports.out.ToDoUpdateFailedResponse;
+import pendenzenliste.ports.out.ToDoUpdatedResponse;
+import pendenzenliste.ports.out.UpdateToDoOutputBoundary;
+import pendenzenliste.ports.out.UpdateToDoResponse;
 import pendenzenliste.usecases.ToDoUseCaseFactory;
 
 /**
@@ -41,6 +46,8 @@ public class ToDoSteps
   private String id;
 
   private FetchToDoResponse fetchResponse;
+
+  private UpdateToDoResponse updateResponse;
 
   @Given("that I do not enter an ID")
   public void givenThatIDoNotEnterAnID()
@@ -81,6 +88,16 @@ public class ToDoSteps
     fetchResponse = factory.fetch().execute(request);
   }
 
+
+  @When("I try to delete the ToDo")
+  public void whenITryToDeleteTheToDo()
+  {
+    final var request = new DeleteToDoRequest(id);
+
+    updateResponse = factory.delete().execute(request);
+  }
+
+
   @Then("fetching the ToDo should have failed with the message: {string}")
   public void thenFetchingTheToDoShouldHaveFailedWithTheMessage(final String expectedMessage)
   {
@@ -114,21 +131,15 @@ public class ToDoSteps
       @Override
       public void handleSuccessfulResponse(final ToDoFetchedResponse response)
       {
-        final var todo =
-            parseToDoFrom(data.asMaps().stream().findFirst().get());
+        final var todo = parseToDoFrom(data.asMaps().stream().findFirst().get());
 
         final SoftAssertions assertions = new SoftAssertions();
 
-        assertions.assertThat(response.identity())
-            .isEqualTo(todo.identity().value());
-        assertions.assertThat(response.headline())
-            .isEqualTo(todo.headline().value());
-        assertions.assertThat(response.description())
-            .isEqualTo(todo.description().value());
-        assertions.assertThat(response.created())
-            .isEqualTo(todo.created().value());
-        assertions.assertThat(response.lastModified())
-            .isEqualTo(todo.lastModified().value());
+        assertions.assertThat(response.identity()).isEqualTo(todo.identity().value());
+        assertions.assertThat(response.headline()).isEqualTo(todo.headline().value());
+        assertions.assertThat(response.description()).isEqualTo(todo.description().value());
+        assertions.assertThat(response.created()).isEqualTo(todo.created().value());
+        assertions.assertThat(response.lastModified()).isEqualTo(todo.lastModified().value());
 
         assertions.assertAll();
       }
@@ -148,5 +159,55 @@ public class ToDoSteps
         new DescriptionValueObject(row.get("description")),
         new CreatedTimestampValueObject(LocalDateTime.parse(row.get("created"))),
         new LastModifiedTimestampValueObject(LocalDateTime.parse(row.get("last modified"))));
+  }
+
+  @Then("the todo update should have failed with the message: {string}")
+  public void thenTheTodoUpdateShouldHaveFailedWithTheMessage(String expectedMessage)
+  {
+    updateResponse.applyTo(new UpdateToDoOutputBoundary()
+    {
+      @Override
+      public void handleSuccessfulResponse(ToDoUpdatedResponse response)
+      {
+        fail("The request should have failed");
+      }
+
+      @Override
+      public void handleFailedResponse(ToDoUpdateFailedResponse response)
+      {
+        assertThat(response.reason()).isEqualTo(expectedMessage);
+      }
+    });
+  }
+
+  @Given("that deleting the ToDo fails")
+  public void givenThatDeletingTheToDoFails()
+  {
+    when(gateway.delete(new ToDoIdentityValueObject(id))).thenReturn(false);
+  }
+
+  @Given("that deleting the ToDo succeeds")
+  public void givenThatDeletingTheToDoSucceeds()
+  {
+    when(gateway.delete(new ToDoIdentityValueObject(id))).thenReturn(true);
+  }
+
+  @Then("the todo update should have been successful")
+  public void theTodoUpdateShouldHaveBeenSuccessful()
+  {
+    updateResponse.applyTo(new UpdateToDoOutputBoundary()
+    {
+      @Override
+      public void handleSuccessfulResponse(final ToDoUpdatedResponse response)
+      {
+        assertThat(response).isNotNull();
+      }
+
+      @Override
+      public void handleFailedResponse(final ToDoUpdateFailedResponse response)
+      {
+        fail(response.reason());
+      }
+    });
   }
 }

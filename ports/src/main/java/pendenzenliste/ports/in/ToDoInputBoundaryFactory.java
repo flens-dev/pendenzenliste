@@ -11,4 +11,11 @@ public interface ToDoInputBoundaryFactory
    * @return The boundary.
    */
   FetchToDoInputBoundary fetch();
+
+  /**
+   * Creates a new input boundary that can be used to delete a ToDo.
+   *
+   * @return The boundary.
+   */
+  DeleteToDoInputBoundary delete();
 }

@@ -12,4 +12,11 @@ public interface FetchToDoOutputBoundary
    * @param response The response.
    */
   void handleFailedResponse(FetchToDoFailedResponse response);
+
+  /**
+   * Handles a successful response.
+   *
+   * @param response The response.
+   */
+  void handleSuccessfulResponse(ToDoFetchedResponse response);
 }

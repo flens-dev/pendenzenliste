@@ -8,6 +8,7 @@ import pendenzenliste.ports.in.DeleteToDoInputBoundary;
 import pendenzenliste.ports.in.FetchToDoInputBoundary;
 import pendenzenliste.ports.in.ResetToDoInputBoundary;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
+import pendenzenliste.ports.in.UpdateToDoInputBoundary;
 
 /**
  * A factory that can be used to access ToDo specific use cases.
@@ -60,5 +61,14 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public ResetToDoInputBoundary reset()
   {
     return new ResetToDoUseCase(provider.getInstance());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public UpdateToDoInputBoundary update()
+  {
+    return new UpdateToDoUseCase(provider.getInstance());
   }
 }

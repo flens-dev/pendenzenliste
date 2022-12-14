@@ -2,8 +2,8 @@ package pendenzenliste.gateway;
 
 import java.util.Optional;
 
+import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoEntity;
-import pendenzenliste.domain.ToDoIdentityValueObject;
 
 /**
  * A gateway that can be used to access ToDos
@@ -16,7 +16,7 @@ public interface ToDoGateway
    * @param id The ID.
    * @return The ToDo or {@link Optional#empty()}
    */
-  Optional<ToDoEntity> findById(ToDoIdentityValueObject id);
+  Optional<ToDoEntity> findById(IdentityValueObject id);
 
   /**
    * Deletes the ToDo with the given ID.
@@ -24,7 +24,7 @@ public interface ToDoGateway
    * @param id The ID.
    * @return True if the ToDo has been deleted, otherwise false.
    */
-  boolean delete(ToDoIdentityValueObject id);
+  boolean delete(IdentityValueObject id);
 
   /**
    * Updates the todo.

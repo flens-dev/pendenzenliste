@@ -4,13 +4,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
 
-class ToDoIdentityValueObjectTest
+class IdentityValueObjectTest
 {
 
   @Test
   public void mayNotBeNull()
   {
-    assertThatThrownBy(() -> new ToDoIdentityValueObject(null))
+    assertThatThrownBy(() -> new IdentityValueObject(null))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("The value may not be null");
   }
@@ -18,7 +18,7 @@ class ToDoIdentityValueObjectTest
   @Test
   public void mayNotBeEmpty()
   {
-    assertThatThrownBy(() -> new ToDoIdentityValueObject(""))
+    assertThatThrownBy(() -> new IdentityValueObject(""))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessage("The value may not be empty");
   }

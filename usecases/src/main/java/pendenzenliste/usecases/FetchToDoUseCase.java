@@ -6,8 +6,8 @@ import java.util.function.Function;
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.domain.CompletedTimestampValueObject;
+import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoEntity;
-import pendenzenliste.domain.ToDoIdentityValueObject;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.ports.in.FetchToDoInputBoundary;
 import pendenzenliste.ports.in.FetchToDoRequest;
@@ -40,7 +40,7 @@ public class FetchToDoUseCase implements FetchToDoInputBoundary
   {
     try
     {
-      final var id = new ToDoIdentityValueObject(request.id());
+      final var id = new IdentityValueObject(request.id());
 
       final var todo = gateway.findById(id);
 

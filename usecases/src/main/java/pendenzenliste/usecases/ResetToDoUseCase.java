@@ -2,8 +2,8 @@ package pendenzenliste.usecases;
 
 import static java.util.Objects.requireNonNull;
 
+import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoCapability;
-import pendenzenliste.domain.ToDoIdentityValueObject;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.ports.in.ResetToDoInputBoundary;
 import pendenzenliste.ports.in.ResetToDoRequest;
@@ -37,7 +37,7 @@ public class ResetToDoUseCase implements ResetToDoInputBoundary
     try
     {
       final var identity =
-          new ToDoIdentityValueObject(request.identity());
+          new IdentityValueObject(request.identity());
 
       final var todo = gateway.findById(identity);
 

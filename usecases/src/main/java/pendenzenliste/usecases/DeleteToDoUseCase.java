@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.domain.ToDoIdentityValueObject;
+import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.ports.in.DeleteToDoInputBoundary;
 import pendenzenliste.ports.in.DeleteToDoRequest;
@@ -37,7 +37,7 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary
   {
     try
     {
-      final var identity = new ToDoIdentityValueObject(request.identity());
+      final var identity = new IdentityValueObject(request.identity());
 
       return gateway.findById(identity).map(todo -> gateway.delete(identity))
           .map(mapDeletedFlagToResponse())

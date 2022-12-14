@@ -7,10 +7,10 @@ import java.util.UUID;
  *
  * @param value The value.
  */
-public record ToDoIdentityValueObject(String value)
+public record IdentityValueObject(String value)
 {
 
-  public ToDoIdentityValueObject
+  public IdentityValueObject
   {
     if (value == null)
     {
@@ -28,8 +28,8 @@ public record ToDoIdentityValueObject(String value)
    *
    * @return The generated value.
    */
-  public static ToDoIdentityValueObject random()
+  public static IdentityValueObject random()
   {
-    return new ToDoIdentityValueObject(UUID.randomUUID().toString());
+    return new IdentityValueObject(UUID.randomUUID().toString());
   }
 }

@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoEntity;
-import pendenzenliste.domain.ToDoIdentityValueObject;
 import pendenzenliste.gateway.ToDoGateway;
 
 /**
@@ -13,13 +13,13 @@ import pendenzenliste.gateway.ToDoGateway;
  */
 public final class InMemoryToDoGateway implements ToDoGateway
 {
-  private static final Map<ToDoIdentityValueObject, ToDoEntity> STORE = new ConcurrentHashMap<>();
+  private static final Map<IdentityValueObject, ToDoEntity> STORE = new ConcurrentHashMap<>();
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Optional<ToDoEntity> findById(final ToDoIdentityValueObject id)
+  public Optional<ToDoEntity> findById(final IdentityValueObject id)
   {
     return Optional.ofNullable(STORE.getOrDefault(id, null));
   }
@@ -28,7 +28,7 @@ public final class InMemoryToDoGateway implements ToDoGateway
    * {@inheritDoc}
    */
   @Override
-  public boolean delete(final ToDoIdentityValueObject id)
+  public boolean delete(final IdentityValueObject id)
   {
     if (STORE.containsKey(id))
     {

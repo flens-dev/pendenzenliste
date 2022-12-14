@@ -18,9 +18,9 @@ import pendenzenliste.domain.CompletedTimestampValueObject;
 import pendenzenliste.domain.CreatedTimestampValueObject;
 import pendenzenliste.domain.DescriptionValueObject;
 import pendenzenliste.domain.HeadlineValueObject;
+import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.LastModifiedTimestampValueObject;
 import pendenzenliste.domain.ToDoEntity;
-import pendenzenliste.domain.ToDoIdentityValueObject;
 import pendenzenliste.domain.ToDoState;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.ports.in.CompleteToDoRequest;
@@ -28,6 +28,7 @@ import pendenzenliste.ports.in.DeleteToDoRequest;
 import pendenzenliste.ports.in.FetchToDoRequest;
 import pendenzenliste.ports.in.ResetToDoRequest;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
+import pendenzenliste.ports.in.UpdateToDoRequest;
 import pendenzenliste.ports.out.FetchToDoFailedResponse;
 import pendenzenliste.ports.out.FetchToDoOutputBoundary;
 import pendenzenliste.ports.out.FetchToDoResponse;
@@ -49,6 +50,10 @@ public class ToDoSteps
 
   private String id;
 
+  private String headline;
+
+  private String description;
+
   private FetchToDoResponse fetchResponse;
 
   private UpdateToDoResponse updateResponse;
@@ -69,7 +74,7 @@ public class ToDoSteps
   @Given("that the ToDo does not exist")
   public void givenThatTheToDoDoesNotExist()
   {
-    when(gateway.findById(new ToDoIdentityValueObject(id))).thenReturn(Optional.empty());
+    when(gateway.findById(new IdentityValueObject(id))).thenReturn(Optional.empty());
   }
 
 
@@ -78,7 +83,7 @@ public class ToDoSteps
   {
     for (final Map<String, String> row : data.asMaps())
     {
-      var identity = new ToDoIdentityValueObject(row.get("identity"));
+      var identity = new IdentityValueObject(row.get("identity"));
 
       when(gateway.findById(identity)).thenReturn(Optional.of(parseToDoFrom(row)));
     }
@@ -87,13 +92,25 @@ public class ToDoSteps
   @Given("that deleting the ToDo fails")
   public void givenThatDeletingTheToDoFails()
   {
-    when(gateway.delete(new ToDoIdentityValueObject(id))).thenReturn(false);
+    when(gateway.delete(new IdentityValueObject(id))).thenReturn(false);
   }
 
   @Given("that deleting the ToDo succeeds")
   public void givenThatDeletingTheToDoSucceeds()
   {
-    when(gateway.delete(new ToDoIdentityValueObject(id))).thenReturn(true);
+    when(gateway.delete(new IdentityValueObject(id))).thenReturn(true);
+  }
+  
+  @Given("that I enter the headline {string}")
+  public void givenThatIEnterTheHeadline(String headline)
+  {
+    this.headline = headline;
+  }
+
+  @Given("that I enter the description {string}")
+  public void givenThatIEnterTheDescription(String description)
+  {
+    this.description = description;
   }
 
   @When("I try to fetch the ToDo")
@@ -128,6 +145,14 @@ public class ToDoSteps
     final var request = new ResetToDoRequest(id);
 
     updateResponse = factory.reset().execute(request);
+  }
+
+  @When("I try to update the ToDo")
+  public void whenITryToUpdateTheToDo()
+  {
+    final var request = new UpdateToDoRequest(id, headline, description);
+
+    updateResponse = factory.update().execute(request);
   }
 
   @Then("fetching the ToDo should have failed with the message: {string}")
@@ -226,15 +251,13 @@ public class ToDoSteps
    */
   private static ToDoEntity parseToDoFrom(final Map<String, String> row)
   {
-    return new ToDoEntity(new ToDoIdentityValueObject(row.get("identity")),
+    return new ToDoEntity(new IdentityValueObject(row.get("identity")),
         new HeadlineValueObject(row.get("headline")),
         new DescriptionValueObject(row.get("description")),
         new CreatedTimestampValueObject(LocalDateTime.parse(row.get("created"))),
         new LastModifiedTimestampValueObject(LocalDateTime.parse(row.get("last modified"))),
-        Optional.ofNullable(row.getOrDefault("completed", null))
-            .map(LocalDateTime::parse)
-            .map(CompletedTimestampValueObject::new)
-            .orElse(null),
+        Optional.ofNullable(row.getOrDefault("completed", null)).map(LocalDateTime::parse)
+            .map(CompletedTimestampValueObject::new).orElse(null),
         ToDoState.valueOf(row.get("state")));
   }
 }

@@ -25,4 +25,12 @@ public interface ToDoInputBoundaryFactory
    * @return The boundary.
    */
   DeleteToDoInputBoundary delete();
+
+
+  /**
+   * Creates a new input boundary that can be used to reset a completed todo.
+   *
+   * @return The boundary.
+   */
+  ResetToDoInputBoundary reset();
 }

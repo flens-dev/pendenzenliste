@@ -25,15 +25,9 @@ public record ToDoEntity(ToDoIdentityValueObject identity, HeadlineValueObject h
    */
   public ToDoEntity complete()
   {
-    return new ToDoEntity(
-        identity,
-        headline,
-        description,
-        created,
-        LastModifiedTimestampValueObject.now(),
-        CompletedTimestampValueObject.now(),
-        ToDoState.DONE
-    );
+    return new ToDoEntity(identity, headline, description, created,
+        LastModifiedTimestampValueObject.now(), CompletedTimestampValueObject.now(),
+        ToDoState.DONE);
   }
 
   /**
@@ -49,6 +43,22 @@ public record ToDoEntity(ToDoIdentityValueObject identity, HeadlineValueObject h
       capabilities.add(ToDoCapability.COMPLETE);
     }
 
+    if (ToDoState.DONE.equals(state))
+    {
+      capabilities.add(ToDoCapability.RESET);
+    }
+
     return capabilities;
+  }
+
+  /**
+   * Resets a previously closed ToDo.
+   *
+   * @return The reset ToDo.
+   */
+  public ToDoEntity reset()
+  {
+    return new ToDoEntity(identity, headline, description, created,
+        LastModifiedTimestampValueObject.now(), null, ToDoState.OPEN);
   }
 }

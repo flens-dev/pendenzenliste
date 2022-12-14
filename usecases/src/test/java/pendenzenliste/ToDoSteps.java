@@ -26,6 +26,7 @@ import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.ports.in.CompleteToDoRequest;
 import pendenzenliste.ports.in.DeleteToDoRequest;
 import pendenzenliste.ports.in.FetchToDoRequest;
+import pendenzenliste.ports.in.ResetToDoRequest;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
 import pendenzenliste.ports.out.FetchToDoFailedResponse;
 import pendenzenliste.ports.out.FetchToDoOutputBoundary;
@@ -118,6 +119,15 @@ public class ToDoSteps
     final var request = new CompleteToDoRequest(id);
 
     updateResponse = factory.complete().execute(request);
+  }
+
+
+  @When("I try to reset the ToDo")
+  public void whenITryToResetTheToDo()
+  {
+    final var request = new ResetToDoRequest(id);
+
+    updateResponse = factory.reset().execute(request);
   }
 
   @Then("fetching the ToDo should have failed with the message: {string}")

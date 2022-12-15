@@ -1,6 +1,7 @@
 package pendenzenliste.gateway;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoEntity;
@@ -32,4 +33,11 @@ public interface ToDoGateway
    * @param todo The todo.
    */
   void store(final ToDoEntity todo);
+
+  /**
+   * Fetches all the todos.
+   *
+   * @return The stream of all todos.
+   */
+  Stream<ToDoEntity> fetchAll();
 }

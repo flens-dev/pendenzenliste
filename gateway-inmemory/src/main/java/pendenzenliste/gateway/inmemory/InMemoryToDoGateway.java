@@ -3,6 +3,7 @@ package pendenzenliste.gateway.inmemory;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoEntity;
@@ -46,5 +47,14 @@ public final class InMemoryToDoGateway implements ToDoGateway
   public void store(final ToDoEntity todo)
   {
     STORE.put(todo.identity(), todo);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Stream<ToDoEntity> fetchAll()
+  {
+    return STORE.values().stream();
   }
 }

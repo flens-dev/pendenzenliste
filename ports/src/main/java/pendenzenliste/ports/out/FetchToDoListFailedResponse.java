@@ -5,7 +5,7 @@ package pendenzenliste.ports.out;
  *
  * @param reason The reason for the failure.
  */
-public record ListToDosFailedResponse(String reason) implements ListToDosResponse
+public record FetchToDoListFailedResponse(String reason) implements FetchToDoListResponse
 {
   /**
    * {@inheritDoc}

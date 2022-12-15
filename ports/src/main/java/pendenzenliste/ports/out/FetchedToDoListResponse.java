@@ -7,7 +7,8 @@ import java.util.Collection;
  *
  * @param todos The todos.
  */
-public record ToDoListResponse(Collection<ToDoListResponseModel> todos) implements ListToDosResponse
+public record FetchedToDoListResponse(Collection<ToDoListResponseModel> todos) implements
+    FetchToDoListResponse
 {
   /**
    * {@inheritDoc}

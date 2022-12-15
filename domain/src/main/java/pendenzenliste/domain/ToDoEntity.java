@@ -76,4 +76,19 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
     return new ToDoEntity(identity, headline, description, created,
         LastModifiedTimestampValueObject.now(), completed, state);
   }
+
+  /**
+   * Creates a new open ToDo.
+   *
+   * @param headline    The headline.
+   * @param description The description.
+   * @return The open todo.
+   */
+  public static ToDoEntity createOpenToDo(final HeadlineValueObject headline,
+                                          final DescriptionValueObject description)
+  {
+    return new ToDoEntity(IdentityValueObject.random(), headline, description,
+        CreatedTimestampValueObject.now(), LastModifiedTimestampValueObject.now(), null,
+        ToDoState.OPEN);
+  }
 }

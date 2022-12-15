@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.gateway.ToDoGatewayProvider;
 import pendenzenliste.ports.in.CompleteToDoInputBoundary;
+import pendenzenliste.ports.in.CreateToDoInputBoundary;
 import pendenzenliste.ports.in.DeleteToDoInputBoundary;
 import pendenzenliste.ports.in.FetchToDoInputBoundary;
 import pendenzenliste.ports.in.ResetToDoInputBoundary;
@@ -25,6 +26,15 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public ToDoUseCaseFactory(final ToDoGatewayProvider provider)
   {
     this.provider = requireNonNull(provider, "The provider may not be null");
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public CreateToDoInputBoundary create()
+  {
+    return new CreateToDoUseCase(provider.getInstance());
   }
 
   /**

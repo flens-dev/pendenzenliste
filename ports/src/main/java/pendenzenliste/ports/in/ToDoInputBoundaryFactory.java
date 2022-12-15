@@ -6,6 +6,13 @@ package pendenzenliste.ports.in;
 public interface ToDoInputBoundaryFactory
 {
   /**
+   * Creates a new input boundary that can be used to create a todo.
+   *
+   * @return The boundary.
+   */
+  CreateToDoInputBoundary create();
+
+  /**
    * Creates a new input boundary that can be used to complete a ToDo.
    *
    * @return The boundary.-

@@ -1,0 +1,19 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+javafx {
+    version = "19"
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+
+application.mainModule = "pendenzenliste.app.javafx.main"
+mainClassName = 'pendenzenliste.javafx.PendenzenlisteApp'
+
+dependencies {
+    implementation project(':ports')
+
+    runtimeOnly project(':gateway-inmemory')
+}

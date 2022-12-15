@@ -2,22 +2,11 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
+group 'pendenzenliste'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-}
-
-dependencies {
-    implementation project('domain')
-    implementation project('gateway')
-    implementation project('gateway-inmemory')
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
-
-    testImplementation "org.assertj:assertj-core:3.23.1"
 }
 
 configure(subprojects.findAll()) {
@@ -42,5 +31,12 @@ configure(subprojects.findAll()) {
 
     test {
         useJUnitPlatform()
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+            vendor.set(JvmVendorSpec.ADOPTIUM)
+        }
     }
 }

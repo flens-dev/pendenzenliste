@@ -4,4 +4,4 @@ build:
 runJavaFxApp:
 	./gradlew app-javafx:run
 
-.PHONY: build
+.PHONY: build, runJavaFxApp

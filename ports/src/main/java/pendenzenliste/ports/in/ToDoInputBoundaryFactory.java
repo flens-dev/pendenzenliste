@@ -27,6 +27,13 @@ public interface ToDoInputBoundaryFactory
   FetchToDoInputBoundary fetch();
 
   /**
+   * Creates a new input boundary that can be used to fetch a list of todos.
+   *
+   * @return The boundary.
+   */
+  FetchToDoListInputBoundary list();
+
+  /**
    * Creates a new input boundary that can be used to delete a ToDo.
    *
    * @return The boundary.

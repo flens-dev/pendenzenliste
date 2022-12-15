@@ -7,6 +7,7 @@ import pendenzenliste.ports.in.CompleteToDoInputBoundary;
 import pendenzenliste.ports.in.CreateToDoInputBoundary;
 import pendenzenliste.ports.in.DeleteToDoInputBoundary;
 import pendenzenliste.ports.in.FetchToDoInputBoundary;
+import pendenzenliste.ports.in.FetchToDoListInputBoundary;
 import pendenzenliste.ports.in.ResetToDoInputBoundary;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
 import pendenzenliste.ports.in.UpdateToDoInputBoundary;
@@ -53,6 +54,15 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public FetchToDoInputBoundary fetch()
   {
     return new FetchToDoUseCase(provider.getInstance());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public FetchToDoListInputBoundary list()
+  {
+    return new FetchToDoListUseCase(provider.getInstance());
   }
 
   /**

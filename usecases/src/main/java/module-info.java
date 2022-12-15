@@ -8,5 +8,6 @@ module pendenzenliste.usecases.main {
   requires pendenzenliste.ports.main;
   requires pendenzenliste.gateway.main;
 
-  provides ToDoInputBoundaryFactoryProvider with ToDoUseCaseFactoryProvider;
+  provides ToDoInputBoundaryFactoryProvider
+      with ToDoUseCaseFactoryProvider;
 }

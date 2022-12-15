@@ -1,4 +1,4 @@
-import pendenzenliste.gateway.ToDoGatewayProvider;
+import pendenzenliste.ports.in.ToDoInputBoundaryFactoryProvider;
 
 module pendenzenliste.ports.main {
   exports pendenzenliste.ports.in;
@@ -6,5 +6,5 @@ module pendenzenliste.ports.main {
 
   requires pendenzenliste.gateway.main;
 
-  uses ToDoGatewayProvider;
+  uses ToDoInputBoundaryFactoryProvider;
 }

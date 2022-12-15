@@ -16,4 +16,5 @@ dependencies {
     implementation project(':ports')
 
     runtimeOnly project(':gateway-inmemory')
+    runtimeOnly project(':usecases')
 }

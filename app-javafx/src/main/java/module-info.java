@@ -10,4 +10,6 @@ module pendenzenliste.app.javafx.main {
   requires javafx.controls;
   requires javafx.graphics;
   requires javafx.fxml;
+
+  requires io.reactivex.rxjava3;
 }

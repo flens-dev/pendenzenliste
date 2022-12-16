@@ -13,19 +13,15 @@ import pendenzenliste.ports.out.UpdateToDoOutputBoundary;
  */
 public class UpdateToDoPresenter implements UpdateToDoOutputBoundary
 {
-  private final ToDoListViewModel listViewModel;
   private final EditToDoViewModel editViewModel;
 
   /**
    * Creates a new instance.
    *
-   * @param listViewModel The list view model that should be used by this instance.
    * @param editViewModel The edit view model that should be used by this instance.
    */
-  public UpdateToDoPresenter(final ToDoListViewModel listViewModel,
-                             final EditToDoViewModel editViewModel)
+  public UpdateToDoPresenter(final EditToDoViewModel editViewModel)
   {
-    this.listViewModel = requireNonNull(listViewModel, "The list view model may not be null");
     this.editViewModel = requireNonNull(editViewModel, "The edit view model may not be null");
   }
 
@@ -35,8 +31,8 @@ public class UpdateToDoPresenter implements UpdateToDoOutputBoundary
   @Override
   public void handleSuccessfulResponse(final ToDoUpdatedResponse response)
   {
-    editViewModel.clearedTrigger.set(LocalDateTime.now());
-    listViewModel.listUpdated.set(LocalDateTime.now());
+    editViewModel.publishEvent(new ClearEditorRequestedEvent(LocalDateTime.now()));
+    editViewModel.publishEvent(new ListUpdateRequiredEvent(LocalDateTime.now()));
   }
 
   /**

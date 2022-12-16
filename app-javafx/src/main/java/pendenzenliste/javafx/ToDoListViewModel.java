@@ -1,7 +1,5 @@
 package pendenzenliste.javafx;
 
-import java.time.LocalDateTime;
-
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,9 +19,4 @@ public class ToDoListViewModel
    * This property is used to represent the selected todo.
    */
   public SimpleObjectProperty<ToDoListDTO> selectedTodo = new SimpleObjectProperty<>();
-
-  /**
-   * This property is used to notify the view that the list has been updated.
-   */
-  public SimpleObjectProperty<LocalDateTime> listUpdated = new SimpleObjectProperty<>();
 }

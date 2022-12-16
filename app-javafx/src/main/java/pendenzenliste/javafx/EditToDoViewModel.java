@@ -1,9 +1,9 @@
 package pendenzenliste.javafx;
 
-import java.time.LocalDateTime;
-
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.reactivex.rxjava3.subjects.Subject;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -25,13 +25,25 @@ public class EditToDoViewModel
 
   public final SimpleBooleanProperty resetButtonVisible = new SimpleBooleanProperty(false);
 
+  private final Subject<ToDoEvent> subject = PublishSubject.create();
 
-  public final SimpleObjectProperty<LocalDateTime> savedTrigger = new SimpleObjectProperty<>();
+  /**
+   * The events.
+   *
+   * @return The events.
+   */
+  public Observable<ToDoEvent> events()
+  {
+    return Observable.wrap(subject);
+  }
 
-  public final SimpleObjectProperty<LocalDateTime> clearedTrigger = new SimpleObjectProperty<>();
-  public final SimpleObjectProperty<LocalDateTime> completedTrigger = new SimpleObjectProperty<>();
-
-  public final SimpleObjectProperty<LocalDateTime> deletedTrigger = new SimpleObjectProperty<>();
-
-  public final SimpleObjectProperty<LocalDateTime> resetTrigger = new SimpleObjectProperty<>();
+  /**
+   * Publishes the given event.
+   *
+   * @param event The event.
+   */
+  public void publishEvent(final ToDoEvent event)
+  {
+    subject.onNext(event);
+  }
 }

@@ -13,18 +13,15 @@ import pendenzenliste.ports.out.ToDoCreationFailedResponse;
  */
 public class CreateToDoPresenter implements CreateToDoOutputBoundary
 {
-  private final ToDoListViewModel listViewModel;
   private final EditToDoViewModel editViewModel;
 
   /**
    * Creates a new instance.
    *
-   * @param listViewModel The view that should be used by this instance.
+   * @param editViewModel The view that should be used by this instance.
    */
-  public CreateToDoPresenter(final ToDoListViewModel listViewModel,
-                             final EditToDoViewModel editViewModel)
+  public CreateToDoPresenter(final EditToDoViewModel editViewModel)
   {
-    this.listViewModel = requireNonNull(listViewModel, "The view model may not be null");
     this.editViewModel = requireNonNull(editViewModel, "The edit view model may not be null");
   }
 
@@ -34,8 +31,8 @@ public class CreateToDoPresenter implements CreateToDoOutputBoundary
   @Override
   public void handleSuccessfulResponse(final ToDoCreatedResponse response)
   {
-    editViewModel.clearedTrigger.set(LocalDateTime.now());
-    listViewModel.listUpdated.set(LocalDateTime.now());
+    editViewModel.publishEvent(new ClearEditorRequestedEvent(LocalDateTime.now()));
+    editViewModel.publishEvent(new ListUpdateRequiredEvent(LocalDateTime.now()));
   }
 
   /**

@@ -17,4 +17,6 @@ dependencies {
 
     runtimeOnly project(':gateway-inmemory')
     runtimeOnly project(':usecases')
+
+    implementation "io.reactivex.rxjava3:rxjava:3.1.5"
 }

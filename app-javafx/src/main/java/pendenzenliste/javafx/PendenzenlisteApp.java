@@ -36,9 +36,9 @@ public class PendenzenlisteApp extends Application
     final var editViewModel = new EditToDoViewModel();
 
     final var fetchPresenter = new FetchToDoListPresenter(listViewModel);
-    final var createPresenter = new CreateToDoPresenter(listViewModel, editViewModel);
+    final var createPresenter = new CreateToDoPresenter(editViewModel);
     final var editPresenter = new EditToDoPresenter(editViewModel);
-    final var updatePresenter = new UpdateToDoPresenter(listViewModel, editViewModel);
+    final var updatePresenter = new UpdateToDoPresenter(editViewModel);
 
     final var controller =
         new ToDoListController(provider.getInstance(), fetchPresenter, createPresenter,
@@ -62,47 +62,18 @@ public class PendenzenlisteApp extends Application
                                         final EditToDoViewModel editViewModel,
                                         final ToDoListController controller)
   {
-    //TODO: Figure out if there is a better way to achieve this
-    listViewModel.listUpdated.addListener(
-        (observable, oldValue, newValue) -> controller.loadTodos());
+    final ControllerEventVisitor visitor =
+        new ControllerEventVisitor(controller, listViewModel, editViewModel);
 
+
+    editViewModel.events().subscribe(event -> event.visit(visitor));
+
+    //TODO: Figure out if there is a better way to achieve this
     listViewModel.selectedTodo.addListener((observable, oldValue, newValue) -> {
       if (newValue != null)
       {
         controller.loadForEdit(newValue.identity());
       }
     });
-
-    editViewModel.savedTrigger.addListener((observable, oldValue, newValue) -> {
-      if (editViewModel.identity.isEmpty().get())
-      {
-        controller.createToDo(editViewModel.headline.get(), editViewModel.description.get());
-      } else
-      {
-        controller.updateToDo(editViewModel.identity.get(), editViewModel.headline.get(),
-            editViewModel.description.get());
-      }
-    });
-
-    editViewModel.deletedTrigger.addListener(
-        ((observable, oldValue, newValue) -> controller.deleteToDo(editViewModel.identity.get())));
-
-    editViewModel.completedTrigger.addListener(
-        ((observable, oldValue, newValue) -> controller.completeToDo(
-            editViewModel.identity.get())));
-
-    editViewModel.resetTrigger.addListener(
-        ((observable, oldValue, newValue) -> controller.resetToDo(editViewModel.identity.get())));
-
-    editViewModel.clearedTrigger.addListener(((observable, oldValue, newValue) -> {
-      listViewModel.selectedTodo.set(null);
-      editViewModel.identity.set("");
-      editViewModel.headline.set("");
-      editViewModel.description.set("");
-      editViewModel.errorMessage.set("");
-      editViewModel.deleteButtonVisible.set(false);
-      editViewModel.completeButtonVisible.set(false);
-      editViewModel.resetButtonVisible.set(false);
-    }));
   }
 }

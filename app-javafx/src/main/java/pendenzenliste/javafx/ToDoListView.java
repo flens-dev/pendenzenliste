@@ -49,7 +49,7 @@ public class ToDoListView extends Scene
     layout.addToMain(new ToDoTableWidget(listViewModel));
     layout.addToDetail(buildEditForm());
 
-    listViewModel.listUpdated.set(LocalDateTime.now());
+    editViewModel.publishEvent(new ListUpdateRequiredEvent(LocalDateTime.now()));
   }
 
   /**
@@ -85,11 +85,22 @@ public class ToDoListView extends Scene
     editViewModel.deleteButtonVisible.bindBidirectional(deleteButton.visibleProperty());
     editViewModel.resetButtonVisible.bindBidirectional(resetButton.visibleProperty());
 
-    clearButton.setOnAction(event -> clearEditor());
-    saveButton.setOnAction(event -> editViewModel.savedTrigger.set(LocalDateTime.now()));
-    completeButton.setOnAction(event -> editViewModel.completedTrigger.set(LocalDateTime.now()));
-    deleteButton.setOnAction(event -> editViewModel.deletedTrigger.set(LocalDateTime.now()));
-    resetButton.setOnAction(event -> editViewModel.resetTrigger.set(LocalDateTime.now()));
+    clearButton.setOnAction(
+        event -> editViewModel.publishEvent(new ClearEditorRequestedEvent(LocalDateTime.now())));
+
+    saveButton.setOnAction(event -> editViewModel.publishEvent(
+        new SaveRequestedEvent(LocalDateTime.now(), editViewModel.identity.get(),
+            editViewModel.headline.get(), editViewModel.description.get())));
+
+    completeButton.setOnAction(event -> editViewModel.publishEvent(
+        new CompleteRequestedEvent(LocalDateTime.now(), editViewModel.identity.get())));
+
+    deleteButton.setOnAction(event -> editViewModel.publishEvent(
+        new DeleteRequestedEvent(LocalDateTime.now(), editViewModel.identity.get())));
+
+    resetButton.setOnAction(
+        event -> editViewModel.publishEvent(
+            new ResetRequestedEvent(LocalDateTime.now(), editViewModel.identity.get())));
 
     final var actions =
         new HBox(deleteButton, completeButton, resetButton, clearButton, saveButton);
@@ -101,13 +112,5 @@ public class ToDoListView extends Scene
             actions);
 
     return layout;
-  }
-
-  /**
-   * Clears the editor.
-   */
-  public void clearEditor()
-  {
-    editViewModel.clearedTrigger.set(LocalDateTime.now());
   }
 }

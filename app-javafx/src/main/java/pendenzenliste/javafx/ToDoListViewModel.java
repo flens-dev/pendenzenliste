@@ -13,10 +13,10 @@ public class ToDoListViewModel
   /**
    * This property is used to represent the todos displayed by the list.
    */
-  public ObservableList<ToDoListDTO> todos = FXCollections.observableArrayList();
+  public ObservableList<ToDoListItemViewModel> todos = FXCollections.observableArrayList();
 
   /**
    * This property is used to represent the selected todo.
    */
-  public SimpleObjectProperty<ToDoListDTO> selectedTodo = new SimpleObjectProperty<>();
+  public SimpleObjectProperty<ToDoListItemViewModel> selectedTodo = new SimpleObjectProperty<>();
 }

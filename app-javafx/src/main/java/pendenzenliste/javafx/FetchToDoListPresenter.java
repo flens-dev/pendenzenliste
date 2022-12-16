@@ -50,9 +50,9 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
    *
    * @return The mapping function.
    */
-  private static Function<ToDoListResponseModel, ToDoListDTO> mapToDTO()
+  private static Function<ToDoListResponseModel, ToDoListItemViewModel> mapToDTO()
   {
-    return todo -> new ToDoListDTO(todo.identity(), todo.headline(), todo.created(),
+    return todo -> new ToDoListItemViewModel(todo.identity(), todo.headline(), todo.created(),
         todo.lastModified(), todo.completed(), todo.state());
   }
 }

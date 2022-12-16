@@ -11,7 +11,7 @@ import javafx.scene.control.TableView;
 /**
  * A widget that can be used to render a table with a list of todos.
  */
-public class ToDoTableWidget extends TableView<ToDoListDTO>
+public class ToDoTableWidget extends TableView<ToDoListItemViewModel>
 {
   /**
    * Creates a new instance.
@@ -22,19 +22,20 @@ public class ToDoTableWidget extends TableView<ToDoListDTO>
   {
     super();
 
-    final TableColumn<ToDoListDTO, String> headlineColumn = new TableColumn<>("Headline");
+    final TableColumn<ToDoListItemViewModel, String> headlineColumn = new TableColumn<>("Headline");
 
     headlineColumn.setCellValueFactory(dto -> new SimpleStringProperty(dto.getValue().headline()));
 
-    final TableColumn<ToDoListDTO, String> stateColumn = new TableColumn<>("State");
+    final TableColumn<ToDoListItemViewModel, String> stateColumn = new TableColumn<>("State");
 
     stateColumn.setCellValueFactory(dto -> new SimpleStringProperty(dto.getValue().state()));
 
-    final TableColumn<ToDoListDTO, LocalDateTime> createdColumn = new TableColumn<>("Created");
+    final TableColumn<ToDoListItemViewModel, LocalDateTime> createdColumn =
+        new TableColumn<>("Created");
 
     createdColumn.setCellValueFactory(dto -> new SimpleObjectProperty<>(dto.getValue().created()));
 
-    final TableColumn<ToDoListDTO, LocalDateTime> lastModifiedColumn =
+    final TableColumn<ToDoListItemViewModel, LocalDateTime> lastModifiedColumn =
         new TableColumn<>("Last modified");
 
     lastModifiedColumn.setCellValueFactory(

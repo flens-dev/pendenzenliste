@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
  * @param completed    The completed date.
  * @param state        The state of the todo.
  */
-public record ToDoListDTO(String identity, String headline, LocalDateTime created,
-                          LocalDateTime lastModified, LocalDateTime completed, String state)
+public record ToDoListItemViewModel(String identity, String headline, LocalDateTime created,
+                                    LocalDateTime lastModified, LocalDateTime completed,
+                                    String state)
 {
 }

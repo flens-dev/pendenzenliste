@@ -22,7 +22,6 @@ public class ControllerEventVisitor implements ToDoEventVisitor
                                 final ToDoListViewModel listViewModel,
                                 final EditToDoViewModel editViewModel)
   {
-
     this.controller = requireNonNull(controller, "The controller may not be null");
     this.listViewModel = requireNonNull(listViewModel, "The list view model may not be null");
     this.editViewModel = requireNonNull(editViewModel, "The edit view model may not be null");
@@ -34,6 +33,7 @@ public class ControllerEventVisitor implements ToDoEventVisitor
   @Override
   public void visit(final ClearEditorRequestedEvent event)
   {
+    //TODO: The visitor should probably not have access to the view models
     listViewModel.selectedTodo.set(null);
     editViewModel.identity.set("");
     editViewModel.headline.set("");

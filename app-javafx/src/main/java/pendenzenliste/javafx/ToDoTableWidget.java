@@ -3,8 +3,6 @@ package pendenzenliste.javafx;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -24,22 +22,21 @@ public class ToDoTableWidget extends TableView<ToDoListItemViewModel>
 
     final TableColumn<ToDoListItemViewModel, String> headlineColumn = new TableColumn<>("Headline");
 
-    headlineColumn.setCellValueFactory(dto -> new SimpleStringProperty(dto.getValue().headline()));
+    headlineColumn.setCellValueFactory(item -> item.getValue().headline);
 
     final TableColumn<ToDoListItemViewModel, String> stateColumn = new TableColumn<>("State");
 
-    stateColumn.setCellValueFactory(dto -> new SimpleStringProperty(dto.getValue().state()));
+    stateColumn.setCellValueFactory(item -> item.getValue().state);
 
     final TableColumn<ToDoListItemViewModel, LocalDateTime> createdColumn =
         new TableColumn<>("Created");
 
-    createdColumn.setCellValueFactory(dto -> new SimpleObjectProperty<>(dto.getValue().created()));
+    createdColumn.setCellValueFactory(item -> item.getValue().created);
 
     final TableColumn<ToDoListItemViewModel, LocalDateTime> lastModifiedColumn =
         new TableColumn<>("Last modified");
 
-    lastModifiedColumn.setCellValueFactory(
-        dto -> new SimpleObjectProperty<>(dto.getValue().lastModified()));
+    lastModifiedColumn.setCellValueFactory(item -> item.getValue().lastModified);
 
     getColumns().addAll(List.of(headlineColumn, stateColumn, createdColumn, lastModifiedColumn));
 

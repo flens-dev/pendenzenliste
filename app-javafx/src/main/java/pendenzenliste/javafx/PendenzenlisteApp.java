@@ -1,5 +1,6 @@
 package pendenzenliste.javafx;
 
+import io.reactivex.rxjava3.disposables.Disposable;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactoryProvider;
@@ -9,6 +10,8 @@ import pendenzenliste.ports.in.ToDoInputBoundaryFactoryProvider;
  */
 public class PendenzenlisteApp extends Application
 {
+
+  private Disposable subscription;
 
   /**
    * The main entry point for the application.
@@ -58,21 +61,35 @@ public class PendenzenlisteApp extends Application
    * @param editViewModel The edit view model.
    * @param controller    The controller.
    */
-  private static void registerListeners(final ToDoListViewModel listViewModel,
-                                        final EditToDoViewModel editViewModel,
-                                        final ToDoController controller)
+  private void registerListeners(final ToDoListViewModel listViewModel,
+                                 final EditToDoViewModel editViewModel,
+                                 final ToDoController controller)
   {
     final ControllerEventVisitor visitor =
         new ControllerEventVisitor(controller, listViewModel, editViewModel);
 
-    editViewModel.events().subscribe(event -> event.visit(visitor));
+    subscription = editViewModel.events().subscribe(event -> event.visit(visitor));
 
     //TODO: Figure out if there is a better way to achieve this
     listViewModel.selectedTodo.addListener((observable, oldValue, newValue) -> {
       if (newValue != null)
       {
-        controller.loadForEdit(newValue.identity());
+        controller.loadForEdit(newValue.identity.get());
       }
     });
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void stop() throws Exception
+  {
+    super.stop();
+
+    if (subscription != null && !subscription.isDisposed())
+    {
+      subscription.dispose();
+    }
   }
 }

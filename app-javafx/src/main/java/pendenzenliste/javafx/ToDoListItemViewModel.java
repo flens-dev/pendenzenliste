@@ -2,20 +2,25 @@ package pendenzenliste.javafx;
 
 import java.time.LocalDateTime;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
- * A DTO that can be used to represent a todo in a list view.
- * <p>
- * TODO: Should this be a ViewModel? Is an additional DTO pattern necessary?
- *
- * @param identity     The identity.
- * @param headline     The headline
- * @param created      The created date.
- * @param lastModified The last modified date.
- * @param completed    The completed date.
- * @param state        The state of the todo.
+ * A view model that can be used to represent a todo in a list view.
  */
-public record ToDoListItemViewModel(String identity, String headline, LocalDateTime created,
-                                    LocalDateTime lastModified, LocalDateTime completed,
-                                    String state)
+public class ToDoListItemViewModel
 {
+  public final StringProperty identity = new SimpleStringProperty();
+
+  public final StringProperty headline = new SimpleStringProperty();
+
+  public final ObjectProperty<LocalDateTime> created = new SimpleObjectProperty<>();
+
+  public final ObjectProperty<LocalDateTime> lastModified = new SimpleObjectProperty<>();
+
+  public final ObjectProperty<LocalDateTime> completed = new SimpleObjectProperty<>();
+
+  public final StringProperty state = new SimpleStringProperty();
 }

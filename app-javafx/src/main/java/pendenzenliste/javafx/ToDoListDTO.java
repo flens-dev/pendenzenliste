@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 /**
  * A DTO that can be used to represent a todo in a list view.
+ * <p>
+ * TODO: Should this be a ViewModel? Is an additional DTO pattern necessary?
  *
  * @param identity     The identity.
  * @param headline     The headline

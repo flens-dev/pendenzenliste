@@ -30,7 +30,7 @@ public class PendenzenlisteApp extends Application
     window.show();
     window.setMaximized(true);
 
-    final var provider = ToDoInputBoundaryFactoryProvider.defaultFactory();
+    final var provider = ToDoInputBoundaryFactoryProvider.defaultProvider();
 
     final var listViewModel = new ToDoListViewModel();
     final var editViewModel = new EditToDoViewModel();
@@ -64,7 +64,6 @@ public class PendenzenlisteApp extends Application
   {
     final ControllerEventVisitor visitor =
         new ControllerEventVisitor(controller, listViewModel, editViewModel);
-
 
     editViewModel.events().subscribe(event -> event.visit(visitor));
 

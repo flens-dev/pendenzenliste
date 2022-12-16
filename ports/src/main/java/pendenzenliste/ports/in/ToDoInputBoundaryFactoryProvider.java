@@ -19,7 +19,7 @@ public interface ToDoInputBoundaryFactoryProvider
    *
    * @return The default provider.
    */
-  static ToDoInputBoundaryFactoryProvider defaultFactory()
+  static ToDoInputBoundaryFactoryProvider defaultProvider()
   {
     return ServiceLoader.load(ToDoInputBoundaryFactoryProvider.class).findFirst()
         .orElseThrow(() -> new IllegalStateException("No default provider registered"));

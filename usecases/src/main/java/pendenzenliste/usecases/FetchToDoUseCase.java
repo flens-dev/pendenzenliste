@@ -60,15 +60,10 @@ public class FetchToDoUseCase implements FetchToDoInputBoundary
    */
   private Function<ToDoEntity, FetchToDoResponse> mapToResponse()
   {
-    return todo -> new ToDoFetchedResponse(
-        todo.identity().value(),
-        todo.headline().value(),
-        todo.description().value(),
-        todo.created().value(),
-        todo.lastModified().value(),
-        Optional.ofNullable(todo.completed())
-            .map(CompletedTimestampValueObject::value)
-            .orElse(null),
-        todo.state().name());
+    return todo -> new ToDoFetchedResponse(todo.identity().value(), todo.headline().value(),
+        todo.description().value(), todo.created().value(), todo.lastModified().value(),
+        Optional.ofNullable(todo.completed()).map(CompletedTimestampValueObject::value)
+            .orElse(null), todo.state().name(),
+        todo.capabilities().stream().map(Enum::name).toList());
   }
 }

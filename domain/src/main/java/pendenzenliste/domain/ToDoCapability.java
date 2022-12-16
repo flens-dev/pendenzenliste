@@ -5,5 +5,5 @@ package pendenzenliste.domain;
  */
 public enum ToDoCapability
 {
-  RESET, COMPLETE, UPDATE
+  RESET, COMPLETE, UPDATE, DELETE
 }

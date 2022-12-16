@@ -14,7 +14,7 @@ public record FetchedToDoListResponse(Collection<ToDoListResponseModel> todos) i
    * {@inheritDoc}
    */
   @Override
-  public void applyTo(final ListToDosOutputBoundary outputBoundary)
+  public void applyTo(final FetchToDoListOutputBoundary outputBoundary)
   {
     outputBoundary.handleSuccessfulResponse(this);
   }

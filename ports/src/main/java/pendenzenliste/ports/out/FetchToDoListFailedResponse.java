@@ -11,7 +11,7 @@ public record FetchToDoListFailedResponse(String reason) implements FetchToDoLis
    * {@inheritDoc}
    */
   @Override
-  public void applyTo(final ListToDosOutputBoundary outputBoundary)
+  public void applyTo(final FetchToDoListOutputBoundary outputBoundary)
   {
     outputBoundary.handleFailedResponse(this);
   }

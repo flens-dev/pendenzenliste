@@ -42,6 +42,7 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
     {
       capabilities.add(ToDoCapability.COMPLETE);
       capabilities.add(ToDoCapability.UPDATE);
+      capabilities.add(ToDoCapability.DELETE);
     }
 
     if (ToDoState.DONE.equals(state))

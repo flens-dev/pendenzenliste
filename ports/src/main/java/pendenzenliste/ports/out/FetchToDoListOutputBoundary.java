@@ -3,8 +3,8 @@ package pendenzenliste.ports.out;
 /**
  * An output boundary that can be used to handle the results of a list todos request.
  */
-public interface ListToDosOutputBoundary
-    extends OutputBoundary<ListToDosOutputBoundary, FetchToDoListResponse>
+public interface FetchToDoListOutputBoundary
+    extends OutputBoundary<FetchToDoListOutputBoundary, FetchToDoListResponse>
 {
   /**
    * Handles a failed response.

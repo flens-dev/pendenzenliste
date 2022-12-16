@@ -9,7 +9,7 @@ import pendenzenliste.domain.CompletedTimestampValueObject;
 import pendenzenliste.domain.ToDoEntity;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.ports.in.FetchToDoListInputBoundary;
-import pendenzenliste.ports.in.ListTodosRequest;
+import pendenzenliste.ports.in.FetchTodoListRequest;
 import pendenzenliste.ports.out.FetchToDoListResponse;
 import pendenzenliste.ports.out.FetchedToDoListResponse;
 import pendenzenliste.ports.out.ToDoListResponseModel;
@@ -35,7 +35,7 @@ public class FetchToDoListUseCase implements FetchToDoListInputBoundary
    * {@inheritDoc}
    */
   @Override
-  public FetchToDoListResponse execute(final ListTodosRequest request)
+  public FetchToDoListResponse execute(final FetchTodoListRequest request)
   {
     return new FetchedToDoListResponse(gateway.fetchAll().map(mapToResponseModel()).toList());
   }
@@ -50,6 +50,6 @@ public class FetchToDoListUseCase implements FetchToDoListInputBoundary
     return v -> new ToDoListResponseModel(v.identity().value(), v.headline().value(),
         v.description().value(), v.created().value(), v.lastModified().value(),
         Optional.ofNullable(v.completed()).map(CompletedTimestampValueObject::value).orElse(null),
-        v.state().name());
+        v.state().name(), v.capabilities().stream().map(Enum::name).toList());
   }
 }

@@ -41,7 +41,7 @@ public class PendenzenlisteApp extends Application
     final var updatePresenter = new UpdateToDoPresenter(editViewModel);
 
     final var controller =
-        new ToDoListController(provider.getInstance(), fetchPresenter, createPresenter,
+        new ToDoController(provider.getInstance(), fetchPresenter, createPresenter,
             editPresenter, updatePresenter);
 
     registerListeners(listViewModel, editViewModel, controller);
@@ -60,7 +60,7 @@ public class PendenzenlisteApp extends Application
    */
   private static void registerListeners(final ToDoListViewModel listViewModel,
                                         final EditToDoViewModel editViewModel,
-                                        final ToDoListController controller)
+                                        final ToDoController controller)
   {
     final ControllerEventVisitor visitor =
         new ControllerEventVisitor(controller, listViewModel, editViewModel);

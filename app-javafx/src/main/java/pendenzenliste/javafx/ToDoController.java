@@ -12,9 +12,9 @@ import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
 import pendenzenliste.ports.in.UpdateToDoRequest;
 
 /**
- * A controller that can be used in the context of a ToDo list.
+ * A controller that can be used in the context the application.
  */
-public class ToDoListController
+public class ToDoController
 {
   private final ToDoInputBoundaryFactory factory;
   private final FetchToDoListPresenter fetchListPresenter;
@@ -31,11 +31,11 @@ public class ToDoListController
    * @param editPresenter      The edit presenter.
    * @param updatePresenter    The update presenter.
    */
-  public ToDoListController(final ToDoInputBoundaryFactory factory,
-                            final FetchToDoListPresenter fetchListPresenter,
-                            final CreateToDoPresenter createPresenter,
-                            final EditToDoPresenter editPresenter,
-                            final UpdateToDoPresenter updatePresenter)
+  public ToDoController(final ToDoInputBoundaryFactory factory,
+                        final FetchToDoListPresenter fetchListPresenter,
+                        final CreateToDoPresenter createPresenter,
+                        final EditToDoPresenter editPresenter,
+                        final UpdateToDoPresenter updatePresenter)
   {
     this.factory = requireNonNull(factory, "The factory may not be null");
     this.fetchListPresenter =
@@ -74,7 +74,7 @@ public class ToDoListController
    * @param headline    The headline.
    * @param description The description.
    */
-  public void updateToDo(final String identity, final String headline, final String description)
+  public void update(final String identity, final String headline, final String description)
   {
     final var request = new UpdateToDoRequest(identity, headline, description);
 
@@ -87,7 +87,7 @@ public class ToDoListController
    * @param headline    The headline.
    * @param description The description.
    */
-  public void createToDo(final String headline, final String description)
+  public void create(final String headline, final String description)
   {
     final var request = new CreateToDoRequest(headline, description);
 
@@ -99,7 +99,7 @@ public class ToDoListController
    *
    * @param identity The identity.
    */
-  public void deleteToDo(final String identity)
+  public void delete(final String identity)
   {
     final var request = new DeleteToDoRequest(identity);
 
@@ -111,7 +111,7 @@ public class ToDoListController
    *
    * @param identity The identity.
    */
-  public void completeToDo(final String identity)
+  public void complete(final String identity)
   {
     final var request = new CompleteToDoRequest(identity);
 
@@ -123,7 +123,7 @@ public class ToDoListController
    *
    * @param identity The identity.
    */
-  public void resetToDo(final String identity)
+  public void reset(final String identity)
   {
     final var request = new ResetToDoRequest(identity);
 

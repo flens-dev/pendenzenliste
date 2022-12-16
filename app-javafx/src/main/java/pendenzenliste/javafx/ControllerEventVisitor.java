@@ -7,7 +7,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class ControllerEventVisitor implements ToDoEventVisitor
 {
-  private final ToDoListController controller;
+  private final ToDoController controller;
   private final ToDoListViewModel listViewModel;
   private final EditToDoViewModel editViewModel;
 
@@ -18,7 +18,7 @@ public class ControllerEventVisitor implements ToDoEventVisitor
    * @param listViewModel The list view model.
    * @param editViewModel The edit view model.
    */
-  public ControllerEventVisitor(final ToDoListController controller,
+  public ControllerEventVisitor(final ToDoController controller,
                                 final ToDoListViewModel listViewModel,
                                 final EditToDoViewModel editViewModel)
   {
@@ -59,7 +59,7 @@ public class ControllerEventVisitor implements ToDoEventVisitor
   @Override
   public void visit(final DeleteRequestedEvent event)
   {
-    controller.deleteToDo(event.identity());
+    controller.delete(event.identity());
   }
 
   /**
@@ -68,7 +68,7 @@ public class ControllerEventVisitor implements ToDoEventVisitor
   @Override
   public void visit(final CompleteRequestedEvent event)
   {
-    controller.completeToDo(event.identity());
+    controller.complete(event.identity());
   }
 
   /**
@@ -77,7 +77,7 @@ public class ControllerEventVisitor implements ToDoEventVisitor
   @Override
   public void visit(final ResetRequestedEvent event)
   {
-    controller.resetToDo(event.identity());
+    controller.reset(event.identity());
   }
 
   /**
@@ -88,10 +88,10 @@ public class ControllerEventVisitor implements ToDoEventVisitor
   {
     if (event.identity() == null)
     {
-      controller.createToDo(event.headline(), event.description());
+      controller.create(event.headline(), event.description());
     } else
     {
-      controller.updateToDo(event.identity(), event.headline(), event.description());
+      controller.update(event.identity(), event.headline(), event.description());
     }
   }
 }

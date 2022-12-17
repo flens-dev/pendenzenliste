@@ -177,63 +177,87 @@ Mapping of Building Blocks to Infrastructure
 
 ## Controller
 
-*\<explanation\>*
+A `Controller` creates a `Request` and invokes the appropriate `InputBoundary` with it.
+
+The `Controller` is not accessed directly, but rather listens to events from the application and acts as it seems fit to
+those events.
 
 ## Entity
 
-*\<explanation\>*
+An `Entity` is some kind of persistent object that belongs to the domain.
+
+It may contain other `ValueObject`s.
+
+Each `Entity` is accessed through an appropriate `Gateway`.
 
 ## Event
 
-*\<explanation\>*
-
-## EventVisitor
-
-*\<explanation\>*
+An `Event` describes some kind of meaningful state change within the application or domain that happened in the past.
 
 ## Gateway
 
-*\<explanation\>*
+A gateway provides access to some kind of external system such as a database or a REST API.
 
 ## InputBoundary
 
-*\<explanation\>*
+An `InputBoundary` defines a public interface for objects that handle the `UseCase` specific inputs of the application.
+It receives a `Request` and an `OutputBoundary` and produces a `Response`.
+The `Response` will then be used to update the `OutputBoundary`.
 
 ## OutputBoundary
 
-*\<explanation\>*
+An `OutputBoundary` defines a public interface for objects that handle the responses of the applications `UseCase`s.
 
 ## Presenter
 
-*\<explanation\>*
+A `Presenter` is an application specific implementation of an `OutputBoundary`.
+The `Presenter` modifies the `ViewModel`, which is bound to a `View`, so the `Presenter` indirectly modifies the data
+displayed by the `View`.
 
 ## UseCase
 
-*\<explanation\>*
-
-## ResponseModel
-
-*\<explanation\>*
+A `UseCase` implements an `InputBoundary` and encapsulates the interactions required to fulfill some kind of goal within
+the application.
 
 ## Request
 
-*\<explanation\>*
+A `Request` encapsulates the data used to invoke an `InputBoundary` in a technology-agnostic format.
+The `Request` may only contain native datatypes, such as strings, integers, etc., or `RequestModel`s.
+
+## RequestModel
+
+A `RequestModel` encapsulates complex data structures that may be a member of a `Request`, but cannot be represented in
+a primitive datatype.
+
+An example for this would be a list of key value pairs that need to be passed to the `InputBoundary`.
 
 ## Response
 
-*\<explanation\>*
+A `Response` encapsulates the data used to invoke an `OutputBoundary` in a technology-agnostic format.
+
+The `Response` may only contain native datatypes, such as strings, integers, etc., or `ResponseModel`s.
+
+## ResponseModel
+
+A `ResponseModel` is a technology-agnostic model that may be contained in a `Response`.
+
+The `ResponseModel` may represent some kind of `Entity` without exposing the actual data types of the domain module.
 
 ## ValueObject
 
-*\<explanation\>*
+A `ValueObject` represents some kind of domain-specific data type.
 
 ## View
 
-*\<explanation\>*
+A `View` provides a user the means to look at and enter new data into the application.
+
+It binds to a `ViewModel`, which stores all the data used to display the data for the end user.
 
 ## ViewModel
 
-*\<explanation\>*
+A `ViewModel` is an application-specific model of the data displayed by a `View`.
+The `ViewModel` provides means for a `View` to bind to its properties.
+Both the `Presenter` and `View` may update the properties to store the displayed data.
 
 # Architecture Decisions {#section-design-decisions}
 

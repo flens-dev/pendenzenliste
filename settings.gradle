@@ -4,6 +4,7 @@ include 'app-javafx'
 
 include 'domain'
 include 'gateway'
+include 'gateway-filesystem'
 include 'gateway-inmemory'
 include 'ports'
 include 'usecases'

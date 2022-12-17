@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
+    }
+}
+plugins {
+    id 'org.springframework.boot' version '3.0.0'
+    id 'java'
+    id 'com.vaadin' version "${vaadinVersion}"
+}
+
+defaultTasks("clean", "build")
+
+dependencies {
+    implementation project(':ports')
+
+    runtimeOnly project(':gateway-filesystem')
+    runtimeOnly project(':usecases')
+
+    implementation enforcedPlatform("com.vaadin:vaadin-bom:${vaadinVersion}")
+
+    implementation("com.vaadin:vaadin-core")
+    implementation("com.vaadin:vaadin-spring-boot-starter")
+
+    // We need to use tomcat version 9.x because vaadin only supports servlet-api 4.x
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.70'
+    implementation "javax.servlet:javax.servlet-api:4.0.1"
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+    }
+}
+
+vaadin {
+    pnpmEnable = true
+}

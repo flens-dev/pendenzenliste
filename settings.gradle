@@ -1,6 +1,7 @@
 rootProject.name = 'pendenzenliste'
 
 include 'app-javafx'
+include 'app-vaadin'
 
 include 'domain'
 include 'gateway'

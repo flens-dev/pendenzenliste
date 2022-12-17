@@ -1,5 +1,6 @@
 package pendenzenliste.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
  *
  * @param value The value.
  */
-public record CompletedTimestampValueObject(LocalDateTime value)
+public record CompletedTimestampValueObject(LocalDateTime value) implements Serializable
 {
   /**
    * Creates a new instance with the current timestamp.

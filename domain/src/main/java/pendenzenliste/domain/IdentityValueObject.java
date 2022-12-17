@@ -1,5 +1,6 @@
 package pendenzenliste.domain;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -7,7 +8,7 @@ import java.util.UUID;
  *
  * @param value The value.
  */
-public record IdentityValueObject(String value)
+public record IdentityValueObject(String value) implements Serializable
 {
 
   public IdentityValueObject

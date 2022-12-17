@@ -1,5 +1,7 @@
 package pendenzenliste.domain;
 
+import java.io.Serializable;
+
 import static pendenzenliste.domain.StringValidationUtil.expectMaxLength;
 import static pendenzenliste.domain.StringValidationUtil.expectNoLineBreaks;
 import static pendenzenliste.domain.StringValidationUtil.expectNotEmpty;
@@ -10,7 +12,7 @@ import static pendenzenliste.domain.StringValidationUtil.expectNotNull;
  *
  * @param value The value.
  */
-public record HeadlineValueObject(String value)
+public record HeadlineValueObject(String value) implements Serializable
 {
   public HeadlineValueObject(final String value)
   {

@@ -1,5 +1,7 @@
 package pendenzenliste.domain;
 
+import java.io.Serializable;
+
 import static pendenzenliste.domain.StringValidationUtil.expectMaxLength;
 import static pendenzenliste.domain.StringValidationUtil.expectNotNull;
 
@@ -9,7 +11,7 @@ import static pendenzenliste.domain.StringValidationUtil.expectNotNull;
  *
  * @param value The value that should be represented by this instance.
  */
-public record DescriptionValueObject(String value)
+public record DescriptionValueObject(String value) implements Serializable
 {
   public DescriptionValueObject
   {

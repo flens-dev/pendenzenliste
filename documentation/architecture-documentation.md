@@ -173,19 +173,65 @@ Mapping of Building Blocks to Infrastructure
 
 *\<diagram + explanation\>*
 
-# Cross-cutting Concepts {#section-concepts}
+# Cross-cutting Concepts
 
-## *\<Concept 1\>* {#__emphasis_concept_1_emphasis}
-
-*\<explanation\>*
-
-## *\<Concept 2\>* {#__emphasis_concept_2_emphasis}
+## Controller
 
 *\<explanation\>*
 
-...
+## Entity
 
-## *\<Concept n\>* {#__emphasis_concept_n_emphasis}
+*\<explanation\>*
+
+## Event
+
+*\<explanation\>*
+
+## EventVisitor
+
+*\<explanation\>*
+
+## Gateway
+
+*\<explanation\>*
+
+## InputBoundary
+
+*\<explanation\>*
+
+## OutputBoundary
+
+*\<explanation\>*
+
+## Presenter
+
+*\<explanation\>*
+
+## UseCase
+
+*\<explanation\>*
+
+## ResponseModel
+
+*\<explanation\>*
+
+## Request
+
+*\<explanation\>*
+
+## Response
+
+*\<explanation\>*
+
+## ValueObject
+
+*\<explanation\>*
+
+## View
+
+*\<explanation\>*
+
+## ViewModel
 
 *\<explanation\>*
 

@@ -11,6 +11,7 @@ import pendenzenliste.ports.in.UpdateToDoInputBoundary;
 import pendenzenliste.ports.in.UpdateToDoRequest;
 import pendenzenliste.ports.out.ToDoUpdateFailedResponse;
 import pendenzenliste.ports.out.ToDoUpdatedResponse;
+import pendenzenliste.ports.out.UpdateToDoOutputBoundary;
 import pendenzenliste.ports.out.UpdateToDoResponse;
 
 /**
@@ -19,22 +20,34 @@ import pendenzenliste.ports.out.UpdateToDoResponse;
 public class UpdateToDoUseCase implements UpdateToDoInputBoundary
 {
   private final ToDoGateway gateway;
+  private final UpdateToDoOutputBoundary outputBoundary;
 
   /**
    * Creates a new instance.
    *
    * @param gateway The gateway that should be used by this instance.
    */
-  public UpdateToDoUseCase(final ToDoGateway gateway)
+  public UpdateToDoUseCase(final ToDoGateway gateway,
+                           final UpdateToDoOutputBoundary outputBoundary)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
+    this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public UpdateToDoResponse execute(final UpdateToDoRequest request)
+  public void execute(final UpdateToDoRequest request)
+  {
+    executeRequest(request).applyTo(outputBoundary);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public UpdateToDoResponse executeRequest(final UpdateToDoRequest request)
   {
     try
     {

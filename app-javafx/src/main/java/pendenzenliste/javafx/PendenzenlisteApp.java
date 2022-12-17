@@ -38,14 +38,10 @@ public class PendenzenlisteApp extends Application
     final var listViewModel = new ToDoListViewModel();
     final var editViewModel = new EditToDoViewModel();
 
-    final var fetchPresenter = new FetchToDoListPresenter(listViewModel);
-    final var createPresenter = new CreateToDoPresenter(editViewModel);
-    final var editPresenter = new EditToDoPresenter(editViewModel);
-    final var updatePresenter = new UpdateToDoPresenter(editViewModel);
+    final var presenterFactory = new ToDoPresenterFactory(listViewModel, editViewModel);
 
     final var controller =
-        new ToDoController(provider.getInstance(), fetchPresenter, createPresenter,
-            editPresenter, updatePresenter);
+        new ToDoController(provider.getInstance(presenterFactory));
 
     registerListeners(listViewModel, editViewModel, controller);
 

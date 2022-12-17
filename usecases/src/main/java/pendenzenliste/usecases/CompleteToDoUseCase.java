@@ -9,6 +9,7 @@ import pendenzenliste.ports.in.CompleteToDoInputBoundary;
 import pendenzenliste.ports.in.CompleteToDoRequest;
 import pendenzenliste.ports.out.ToDoUpdateFailedResponse;
 import pendenzenliste.ports.out.ToDoUpdatedResponse;
+import pendenzenliste.ports.out.UpdateToDoOutputBoundary;
 import pendenzenliste.ports.out.UpdateToDoResponse;
 
 /**
@@ -17,23 +18,35 @@ import pendenzenliste.ports.out.UpdateToDoResponse;
 public class CompleteToDoUseCase implements CompleteToDoInputBoundary
 {
   private final ToDoGateway gateway;
+  private final UpdateToDoOutputBoundary outputBoundary;
 
   /**
    * Creates a new instance.
    *
    * @param gateway The gateway that should be used by this instance.
    */
-  public CompleteToDoUseCase(final ToDoGateway gateway)
+  public CompleteToDoUseCase(final ToDoGateway gateway,
+                             final UpdateToDoOutputBoundary outputBoundary)
   {
 
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
+    this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public UpdateToDoResponse execute(final CompleteToDoRequest request)
+  public void execute(final CompleteToDoRequest request)
+  {
+    executeRequest(request).applyTo(outputBoundary);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public UpdateToDoResponse executeRequest(final CompleteToDoRequest request)
   {
     try
     {

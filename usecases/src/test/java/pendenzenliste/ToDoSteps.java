@@ -33,6 +33,7 @@ import pendenzenliste.ports.out.FetchToDoFailedResponse;
 import pendenzenliste.ports.out.FetchToDoOutputBoundary;
 import pendenzenliste.ports.out.FetchToDoResponse;
 import pendenzenliste.ports.out.ToDoFetchedResponse;
+import pendenzenliste.ports.out.ToDoOutputBoundaryFactory;
 import pendenzenliste.ports.out.ToDoUpdateFailedResponse;
 import pendenzenliste.ports.out.ToDoUpdatedResponse;
 import pendenzenliste.ports.out.UpdateToDoOutputBoundary;
@@ -46,7 +47,11 @@ public class ToDoSteps
 {
   private final ToDoGateway gateway = mock(ToDoGateway.class);
 
-  private final ToDoInputBoundaryFactory factory = new ToDoUseCaseFactory(() -> gateway);
+  private final ToDoOutputBoundaryFactory outputBoundaryFactory =
+      mock(ToDoOutputBoundaryFactory.class);
+
+  private final ToDoInputBoundaryFactory factory = new ToDoUseCaseFactory(() -> gateway,
+      outputBoundaryFactory);
 
   private String id;
 
@@ -100,7 +105,7 @@ public class ToDoSteps
   {
     when(gateway.delete(new IdentityValueObject(id))).thenReturn(true);
   }
-  
+
   @Given("that I enter the headline {string}")
   public void givenThatIEnterTheHeadline(String headline)
   {
@@ -118,7 +123,7 @@ public class ToDoSteps
   {
     final var request = new FetchToDoRequest(id);
 
-    fetchResponse = factory.fetch().execute(request);
+    fetchResponse = factory.fetch().executeRequest(request);
   }
 
 
@@ -127,7 +132,7 @@ public class ToDoSteps
   {
     final var request = new DeleteToDoRequest(id);
 
-    updateResponse = factory.delete().execute(request);
+    updateResponse = factory.delete().executeRequest(request);
   }
 
   @When("I try to complete the ToDo")
@@ -135,7 +140,7 @@ public class ToDoSteps
   {
     final var request = new CompleteToDoRequest(id);
 
-    updateResponse = factory.complete().execute(request);
+    updateResponse = factory.complete().executeRequest(request);
   }
 
 
@@ -144,7 +149,7 @@ public class ToDoSteps
   {
     final var request = new ResetToDoRequest(id);
 
-    updateResponse = factory.reset().execute(request);
+    updateResponse = factory.reset().executeRequest(request);
   }
 
   @When("I try to update the ToDo")
@@ -152,7 +157,7 @@ public class ToDoSteps
   {
     final var request = new UpdateToDoRequest(id, headline, description);
 
-    updateResponse = factory.update().execute(request);
+    updateResponse = factory.update().executeRequest(request);
   }
 
   @Then("fetching the ToDo should have failed with the message: {string}")

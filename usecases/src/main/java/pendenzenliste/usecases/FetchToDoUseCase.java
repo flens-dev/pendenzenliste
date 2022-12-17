@@ -12,6 +12,7 @@ import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.ports.in.FetchToDoInputBoundary;
 import pendenzenliste.ports.in.FetchToDoRequest;
 import pendenzenliste.ports.out.FetchToDoFailedResponse;
+import pendenzenliste.ports.out.FetchToDoOutputBoundary;
 import pendenzenliste.ports.out.FetchToDoResponse;
 import pendenzenliste.ports.out.ToDoFetchedResponse;
 
@@ -21,22 +22,34 @@ import pendenzenliste.ports.out.ToDoFetchedResponse;
 public class FetchToDoUseCase implements FetchToDoInputBoundary
 {
   private final ToDoGateway gateway;
+  private final FetchToDoOutputBoundary outputBoundary;
 
   /**
    * Creates a new instance.
    *
    * @param gateway The gateway that should be used by this instance.
    */
-  public FetchToDoUseCase(final ToDoGateway gateway)
+  public FetchToDoUseCase(final ToDoGateway gateway,
+                          final FetchToDoOutputBoundary outputBoundary)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
+    this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public FetchToDoResponse execute(final FetchToDoRequest request)
+  public void execute(final FetchToDoRequest request)
+  {
+    executeRequest(request).applyTo(outputBoundary);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public FetchToDoResponse executeRequest(final FetchToDoRequest request)
   {
     try
     {

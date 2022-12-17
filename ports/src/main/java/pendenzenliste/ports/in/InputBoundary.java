@@ -9,15 +9,11 @@ import pendenzenliste.ports.out.Response;
 public interface InputBoundary<REQ, RES extends Response<OUT, RES>, OUT extends OutputBoundary<OUT, RES>>
 {
   /**
-   * Executes the given request and applies the result to the given output boundary.
+   * Executes the given request.
    *
-   * @param request        The request that should be executed.
-   * @param outputBoundary The output boundary that hte result should be applied to.
+   * @param request The request
    */
-  default void execute(REQ request, OUT outputBoundary)
-  {
-    execute(request).applyTo(outputBoundary);
-  }
+  void execute(REQ request);
 
   /**
    * Executes the given request.
@@ -25,5 +21,5 @@ public interface InputBoundary<REQ, RES extends Response<OUT, RES>, OUT extends 
    * @param request The request that should be executed.
    * @return The response to the request.
    */
-  RES execute(REQ request);
+  RES executeRequest(REQ request);
 }

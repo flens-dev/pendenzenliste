@@ -11,6 +11,7 @@ import pendenzenliste.ports.in.FetchToDoListInputBoundary;
 import pendenzenliste.ports.in.ResetToDoInputBoundary;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
 import pendenzenliste.ports.in.UpdateToDoInputBoundary;
+import pendenzenliste.ports.out.ToDoOutputBoundaryFactory;
 
 /**
  * A factory that can be used to access ToDo specific use cases.
@@ -18,15 +19,20 @@ import pendenzenliste.ports.in.UpdateToDoInputBoundary;
 public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
 {
   private final ToDoGatewayProvider provider;
+  private final ToDoOutputBoundaryFactory outputBoundaryFactory;
 
   /**
    * Creates a new instance.
    *
-   * @param provider The provider that should be used by this instance.
+   * @param provider              The provider that should be used by this instance.
+   * @param outputBoundaryFactory The output boundary that should be used by this instance.
    */
-  public ToDoUseCaseFactory(final ToDoGatewayProvider provider)
+  public ToDoUseCaseFactory(final ToDoGatewayProvider provider,
+                            final ToDoOutputBoundaryFactory outputBoundaryFactory)
   {
     this.provider = requireNonNull(provider, "The provider may not be null");
+    this.outputBoundaryFactory =
+        requireNonNull(outputBoundaryFactory, "The output boundary factory may not be null");
   }
 
   /**
@@ -35,7 +41,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public CreateToDoInputBoundary create()
   {
-    return new CreateToDoUseCase(provider.getInstance());
+    return new CreateToDoUseCase(provider.getInstance(), outputBoundaryFactory.create());
   }
 
   /**
@@ -44,7 +50,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public CompleteToDoInputBoundary complete()
   {
-    return new CompleteToDoUseCase(provider.getInstance());
+    return new CompleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
   }
 
   /**
@@ -53,7 +59,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public FetchToDoInputBoundary fetch()
   {
-    return new FetchToDoUseCase(provider.getInstance());
+    return new FetchToDoUseCase(provider.getInstance(), outputBoundaryFactory.fetch());
   }
 
   /**
@@ -62,7 +68,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public FetchToDoListInputBoundary list()
   {
-    return new FetchToDoListUseCase(provider.getInstance());
+    return new FetchToDoListUseCase(provider.getInstance(), outputBoundaryFactory.list());
   }
 
   /**
@@ -71,7 +77,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public DeleteToDoInputBoundary delete()
   {
-    return new DeleteToDoUseCase(provider.getInstance());
+    return new DeleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
   }
 
   /**
@@ -80,7 +86,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public ResetToDoInputBoundary reset()
   {
-    return new ResetToDoUseCase(provider.getInstance());
+    return new ResetToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
   }
 
   /**
@@ -89,6 +95,6 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public UpdateToDoInputBoundary update()
   {
-    return new UpdateToDoUseCase(provider.getInstance());
+    return new UpdateToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
   }
 }

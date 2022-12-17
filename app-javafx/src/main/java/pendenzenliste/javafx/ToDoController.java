@@ -17,32 +17,15 @@ import pendenzenliste.ports.in.UpdateToDoRequest;
 public class ToDoController
 {
   private final ToDoInputBoundaryFactory factory;
-  private final FetchToDoListPresenter fetchListPresenter;
-  private final CreateToDoPresenter createPresenter;
-  private final EditToDoPresenter editPresenter;
-  private final UpdateToDoPresenter updatePresenter;
 
   /**
    * Creates a new instance.
    *
-   * @param factory            The factory that should be used by this instance.
-   * @param fetchListPresenter The fetch list presenter.
-   * @param createPresenter    The create presenter.
-   * @param editPresenter      The edit presenter.
-   * @param updatePresenter    The update presenter.
+   * @param factory The factory that should be used by this instance.
    */
-  public ToDoController(final ToDoInputBoundaryFactory factory,
-                        final FetchToDoListPresenter fetchListPresenter,
-                        final CreateToDoPresenter createPresenter,
-                        final EditToDoPresenter editPresenter,
-                        final UpdateToDoPresenter updatePresenter)
+  public ToDoController(final ToDoInputBoundaryFactory factory)
   {
     this.factory = requireNonNull(factory, "The factory may not be null");
-    this.fetchListPresenter =
-        requireNonNull(fetchListPresenter, "The fetch list presenter may not be null");
-    this.createPresenter = requireNonNull(createPresenter, "The create presenter may not be null");
-    this.editPresenter = requireNonNull(editPresenter, "The edit presenter may not be null");
-    this.updatePresenter = requireNonNull(updatePresenter, "The update presenter may not be null");
   }
 
   /**
@@ -52,7 +35,7 @@ public class ToDoController
   {
     final var request = new FetchTodoListRequest();
 
-    factory.list().execute(request, fetchListPresenter);
+    factory.list().execute(request);
   }
 
   /**
@@ -64,7 +47,7 @@ public class ToDoController
   {
     final var request = new FetchToDoRequest(identity);
 
-    factory.fetch().execute(request, editPresenter);
+    factory.fetch().execute(request);
   }
 
   /**
@@ -78,7 +61,7 @@ public class ToDoController
   {
     final var request = new UpdateToDoRequest(identity, headline, description);
 
-    factory.update().execute(request, updatePresenter);
+    factory.update().execute(request);
   }
 
   /**
@@ -91,7 +74,7 @@ public class ToDoController
   {
     final var request = new CreateToDoRequest(headline, description);
 
-    factory.create().execute(request, createPresenter);
+    factory.create().execute(request);
   }
 
   /**
@@ -103,7 +86,7 @@ public class ToDoController
   {
     final var request = new DeleteToDoRequest(identity);
 
-    factory.delete().execute(request, updatePresenter);
+    factory.delete().execute(request);
   }
 
   /**
@@ -115,7 +98,7 @@ public class ToDoController
   {
     final var request = new CompleteToDoRequest(identity);
 
-    factory.complete().execute(request, updatePresenter);
+    factory.complete().execute(request);
   }
 
   /**
@@ -127,6 +110,6 @@ public class ToDoController
   {
     final var request = new ResetToDoRequest(identity);
 
-    factory.reset().execute(request, updatePresenter);
+    factory.reset().execute(request);
   }
 }

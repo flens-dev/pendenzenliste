@@ -2,6 +2,8 @@ package pendenzenliste.ports.in;
 
 import java.util.ServiceLoader;
 
+import pendenzenliste.ports.out.ToDoOutputBoundaryFactory;
+
 /**
  * A provider that can be used to access an instance of a {@link ToDoInputBoundaryFactory}
  */
@@ -10,9 +12,10 @@ public interface ToDoInputBoundaryFactoryProvider
   /**
    * Retrieves the instance.
    *
+   * @param outputBoundaryFactory The output boundary factory.
    * @return The instance.
    */
-  ToDoInputBoundaryFactory getInstance();
+  ToDoInputBoundaryFactory getInstance(ToDoOutputBoundaryFactory outputBoundaryFactory);
 
   /**
    * Retrieves the default provider.

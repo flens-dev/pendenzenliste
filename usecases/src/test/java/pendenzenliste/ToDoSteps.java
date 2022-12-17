@@ -29,7 +29,9 @@ import pendenzenliste.ports.in.FetchToDoRequest;
 import pendenzenliste.ports.in.ResetToDoRequest;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
 import pendenzenliste.ports.in.UpdateToDoRequest;
+import pendenzenliste.ports.out.CreateToDoOutputBoundary;
 import pendenzenliste.ports.out.FetchToDoFailedResponse;
+import pendenzenliste.ports.out.FetchToDoListOutputBoundary;
 import pendenzenliste.ports.out.FetchToDoOutputBoundary;
 import pendenzenliste.ports.out.FetchToDoResponse;
 import pendenzenliste.ports.out.ToDoFetchedResponse;
@@ -48,7 +50,32 @@ public class ToDoSteps
   private final ToDoGateway gateway = mock(ToDoGateway.class);
 
   private final ToDoOutputBoundaryFactory outputBoundaryFactory =
-      mock(ToDoOutputBoundaryFactory.class);
+      new ToDoOutputBoundaryFactory()
+      {
+        @Override
+        public CreateToDoOutputBoundary create()
+        {
+          return mock(CreateToDoOutputBoundary.class);
+        }
+
+        @Override
+        public FetchToDoListOutputBoundary list()
+        {
+          return mock(FetchToDoListOutputBoundary.class);
+        }
+
+        @Override
+        public FetchToDoOutputBoundary fetch()
+        {
+          return mock(FetchToDoOutputBoundary.class);
+        }
+
+        @Override
+        public UpdateToDoOutputBoundary update()
+        {
+          return mock(UpdateToDoOutputBoundary.class);
+        }
+      };
 
   private final ToDoInputBoundaryFactory factory = new ToDoUseCaseFactory(() -> gateway,
       outputBoundaryFactory);

@@ -13,7 +13,6 @@ import com.tngtech.archunit.junit.ArchTest;
     packages = "pendenzenliste",
     importOptions = {ImportOption.DoNotIncludeTests.class, ImportOption.DoNotIncludeJars.class}
 )
-
 public class SerializationTest
 {
   @ArchTest
@@ -27,4 +26,16 @@ public class SerializationTest
         .check(javaClasses);
   }
 
+  @ArchTest
+  public void entityShouldBeSerializable(final JavaClasses javaClasses)
+  {
+    classes().that()
+        .haveNameMatching("(.*)Entity")
+        .and()
+        .areNotInterfaces()
+        .should()
+        .implement(Serializable.class)
+        .because("they may be stored with java serialization")
+        .check(javaClasses);
+  }
 }

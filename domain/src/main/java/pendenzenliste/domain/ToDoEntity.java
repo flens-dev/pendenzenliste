@@ -1,5 +1,6 @@
 package pendenzenliste.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -18,7 +19,7 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
                          DescriptionValueObject description, CreatedTimestampValueObject created,
                          LastModifiedTimestampValueObject lastModified,
                          CompletedTimestampValueObject completed, ToDoState state)
-    implements Entity<IdentityValueObject>, HasCapabilities<ToDoCapability>
+    implements Entity<IdentityValueObject>, HasCapabilities<ToDoCapability>, Serializable
 {
   /**
    * Completes the todo.

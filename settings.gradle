@@ -6,7 +6,10 @@ include 'app-vaadin'
 
 include 'domain'
 include 'boundary'
+
 include 'gateway'
 include 'gateway-filesystem'
 include 'gateway-inmemory'
+include 'gateway-redis'
+
 include 'usecases'

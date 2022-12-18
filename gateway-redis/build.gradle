@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(':domain')
+    implementation project(':gateway')
+
+    implementation 'redis.clients:jedis:4.4.0-m1'
+}

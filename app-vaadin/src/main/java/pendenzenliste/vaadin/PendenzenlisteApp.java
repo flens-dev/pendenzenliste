@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * The spring boot application used to run the app.
  */
 @SpringBootApplication
-public class PendenzenListeApp
+public class PendenzenlisteApp
 {
 
   /**
@@ -17,7 +17,7 @@ public class PendenzenListeApp
    */
   public static void main(final String[] args)
   {
-    SpringApplication.run(PendenzenListeApp.class, args);
+    SpringApplication.run(PendenzenlisteApp.class, args);
   }
 
 }

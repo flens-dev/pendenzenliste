@@ -10,35 +10,91 @@ Template Version 8.1 EN. (based upon AsciiDoc version), May 2022
 Created, maintained and © by Dr. Peter Hruschka, Dr. Gernot Starke and
 contributors. See <https://arc42.org>.
 
-# Introduction and Goals {#section-introduction-and-goals}
+# Introduction and Goals
 
-## Requirements Overview {#_requirements_overview}
+Pendenzenliste is a highly over-engineered application that can be used to manage todos.
+The main goal of the project is to exercise designing a non-trivial application in a CLEAN-Architecture.
 
-## Quality Goals {#_quality_goals}
+The users of the application define for themselves how they want to run the application.
+This may mean that the app is run in a web application, a CLI or an android app.
+If the user desires it the user should be able to synchronize the data between multiple of his personal devices.
 
-## Stakeholders {#_stakeholders}
+## Requirements Overview
 
-+-------------+---------------------------+---------------------------+
-| Role/Name | Contact | Expectations |
-+=============+===========================+===========================+
-| * | *\<Contact-1\>*           | *\<Expectation-1\>*       |
-| \<Role-1\>* | | |
-+-------------+---------------------------+---------------------------+
-| * | *\<Contact-2\>*           | *\<Expectation-2\>*       |
-| \<Role-2\>* | | |
-+-------------+---------------------------+---------------------------+
+| ID                                                           | Requirement               | Description                                                                        | Implemented |
+|--------------------------------------------------------------|---------------------------|------------------------------------------------------------------------------------|-------------|
+| M-1                                                          | Create todo               | Users should be able to create their todos                                         | Yes         |
+| M-2                                                          | Delete todo               | Users should be able to delete their todos                                         | Yes         |
+| M-3                                                          | Complete todo             | Users should be able to complete their todos                                       | Yes         |
+| M-4                                                          | Reset todo                | Users should be able to reset a previously completed todo                          | Yes         |
+| M-5                                                          | List todos                | Users should be able to list their todos                                           | Yes         |
+| M-6                                                          | Fetch todo                | Users should be able to fetch a specific todo                                      | Yes         |
+| M-7                                                          | Update todo               | Users should be able to update their open todos                                    | Yes         |
+| M-8                                                          | Storage gateway           | The application should have some kind of storage gateway to store the todos        | Yes         |
+| O-1                                                          | In-memory storage gateway | The application should support an in-memory storage gateway                        | Yes         |
+| [O-2](https://github.com/flens-dev/pendenzenliste/issues/1)  | File storage gateway      | The application should support a file storage gateway to persistently store todos  | Yes         |
+| [O-3](https://github.com/flens-dev/pendenzenliste/issues/2)  | Redis storage gateway     | The application should support a redis storage gateway to persistently store todos | No          |
+| [O-4](https://github.com/flens-dev/pendenzenliste/issues/10) | REST storage gateway      | The application should support a REST storage gateway to persistently store todos  | No          |
+| M-9                                                          | App                       | The pendenzenliste should be bundled into an application                           | Yes         |
+| O-5                                                          | javafx app                | The pendenzenliste should be bundled into a javafx application                     | Yes         |
+| [O-6](https://github.com/flens-dev/pendenzenliste/issues/7)  | vaadin app                | The pendenzenliste should be bundled into a vaadin application                     | Yes         |
+| [O-7](https://github.com/flens-dev/pendenzenliste/issues/12) | cli app                   | The pendenzenliste should be bundled into a command line interface application     | Yes         |
+| [0-8](https://github.com/flens-dev/pendenzenliste/issues/13) | i18n                      | The pendenzenliste should be translated into german and english                    | No          |
+| [O-9](https://github.com/flens-dev/pendenzenliste/issues/9)  | achievements              | The user should be able to earn achievements by interacting with the application   | No          |
 
-# Architecture Constraints {#section-architecture-constraints}
+Legend:
 
-# System Scope and Context {#section-system-scope-and-context}
+```
+M = Must have requirement
+O = Optional requirement
+```
 
-## Business Context {#_business_context}
+## Quality Goals
+
+| ID  | Priority | Quality goal  | Description                                                                                                                 |
+|-----|----------|---------------|-----------------------------------------------------------------------------------------------------------------------------|
+| Q-1 | 1        | Extendability | The application should be easily extended by adding new frontend applications or gateways to support different technologies |
+| Q-2 | 2        | Learnability  | The application should be self explanatory to the end users                                                                 | 
+
+## Stakeholders
+
+| Role/Name | Goal                                                               | Expectations |
+|-----------|--------------------------------------------------------------------|--------------|
+| User      | Wants to configure the app to his needs and it to manage his todos |              |
+
+# Architecture Constraints
+
+| ID   | Description                                                     | 
+|------|-----------------------------------------------------------------|
+| AC-1 | The application should follow the CLEAN architecture principles |
+
+# System Scope and Context
+
+## Business Context
+
+| Neighbour              | Description                                                              |
+|------------------------|--------------------------------------------------------------------------|
+| user                   | Manages his todos via the applications                                   |
+| gateway implementation | Is accessed by the application to store and retrieve the users todo data |
 
 **\<Diagram or Table\>**
 
 **\<optionally: Explanation of external domain interfaces\>**
 
-## Technical Context {#_technical_context}
+## Technical Context
+
+| Component          | Description                                                                                           |
+|--------------------|-------------------------------------------------------------------------------------------------------|
+| app-cli            | Provides the end user access to the pendenzenliste through a cli                                      |
+| app-javafx         | Provides the end user access to the pendenzenliste through a desktop javafx application               |
+| app-vaadin         | Provides the end user access to the pendenzenliste through a web based vaadin application             | 
+| boundary           | Defines the input and output boundaries that are used to provide access to the applications use cases | 
+| domain             | Defines the core domain logic of the pendenzenliste                                                   |
+| gateway            | Defines the public API of the gateways that are used to store the todos                               |
+| gateway-filesystem | An implementation of the gateway API that stores the todos in a filesystem                            |
+| gateway-inmemory   | An implementation of the gateway API that stores the todos in an in-memory storage                    |
+| gateway-redis      | An implementation of the gateway API that stores the todos in a redis instance                        |
+| usecases           | An implementation of the apps input boundaries that represent the actual use cases of the application |
 
 **\<Diagram or Table\>**
 

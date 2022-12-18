@@ -45,15 +45,15 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
   {
     final var todoList = super.initContent();
 
-    todoList.addColumn(ToDoListItemViewModel::headline).setHeader("Headline").setSortable(true);
+    todoList.addColumn(todo -> todo.headline.get()).setHeader("Headline").setSortable(true);
 
-    todoList.addColumn(ToDoListItemViewModel::state).setHeader("State").setSortable(true);
+    todoList.addColumn(todo -> todo.state.get()).setHeader("State").setSortable(true);
 
-    todoList.addColumn(todo -> todo.created().format(DATE_TIME_FORMAT))
+    todoList.addColumn(todo -> todo.created.get().format(DATE_TIME_FORMAT))
         .setHeader("Created").setSortable(true);
 
     final var lastModifiedColumn =
-        todoList.addColumn(todo -> todo.lastModified().format(DATE_TIME_FORMAT))
+        todoList.addColumn(todo -> todo.lastModified.get().format(DATE_TIME_FORMAT))
             .setHeader("Last modified")
             .setSortable(true);
 
@@ -84,38 +84,25 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
 
       final SubMenu menu = menuItem.getSubMenu();
 
-      menu.addItem("Edit", event -> editListeners.forEach(l -> l.accept(todo)))
-          .setEnabled(todo.editable());
+      final var editItem = menu.addItem("Edit",
+          event -> editListeners.forEach(l -> l.accept(todo)));
+      
+      final var completeItem =
+          menu.addItem("Complete", event -> completeListeners.forEach(l -> l.accept(todo)));
 
-      menu.addItem("Complete", event -> completeListeners.forEach(l -> l.accept(todo)))
-          .setEnabled(todo.completable());
+      final var deleteItem =
+          menu.addItem("Delete", event -> deleteListeners.forEach(l -> l.accept(todo)));
 
-      menu.addItem("Delete", event -> deleteListeners.forEach(l -> l.accept(todo)))
-          .setEnabled(todo.deletable());
+      final var resetItem =
+          menu.addItem("Reset", event -> resetListeners.forEach(l -> l.accept(todo)));
 
-      menu.addItem("Reset", event -> resetListeners.forEach(l -> l.accept(todo)))
-          .setEnabled(todo.resettable());
+      todo.editable.bind(editItem::setEnabled);
+      todo.completable.bind(completeItem::setEnabled);
+      todo.deletable.bind(deleteItem::setEnabled);
+      todo.resettable.bind(resetItem::setEnabled);
 
       return bar;
     };
-  }
-
-  /**
-   * Clears the selection.
-   */
-  public void clearSelection()
-  {
-    getContent().select(null);
-  }
-
-  /**
-   * Selects the given item.
-   *
-   * @param item The item that should be selected.
-   */
-  public void select(final ToDoListItemViewModel item)
-  {
-    getContent().select(item);
   }
 
   /**

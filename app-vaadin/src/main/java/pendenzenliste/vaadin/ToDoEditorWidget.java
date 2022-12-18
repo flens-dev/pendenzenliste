@@ -22,52 +22,23 @@ public class ToDoEditorWidget extends Composite<Div>
   private final Button clearButton = new Button("Clear");
 
   /**
-   * Clears the editor.
-   */
-  public void clear()
-  {
-    headlineField.clear();
-    descriptionField.clear();
-  }
-
-  /**
-   * Retrieves the headline.
+   * The headline field
    *
-   * @return The headline.
+   * @return The headline field.
    */
-  public String getHeadline()
+  public TextField getHeadlineField()
   {
-    return headlineField.getValue();
+    return headlineField;
   }
 
   /**
-   * Retrieves the description.
+   * The description field.
    *
    * @return The description.
    */
-  public String getDescription()
+  public TextArea getDescriptionField()
   {
-    return descriptionField.getValue();
-  }
-
-  /**
-   * Sets the headline.
-   *
-   * @param headline The headline.
-   */
-  public void setHeadline(final String headline)
-  {
-    this.headlineField.setValue(headline);
-  }
-
-  /**
-   * Sets the description.
-   *
-   * @param description The description.
-   */
-  public void setDescription(final String description)
-  {
-    this.descriptionField.setValue(description);
+    return descriptionField;
   }
 
   /**

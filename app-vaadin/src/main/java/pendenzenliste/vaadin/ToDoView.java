@@ -6,6 +6,9 @@ import java.util.Optional;
 import static java.util.Objects.requireNonNull;
 
 import com.vaadin.flow.component.AttachEvent;
+import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -18,12 +21,9 @@ import pendenzenliste.ports.in.ToDoInputBoundaryFactoryProvider;
 @Route("")
 public class ToDoView extends Div
 {
-  private final ToDoListWidget todoList = new ToDoListWidget();
-
-  private final ToDoEditorWidget editor = new ToDoEditorWidget();
+  private final ToDoListViewModel toDoListViewModel = new ToDoListViewModel();
 
   private final ToDoController controller;
-  private ToDoViewModel viewModel;
 
   /**
    * Creates a new instance.
@@ -54,36 +54,52 @@ public class ToDoView extends Div
     final var mainContainer = new Div();
 
     mainContainer.getStyle().set("padding", "var(--lumo-space-m)");
-    mainContainer.add(todoList);
 
-    todoList.addEditListener(l -> Optional.ofNullable(l)
-        .map(ToDoListItemViewModel::identity)
+    final var todoList = new ToDoListWidget();
+
+    todoList.addEditListener(l -> Optional.ofNullable(l).map(todo -> todo.identity.get())
         .ifPresent(controller::loadForEdit));
 
-    todoList.addCompleteListener(l -> controller.complete(l.identity()));
-    todoList.addDeleteListener(l -> controller.delete(l.identity()));
-    todoList.addResetListener(l -> controller.reset(l.identity()));
+    todoList.addCompleteListener(l -> controller.complete(l.identity.get()));
+    todoList.addDeleteListener(l -> controller.delete(l.identity.get()));
+    todoList.addResetListener(l -> controller.reset(l.identity.get()));
 
-    editor.addSaveListener(l -> {
-      if (viewModel == null)
-      {
-        controller.create(editor.getHeadline(), editor.getDescription());
-      } else
-      {
-        controller.update(viewModel.identity(), editor.getHeadline(), editor.getDescription());
-      }
-    });
+    mainContainer.add(todoList);
 
-    editor.addClearListener(l -> {
-      editor.clear();
-      viewModel = null;
-    });
+    final var editor = new ToDoEditorWidget();
+
+    editor.addSaveListener(saveToDo());
+    editor.addClearListener(l -> clearEditor());
+
+    toDoListViewModel.todos.bind(todoList::setItems);
+    toDoListViewModel.headline.bindTwoWay(editor.getHeadlineField());
+    toDoListViewModel.description.bindTwoWay(editor.getDescriptionField());
+    toDoListViewModel.errorMessage.bind(this::showGenericErrorMessage);
 
     container.add(mainContainer, editor);
 
     add(container);
 
     setHeightFull();
+  }
+
+  /**
+   * Saves the todo.
+   *
+   * @return The listener.
+   */
+  private ComponentEventListener<ClickEvent<Button>> saveToDo()
+  {
+    return l -> {
+      if (toDoListViewModel.identity.isEmpty())
+      {
+        controller.create(toDoListViewModel.headline.get(), toDoListViewModel.description.get());
+      } else
+      {
+        controller.update(toDoListViewModel.identity.get(), toDoListViewModel.headline.get(),
+            toDoListViewModel.description.get());
+      }
+    };
   }
 
   /**
@@ -101,7 +117,7 @@ public class ToDoView extends Div
    */
   public void setToDos(final Collection<ToDoListItemViewModel> todos)
   {
-    todoList.setItems(todos);
+    toDoListViewModel.todos.set(todos);
   }
 
   /**
@@ -122,7 +138,10 @@ public class ToDoView extends Div
    */
   public void showGenericErrorMessage(final String message)
   {
-    Notification.show(message).addThemeVariants(NotificationVariant.LUMO_ERROR);
+    if (message != null && !message.isEmpty())
+    {
+      Notification.show(message).addThemeVariants(NotificationVariant.LUMO_ERROR);
+    }
   }
 
   /**
@@ -132,15 +151,14 @@ public class ToDoView extends Div
    */
   public void setSelectedToDo(final ToDoViewModel viewModel)
   {
-    this.viewModel = viewModel;
-
     if (viewModel == null)
     {
       clearEditor();
     } else
     {
-      editor.setHeadline(viewModel.headline());
-      editor.setDescription(viewModel.description());
+      toDoListViewModel.identity.set(viewModel.identity());
+      toDoListViewModel.headline.set(viewModel.headline());
+      toDoListViewModel.description.set(viewModel.description());
     }
   }
 
@@ -149,6 +167,8 @@ public class ToDoView extends Div
    */
   public void clearEditor()
   {
-    editor.clear();
+    toDoListViewModel.identity.set(null);
+    toDoListViewModel.headline.set("");
+    toDoListViewModel.description.set("");
   }
 }

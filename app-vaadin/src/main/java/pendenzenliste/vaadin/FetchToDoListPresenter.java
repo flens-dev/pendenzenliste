@@ -9,6 +9,9 @@ import pendenzenliste.ports.out.FetchToDoListOutputBoundary;
 import pendenzenliste.ports.out.FetchedToDoListResponse;
 import pendenzenliste.ports.out.ToDoListResponseModel;
 
+/**
+ * A presenter that can be used to handle the results of a fetch todo list request.
+ */
 public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
 {
   private final ToDoView view;
@@ -48,11 +51,21 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
    */
   private static Function<ToDoListResponseModel, ToDoListItemViewModel> mapToViewModel()
   {
-    return todo -> new ToDoListItemViewModel(todo.identity(), todo.headline(), todo.created(),
-        todo.lastModified(), todo.completed(), todo.state(),
-        todo.capabilities().contains("DELETE"),
-        todo.capabilities().contains("UPDATE"),
-        todo.capabilities().contains("COMPLETE"),
-        todo.capabilities().contains("RESET"));
+    return todo -> {
+      final var viewModel = new ToDoListItemViewModel();
+
+      viewModel.identity.set(todo.identity());
+      viewModel.headline.set(todo.headline());
+      viewModel.created.set(todo.created());
+      viewModel.lastModified.set(todo.lastModified());
+      viewModel.completed.set(todo.completed());
+      viewModel.state.set(todo.state());
+      viewModel.deletable.set(todo.capabilities().contains("DELETE"));
+      viewModel.editable.set(todo.capabilities().contains("UPDATE"));
+      viewModel.completable.set(todo.capabilities().contains("COMPLETE"));
+      viewModel.resettable.set(todo.capabilities().contains("RESET"));
+
+      return viewModel;
+    };
   }
 }

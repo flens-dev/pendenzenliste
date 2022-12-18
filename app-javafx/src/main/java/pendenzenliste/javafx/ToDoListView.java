@@ -5,11 +5,6 @@ import java.time.LocalDateTime;
 import static java.util.Objects.requireNonNull;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
@@ -25,8 +20,7 @@ public class ToDoListView extends Scene
    * @param listViewModel The list view model.
    * @param editViewModel The edit view model.
    */
-  public ToDoListView(final ToDoListViewModel listViewModel,
-                      final EditToDoViewModel editViewModel)
+  public ToDoListView(final ToDoListViewModel listViewModel, final EditToDoViewModel editViewModel)
   {
     this(new AppLayout(), listViewModel, editViewModel);
   }
@@ -38,18 +32,29 @@ public class ToDoListView extends Scene
    * @param listViewModel The list view model.
    * @param editViewModel The edit view model.
    */
-  public ToDoListView(final AppLayout layout,
-                      final ToDoListViewModel listViewModel, final EditToDoViewModel editViewModel)
+  public ToDoListView(final AppLayout layout, final ToDoListViewModel listViewModel,
+                      final EditToDoViewModel editViewModel)
   {
     super(layout);
 
     requireNonNull(listViewModel, "The list view model may not be null");
     this.editViewModel = requireNonNull(editViewModel, "The edit view model may not be null");
 
-    layout.addToMain(new ToDoTableWidget(listViewModel));
+    final var table = new ToDoTableWidget(listViewModel);
+
+    layout.addToMain(table);
     layout.addToDetail(buildEditForm());
 
     editViewModel.publishEvent(new ListUpdateRequiredEvent(LocalDateTime.now()));
+
+    table.addResetListener(todo -> editViewModel.publishEvent(
+        new ResetRequestedEvent(LocalDateTime.now(), todo.identity.get())));
+
+    table.addCompleteListener(todo -> editViewModel.publishEvent(
+        new CompleteRequestedEvent(LocalDateTime.now(), todo.identity.get())));
+
+    table.addDeleteListener(todo -> editViewModel.publishEvent(
+        new DeleteRequestedEvent(LocalDateTime.now(), todo.identity.get())));
   }
 
   /**
@@ -57,60 +62,25 @@ public class ToDoListView extends Scene
    *
    * @return The edit form.
    */
-  private VBox buildEditForm()
+  private ToDoEditorWidget buildEditForm()
   {
+    final var editor = new ToDoEditorWidget();
+
     final var layout = new VBox();
 
     layout.setSpacing(10);
 
-    final var headlineLabel = new Label("Headline");
-    final var headlineField = new TextField();
+    editor.getHeadlineField().textProperty().bindBidirectional(editViewModel.headline);
+    editor.getDescriptionField().textProperty().bindBidirectional(editViewModel.description);
+    editor.getErrorMessageLabel().textProperty().bind(editViewModel.errorMessage);
 
-    final var descriptionLabel = new Label("Description");
-    final var descriptionField = new TextArea();
+    editor.addClearListener(
+        () -> editViewModel.publishEvent(new ClearEditorRequestedEvent(LocalDateTime.now())));
 
-    final var errorMessage = new Label("");
-
-    final var completeButton = new Button("Complete");
-    final var deleteButton = new Button("Delete");
-    final var resetButton = new Button("Reset");
-    final var clearButton = new Button("Clear");
-    final var saveButton = new Button("Save");
-
-    headlineField.textProperty().bindBidirectional(editViewModel.headline);
-    descriptionField.textProperty().bindBidirectional(editViewModel.description);
-    errorMessage.textProperty().bind(editViewModel.errorMessage);
-
-    editViewModel.completeButtonVisible.bindBidirectional(completeButton.visibleProperty());
-    editViewModel.deleteButtonVisible.bindBidirectional(deleteButton.visibleProperty());
-    editViewModel.resetButtonVisible.bindBidirectional(resetButton.visibleProperty());
-
-    clearButton.setOnAction(
-        event -> editViewModel.publishEvent(new ClearEditorRequestedEvent(LocalDateTime.now())));
-
-    saveButton.setOnAction(event -> editViewModel.publishEvent(
+    editor.addSaveListener(() -> editViewModel.publishEvent(
         new SaveRequestedEvent(LocalDateTime.now(), editViewModel.identity.get(),
             editViewModel.headline.get(), editViewModel.description.get())));
 
-    completeButton.setOnAction(event -> editViewModel.publishEvent(
-        new CompleteRequestedEvent(LocalDateTime.now(), editViewModel.identity.get())));
-
-    deleteButton.setOnAction(event -> editViewModel.publishEvent(
-        new DeleteRequestedEvent(LocalDateTime.now(), editViewModel.identity.get())));
-
-    resetButton.setOnAction(
-        event -> editViewModel.publishEvent(
-            new ResetRequestedEvent(LocalDateTime.now(), editViewModel.identity.get())));
-
-    final var actions =
-        new HBox(deleteButton, completeButton, resetButton, clearButton, saveButton);
-
-    actions.setSpacing(10);
-
-    layout.getChildren()
-        .addAll(headlineLabel, headlineField, descriptionLabel, descriptionField, errorMessage,
-            actions);
-
-    return layout;
+    return editor;
   }
 }

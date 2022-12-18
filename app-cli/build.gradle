@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+//application.mainModule = "pendenzenliste.app.cli.main"
+mainClassName = 'pendenzenliste.cli.PendenzenlisteApp'
+
+dependencies {
+    implementation 'commons-cli:commons-cli:1.5.0'
+
+    implementation project(':boundary')
+
+    runtimeOnly project(':gateway-filesystem')
+    runtimeOnly project(':usecases')
+}

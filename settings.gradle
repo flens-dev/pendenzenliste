@@ -1,5 +1,6 @@
 rootProject.name = 'pendenzenliste'
 
+include 'app-cli'
 include 'app-javafx'
 include 'app-vaadin'
 

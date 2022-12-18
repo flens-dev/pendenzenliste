@@ -9,6 +9,7 @@ import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.function.ValueProvider;
@@ -47,15 +48,14 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
 
     todoList.addColumn(todo -> todo.headline.get()).setHeader("Headline").setSortable(true);
 
-    todoList.addColumn(todo -> todo.state.get()).setHeader("State").setSortable(true);
+    todoList.addComponentColumn(renderStateBadge()).setHeader("State");
 
-    todoList.addColumn(todo -> todo.created.get().format(DATE_TIME_FORMAT))
-        .setHeader("Created").setSortable(true);
+    todoList.addColumn(todo -> todo.created.get().format(DATE_TIME_FORMAT)).setHeader("Created")
+        .setSortable(true);
 
     final var lastModifiedColumn =
         todoList.addColumn(todo -> todo.lastModified.get().format(DATE_TIME_FORMAT))
-            .setHeader("Last modified")
-            .setSortable(true);
+            .setHeader("Last modified").setSortable(true);
 
     todoList.addComponentColumn(renderActionColumn()).setFlexGrow(0);
 
@@ -66,6 +66,28 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
     todoList.setHeightFull();
 
     return todoList;
+  }
+
+  /**
+   * Renders a state badge.
+   *
+   * @return The provider.
+   */
+  private ValueProvider<ToDoListItemViewModel, Span> renderStateBadge()
+  {
+    return l -> {
+      final Span badge = new Span(l.state.get());
+
+      if ("DONE".equals(l.state.get()))
+      {
+        badge.getElement().getThemeList().add("badge success");
+      } else
+      {
+        badge.getElement().getThemeList().add("badge");
+      }
+
+      return badge;
+    };
   }
 
   /**
@@ -84,9 +106,9 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
 
       final SubMenu menu = menuItem.getSubMenu();
 
-      final var editItem = menu.addItem("Edit",
-          event -> editListeners.forEach(l -> l.accept(todo)));
-      
+      final var editItem =
+          menu.addItem("Edit", event -> editListeners.forEach(l -> l.accept(todo)));
+
       final var completeItem =
           menu.addItem("Complete", event -> completeListeners.forEach(l -> l.accept(todo)));
 

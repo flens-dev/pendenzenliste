@@ -29,8 +29,6 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
   @Override
   public void handleFailedResponse(final FetchToDoListFailedResponse response)
   {
-    System.out.println(response);
-
     view.showGenericErrorMessage(response.reason());
   }
 
@@ -40,8 +38,6 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
   @Override
   public void handleSuccessfulResponse(final FetchedToDoListResponse response)
   {
-    System.out.println(response);
-
     view.setToDos(response.todos().stream().map(mapToViewModel()).toList());
   }
 
@@ -53,6 +49,10 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
   private static Function<ToDoListResponseModel, ToDoListItemViewModel> mapToViewModel()
   {
     return todo -> new ToDoListItemViewModel(todo.identity(), todo.headline(), todo.created(),
-        todo.lastModified(), todo.completed(), todo.state());
+        todo.lastModified(), todo.completed(), todo.state(),
+        todo.capabilities().contains("DELETE"),
+        todo.capabilities().contains("UPDATE"),
+        todo.capabilities().contains("COMPLETE"),
+        todo.capabilities().contains("RESET"));
   }
 }

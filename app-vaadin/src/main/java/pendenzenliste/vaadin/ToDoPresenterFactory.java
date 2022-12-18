@@ -8,6 +8,9 @@ import pendenzenliste.ports.out.FetchToDoOutputBoundary;
 import pendenzenliste.ports.out.ToDoOutputBoundaryFactory;
 import pendenzenliste.ports.out.UpdateToDoOutputBoundary;
 
+/**
+ * A factory that can be used to create presenter instances.
+ */
 public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
 {
   private final ToDoView view;
@@ -28,7 +31,7 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
   @Override
   public CreateToDoOutputBoundary create()
   {
-    return null;
+    return new CreateToDoPresenter(view);
   }
 
   /**
@@ -46,7 +49,7 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
   @Override
   public FetchToDoOutputBoundary fetch()
   {
-    return null;
+    return new EditToDoPresenter(view);
   }
 
   /**
@@ -55,6 +58,6 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
   @Override
   public UpdateToDoOutputBoundary update()
   {
-    return null;
+    return new UpdateToDoPresenter(view);
   }
 }

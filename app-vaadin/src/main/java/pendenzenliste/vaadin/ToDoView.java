@@ -1,20 +1,15 @@
 package pendenzenliste.vaadin;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
 import com.vaadin.flow.component.AttachEvent;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
-import pendenzenliste.ports.in.FetchTodoListRequest;
-import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactoryProvider;
 
 /**
@@ -25,7 +20,10 @@ public class ToDoView extends Div
 {
   private final ToDoListWidget todoList = new ToDoListWidget();
 
-  private final ToDoInputBoundaryFactory inputBoundaryFactory;
+  private final ToDoEditorWidget editor = new ToDoEditorWidget();
+
+  private final ToDoController controller;
+  private ToDoViewModel viewModel;
 
   /**
    * Creates a new instance.
@@ -43,9 +41,9 @@ public class ToDoView extends Div
   {
     super();
 
-    this.inputBoundaryFactory = requireNonNull(inputBoundaryFactoryProvider,
-        "The input boundary factory provider may not be null")
-        .getInstance(new ToDoPresenterFactory(this));
+    this.controller = new ToDoController(requireNonNull(inputBoundaryFactoryProvider,
+        "The input boundary factory provider may not be null").getInstance(
+        new ToDoPresenterFactory(this)));
 
     final var container = new Div();
 
@@ -55,30 +53,34 @@ public class ToDoView extends Div
 
     final var mainContainer = new Div();
 
+    mainContainer.getStyle().set("padding", "var(--lumo-space-m)");
     mainContainer.add(todoList);
 
-    mainContainer.getStyle().set("padding", "var(--lumo-space-m)");
+    todoList.addEditListener(l -> Optional.ofNullable(l)
+        .map(ToDoListItemViewModel::identity)
+        .ifPresent(controller::loadForEdit));
 
-    container.add(mainContainer);
+    todoList.addCompleteListener(l -> controller.complete(l.identity()));
+    todoList.addDeleteListener(l -> controller.delete(l.identity()));
+    todoList.addResetListener(l -> controller.reset(l.identity()));
 
-    final var editorLayout = new Div();
+    editor.addSaveListener(l -> {
+      if (viewModel == null)
+      {
+        controller.create(editor.getHeadline(), editor.getDescription());
+      } else
+      {
+        controller.update(viewModel.identity(), editor.getHeadline(), editor.getDescription());
+      }
+    });
 
-    editorLayout.getStyle().set("display", "flex");
-    editorLayout.getStyle().set("flex-direction", "column");
-    editorLayout.getStyle().set("padding", "var(--lumo-space-m)");
+    editor.addClearListener(l -> {
+      editor.clear();
+      viewModel = null;
+    });
 
-    final var headlineField = new TextField("Headline");
-    final var descriptionField = new TextArea("Description");
-    final var saveButton = new Button("Save");
+    container.add(mainContainer, editor);
 
-    headlineField.setWidthFull();
-    descriptionField.setWidthFull();
-    descriptionField.getStyle().set("flex-grow", "1");
-
-    saveButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    editorLayout.add(headlineField, descriptionField, saveButton);
-
-    container.add(editorLayout);
     add(container);
 
     setHeightFull();
@@ -89,9 +91,7 @@ public class ToDoView extends Div
    */
   public void loadToDos()
   {
-    var request = new FetchTodoListRequest();
-
-    inputBoundaryFactory.list().execute(request);
+    controller.loadTodos();
   }
 
   /**
@@ -123,5 +123,32 @@ public class ToDoView extends Div
   public void showGenericErrorMessage(final String message)
   {
     Notification.show(message).addThemeVariants(NotificationVariant.LUMO_ERROR);
+  }
+
+  /**
+   * Sets the selected todo.
+   *
+   * @param viewModel The view model.
+   */
+  public void setSelectedToDo(final ToDoViewModel viewModel)
+  {
+    this.viewModel = viewModel;
+
+    if (viewModel == null)
+    {
+      clearEditor();
+    } else
+    {
+      editor.setHeadline(viewModel.headline());
+      editor.setDescription(viewModel.description());
+    }
+  }
+
+  /**
+   * Clears the editor.
+   */
+  public void clearEditor()
+  {
+    editor.clear();
   }
 }

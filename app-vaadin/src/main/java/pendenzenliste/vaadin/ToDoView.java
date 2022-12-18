@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import static java.util.Objects.requireNonNull;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
@@ -11,8 +12,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.AfterNavigationEvent;
-import com.vaadin.flow.router.AfterNavigationListener;
 import com.vaadin.flow.router.Route;
 import pendenzenliste.ports.in.FetchTodoListRequest;
 import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
@@ -22,7 +21,7 @@ import pendenzenliste.ports.in.ToDoInputBoundaryFactoryProvider;
  * A view that can be used to display a list of todos and interact with them.
  */
 @Route("")
-public class ToDoView extends Div implements AfterNavigationListener
+public class ToDoView extends Div
 {
   private final ToDoListWidget todoList = new ToDoListWidget();
 
@@ -109,8 +108,10 @@ public class ToDoView extends Div implements AfterNavigationListener
    * {@inheritDoc}
    */
   @Override
-  public void afterNavigation(final AfterNavigationEvent event)
+  protected void onAttach(final AttachEvent attachEvent)
   {
+    super.onAttach(attachEvent);
+
     loadToDos();
   }
 

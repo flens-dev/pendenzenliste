@@ -86,7 +86,7 @@ public class ControllerEventVisitor implements ToDoEventVisitor
   @Override
   public void visit(final SaveRequestedEvent event)
   {
-    if (event.identity() == null)
+    if (event.identity() == null || event.identity().isEmpty())
     {
       controller.create(event.headline(), event.description());
     } else

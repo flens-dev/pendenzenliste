@@ -2,11 +2,11 @@ package pendenzenliste.vaadin;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.ports.out.CreateToDoOutputBoundary;
-import pendenzenliste.ports.out.FetchToDoListOutputBoundary;
-import pendenzenliste.ports.out.FetchToDoOutputBoundary;
-import pendenzenliste.ports.out.ToDoOutputBoundaryFactory;
-import pendenzenliste.ports.out.UpdateToDoOutputBoundary;
+import pendenzenliste.boundary.out.CreateToDoOutputBoundary;
+import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
+import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
+import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
+import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 
 /**
  * A factory that can be used to create presenter instances.

@@ -2,9 +2,9 @@ package pendenzenliste.vaadin;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.ports.out.FetchToDoFailedResponse;
-import pendenzenliste.ports.out.FetchToDoOutputBoundary;
-import pendenzenliste.ports.out.ToDoFetchedResponse;
+import pendenzenliste.boundary.out.FetchToDoFailedResponse;
+import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
+import pendenzenliste.boundary.out.ToDoFetchedResponse;
 
 /**
  * A presenter that can be used to edit a todo.

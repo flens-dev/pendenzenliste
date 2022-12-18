@@ -7,8 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-import pendenzenliste.ports.out.FetchToDoFailedResponse;
-import pendenzenliste.ports.out.ToDoFetchedResponse;
+import pendenzenliste.boundary.out.FetchToDoFailedResponse;
+import pendenzenliste.boundary.out.ToDoFetchedResponse;
 
 class EditToDoPresenterTest
 {

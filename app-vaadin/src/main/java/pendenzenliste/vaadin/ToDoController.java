@@ -2,14 +2,14 @@ package pendenzenliste.vaadin;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.ports.in.CompleteToDoRequest;
-import pendenzenliste.ports.in.CreateToDoRequest;
-import pendenzenliste.ports.in.DeleteToDoRequest;
-import pendenzenliste.ports.in.FetchToDoRequest;
-import pendenzenliste.ports.in.FetchTodoListRequest;
-import pendenzenliste.ports.in.ResetToDoRequest;
-import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
-import pendenzenliste.ports.in.UpdateToDoRequest;
+import pendenzenliste.boundary.in.CompleteToDoRequest;
+import pendenzenliste.boundary.in.CreateToDoRequest;
+import pendenzenliste.boundary.in.DeleteToDoRequest;
+import pendenzenliste.boundary.in.FetchToDoRequest;
+import pendenzenliste.boundary.in.FetchTodoListRequest;
+import pendenzenliste.boundary.in.ResetToDoRequest;
+import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.boundary.in.UpdateToDoRequest;
 
 /**
  * A controller that can be used in the context the application.

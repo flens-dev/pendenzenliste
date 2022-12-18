@@ -9,12 +9,12 @@ import pendenzenliste.domain.CompletedTimestampValueObject;
 import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoEntity;
 import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.ports.in.FetchToDoInputBoundary;
-import pendenzenliste.ports.in.FetchToDoRequest;
-import pendenzenliste.ports.out.FetchToDoFailedResponse;
-import pendenzenliste.ports.out.FetchToDoOutputBoundary;
-import pendenzenliste.ports.out.FetchToDoResponse;
-import pendenzenliste.ports.out.ToDoFetchedResponse;
+import pendenzenliste.boundary.in.FetchToDoInputBoundary;
+import pendenzenliste.boundary.in.FetchToDoRequest;
+import pendenzenliste.boundary.out.FetchToDoFailedResponse;
+import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
+import pendenzenliste.boundary.out.FetchToDoResponse;
+import pendenzenliste.boundary.out.ToDoFetchedResponse;
 
 /**
  * A use case that can be used to fetch a ToDo.

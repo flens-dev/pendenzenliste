@@ -6,21 +6,21 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import pendenzenliste.ports.in.CompleteToDoInputBoundary;
-import pendenzenliste.ports.in.CompleteToDoRequest;
-import pendenzenliste.ports.in.CreateToDoInputBoundary;
-import pendenzenliste.ports.in.CreateToDoRequest;
-import pendenzenliste.ports.in.DeleteToDoInputBoundary;
-import pendenzenliste.ports.in.DeleteToDoRequest;
-import pendenzenliste.ports.in.FetchToDoInputBoundary;
-import pendenzenliste.ports.in.FetchToDoListInputBoundary;
-import pendenzenliste.ports.in.FetchToDoRequest;
-import pendenzenliste.ports.in.FetchTodoListRequest;
-import pendenzenliste.ports.in.ResetToDoInputBoundary;
-import pendenzenliste.ports.in.ResetToDoRequest;
-import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
-import pendenzenliste.ports.in.UpdateToDoInputBoundary;
-import pendenzenliste.ports.in.UpdateToDoRequest;
+import pendenzenliste.boundary.in.CompleteToDoInputBoundary;
+import pendenzenliste.boundary.in.CompleteToDoRequest;
+import pendenzenliste.boundary.in.CreateToDoInputBoundary;
+import pendenzenliste.boundary.in.CreateToDoRequest;
+import pendenzenliste.boundary.in.DeleteToDoInputBoundary;
+import pendenzenliste.boundary.in.DeleteToDoRequest;
+import pendenzenliste.boundary.in.FetchToDoInputBoundary;
+import pendenzenliste.boundary.in.FetchToDoListInputBoundary;
+import pendenzenliste.boundary.in.FetchToDoRequest;
+import pendenzenliste.boundary.in.FetchTodoListRequest;
+import pendenzenliste.boundary.in.ResetToDoInputBoundary;
+import pendenzenliste.boundary.in.ResetToDoRequest;
+import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
+import pendenzenliste.boundary.in.UpdateToDoRequest;
 
 class ToDoControllerTest
 {

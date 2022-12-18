@@ -6,12 +6,12 @@ import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.ports.in.DeleteToDoInputBoundary;
-import pendenzenliste.ports.in.DeleteToDoRequest;
-import pendenzenliste.ports.out.ToDoUpdateFailedResponse;
-import pendenzenliste.ports.out.ToDoUpdatedResponse;
-import pendenzenliste.ports.out.UpdateToDoOutputBoundary;
-import pendenzenliste.ports.out.UpdateToDoResponse;
+import pendenzenliste.boundary.in.DeleteToDoInputBoundary;
+import pendenzenliste.boundary.in.DeleteToDoRequest;
+import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
+import pendenzenliste.boundary.out.ToDoUpdatedResponse;
+import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
+import pendenzenliste.boundary.out.UpdateToDoResponse;
 
 /**
  * A use case that can be used to delete an existing ToDo.

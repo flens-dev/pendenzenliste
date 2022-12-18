@@ -4,10 +4,10 @@ import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.ports.out.FetchToDoListFailedResponse;
-import pendenzenliste.ports.out.FetchToDoListOutputBoundary;
-import pendenzenliste.ports.out.FetchedToDoListResponse;
-import pendenzenliste.ports.out.ToDoListResponseModel;
+import pendenzenliste.boundary.out.FetchToDoListFailedResponse;
+import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
+import pendenzenliste.boundary.out.FetchedToDoListResponse;
+import pendenzenliste.boundary.out.ToDoListResponseModel;
 
 /**
  * A presenter that can be used to handle the results of a fetch todo list request.

@@ -1,5 +1,5 @@
 dependencies {
+    implementation project(':boundary')
     implementation project(':domain')
-    implementation project(':ports')
     implementation project(':gateway')
 }

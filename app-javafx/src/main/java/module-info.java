@@ -1,9 +1,9 @@
-import pendenzenliste.ports.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
 
 module pendenzenliste.app.javafx.main {
   exports pendenzenliste.javafx;
 
-  requires pendenzenliste.ports.main;
+  requires pendenzenliste.boundary.main;
   uses ToDoInputBoundaryFactoryProvider;
 
   requires javafx.base;

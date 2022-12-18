@@ -9,9 +9,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
-import pendenzenliste.ports.out.FetchToDoListFailedResponse;
-import pendenzenliste.ports.out.FetchedToDoListResponse;
-import pendenzenliste.ports.out.ToDoListResponseModel;
+import pendenzenliste.boundary.out.FetchToDoListFailedResponse;
+import pendenzenliste.boundary.out.FetchedToDoListResponse;
+import pendenzenliste.boundary.out.ToDoListResponseModel;
 
 class FetchToDoListPresenterTest
 {

@@ -12,7 +12,7 @@ plugins {
 defaultTasks("clean", "build")
 
 dependencies {
-    implementation project(':ports')
+    implementation project(':boundary')
 
     runtimeOnly project(':gateway-filesystem')
     runtimeOnly project(':usecases')

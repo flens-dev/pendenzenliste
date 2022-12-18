@@ -5,12 +5,12 @@ import static java.util.Objects.requireNonNull;
 import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoCapability;
 import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.ports.in.ResetToDoInputBoundary;
-import pendenzenliste.ports.in.ResetToDoRequest;
-import pendenzenliste.ports.out.ToDoUpdateFailedResponse;
-import pendenzenliste.ports.out.ToDoUpdatedResponse;
-import pendenzenliste.ports.out.UpdateToDoOutputBoundary;
-import pendenzenliste.ports.out.UpdateToDoResponse;
+import pendenzenliste.boundary.in.ResetToDoInputBoundary;
+import pendenzenliste.boundary.in.ResetToDoRequest;
+import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
+import pendenzenliste.boundary.out.ToDoUpdatedResponse;
+import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
+import pendenzenliste.boundary.out.UpdateToDoResponse;
 
 /**
  * A use case that can be used to reset a closed ToDo.

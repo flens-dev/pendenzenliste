@@ -1,9 +1,9 @@
 package pendenzenliste.usecases;
 
 import pendenzenliste.gateway.ToDoGatewayProvider;
-import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
-import pendenzenliste.ports.in.ToDoInputBoundaryFactoryProvider;
-import pendenzenliste.ports.out.ToDoOutputBoundaryFactory;
+import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
 
 /**
  * A {@link ToDoInputBoundaryFactoryProvider} that provides access to a {@link ToDoUseCaseFactory}

@@ -13,7 +13,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.router.Route;
-import pendenzenliste.ports.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
 
 /**
  * A view that can be used to display a list of todos and interact with them.

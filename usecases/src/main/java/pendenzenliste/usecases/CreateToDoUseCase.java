@@ -6,12 +6,12 @@ import pendenzenliste.domain.DescriptionValueObject;
 import pendenzenliste.domain.HeadlineValueObject;
 import pendenzenliste.domain.ToDoEntity;
 import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.ports.in.CreateToDoInputBoundary;
-import pendenzenliste.ports.in.CreateToDoRequest;
-import pendenzenliste.ports.out.CreateToDoOutputBoundary;
-import pendenzenliste.ports.out.CreateToDoResponse;
-import pendenzenliste.ports.out.ToDoCreatedResponse;
-import pendenzenliste.ports.out.ToDoCreationFailedResponse;
+import pendenzenliste.boundary.in.CreateToDoInputBoundary;
+import pendenzenliste.boundary.in.CreateToDoRequest;
+import pendenzenliste.boundary.out.CreateToDoOutputBoundary;
+import pendenzenliste.boundary.out.CreateToDoResponse;
+import pendenzenliste.boundary.out.ToDoCreatedResponse;
+import pendenzenliste.boundary.out.ToDoCreationFailedResponse;
 
 /**
  * A use case that can be used to create a new todo.

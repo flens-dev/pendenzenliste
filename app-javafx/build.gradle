@@ -13,7 +13,7 @@ application.mainModule = "pendenzenliste.app.javafx.main"
 mainClassName = 'pendenzenliste.javafx.PendenzenlisteApp'
 
 dependencies {
-    implementation project(':ports')
+    implementation project(':boundary')
 
     runtimeOnly project(':gateway-filesystem')
     runtimeOnly project(':usecases')

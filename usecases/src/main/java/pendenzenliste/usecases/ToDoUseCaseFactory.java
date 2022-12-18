@@ -3,15 +3,15 @@ package pendenzenliste.usecases;
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.gateway.ToDoGatewayProvider;
-import pendenzenliste.ports.in.CompleteToDoInputBoundary;
-import pendenzenliste.ports.in.CreateToDoInputBoundary;
-import pendenzenliste.ports.in.DeleteToDoInputBoundary;
-import pendenzenliste.ports.in.FetchToDoInputBoundary;
-import pendenzenliste.ports.in.FetchToDoListInputBoundary;
-import pendenzenliste.ports.in.ResetToDoInputBoundary;
-import pendenzenliste.ports.in.ToDoInputBoundaryFactory;
-import pendenzenliste.ports.in.UpdateToDoInputBoundary;
-import pendenzenliste.ports.out.ToDoOutputBoundaryFactory;
+import pendenzenliste.boundary.in.CompleteToDoInputBoundary;
+import pendenzenliste.boundary.in.CreateToDoInputBoundary;
+import pendenzenliste.boundary.in.DeleteToDoInputBoundary;
+import pendenzenliste.boundary.in.FetchToDoInputBoundary;
+import pendenzenliste.boundary.in.FetchToDoListInputBoundary;
+import pendenzenliste.boundary.in.ResetToDoInputBoundary;
+import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
+import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
 
 /**
  * A factory that can be used to access ToDo specific use cases.

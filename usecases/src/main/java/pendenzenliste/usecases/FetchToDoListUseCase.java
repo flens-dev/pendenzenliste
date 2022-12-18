@@ -8,12 +8,12 @@ import static java.util.Objects.requireNonNull;
 import pendenzenliste.domain.CompletedTimestampValueObject;
 import pendenzenliste.domain.ToDoEntity;
 import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.ports.in.FetchToDoListInputBoundary;
-import pendenzenliste.ports.in.FetchTodoListRequest;
-import pendenzenliste.ports.out.FetchToDoListOutputBoundary;
-import pendenzenliste.ports.out.FetchToDoListResponse;
-import pendenzenliste.ports.out.FetchedToDoListResponse;
-import pendenzenliste.ports.out.ToDoListResponseModel;
+import pendenzenliste.boundary.in.FetchToDoListInputBoundary;
+import pendenzenliste.boundary.in.FetchTodoListRequest;
+import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
+import pendenzenliste.boundary.out.FetchToDoListResponse;
+import pendenzenliste.boundary.out.FetchedToDoListResponse;
+import pendenzenliste.boundary.out.ToDoListResponseModel;
 
 /**
  * A use case that can be used to fetch a list of todos

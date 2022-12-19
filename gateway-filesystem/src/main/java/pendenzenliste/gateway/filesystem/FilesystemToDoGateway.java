@@ -8,7 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -22,6 +24,8 @@ import pendenzenliste.gateway.ToDoGateway;
  */
 public class FilesystemToDoGateway implements ToDoGateway
 {
+  private FileTime lastModified = null;
+
   private final String path;
 
   private final Map<IdentityValueObject, ToDoEntity> cache = new ConcurrentHashMap<>();
@@ -90,7 +94,19 @@ public class FilesystemToDoGateway implements ToDoGateway
    */
   private void loadIfNecessary()
   {
-    if (cache.isEmpty())
+    boolean hasBeenModified = false;
+
+    try
+    {
+      final var currentTimestamp = Files.getLastModifiedTime(Path.of(path));
+
+      hasBeenModified = !Objects.equals(currentTimestamp, lastModified);
+    } catch (final IOException e)
+    {
+      lastModified = null;
+    }
+
+    if (hasBeenModified)
     {
       try (final ObjectInputStream in = new ObjectInputStream(new FileInputStream(path)))
       {

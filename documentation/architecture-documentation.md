@@ -39,7 +39,7 @@ If the user desires it the user should be able to synchronize the data between m
 | O-5                                                          | javafx app                | The pendenzenliste should be bundled into a javafx application                     | Yes         |
 | [O-6](https://github.com/flens-dev/pendenzenliste/issues/7)  | vaadin app                | The pendenzenliste should be bundled into a vaadin application                     | Yes         |
 | [O-7](https://github.com/flens-dev/pendenzenliste/issues/12) | cli app                   | The pendenzenliste should be bundled into a command line interface application     | Yes         |
-| [0-8](https://github.com/flens-dev/pendenzenliste/issues/13) | i18n                      | The pendenzenliste should be translated into german and english                    | No          |
+| [O-8](https://github.com/flens-dev/pendenzenliste/issues/13) | i18n                      | The pendenzenliste should be translated into german and english                    | No          |
 | [O-9](https://github.com/flens-dev/pendenzenliste/issues/9)  | achievements              | The user should be able to earn achievements by interacting with the application   | No          |
 
 Legend:

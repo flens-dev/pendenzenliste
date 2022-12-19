@@ -14,6 +14,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
 
 /**
@@ -29,20 +30,14 @@ public class ToDoView extends Div
 
   /**
    * Creates a new instance.
+   *
+   * @param inputBoundaryFactoryProvider The input boundary factory provider.
    */
-  public ToDoView()
-  {
-    //TODO: Instance should be injected from somewhere I guess...
-    this(ToDoInputBoundaryFactoryProvider.defaultProvider());
-  }
-
-  /**
-   * Creates a new instance.
-   */
-  public ToDoView(final ToDoInputBoundaryFactoryProvider inputBoundaryFactoryProvider)
+  public ToDoView(@Autowired final ToDoInputBoundaryFactoryProvider inputBoundaryFactoryProvider)
   {
     super();
 
+    //TODO: The view should not have access to the controller
     this.controller = new ToDoController(requireNonNull(inputBoundaryFactoryProvider,
         "The input boundary factory provider may not be null").getInstance(
         new ToDoPresenterFactory(this)));

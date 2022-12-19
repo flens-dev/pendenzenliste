@@ -21,28 +21,29 @@ If the user desires it the user should be able to synchronize the data between m
 
 ## Requirements Overview
 
-| ID                                                            | Requirement               | Description                                                                        | Implemented |
-|---------------------------------------------------------------|---------------------------|------------------------------------------------------------------------------------|-------------|
-| M-1                                                           | Create todo               | Users should be able to create their todos                                         | Yes         |
-| M-2                                                           | Delete todo               | Users should be able to delete their todos                                         | Yes         |
-| M-3                                                           | Complete todo             | Users should be able to complete their todos                                       | Yes         |
-| M-4                                                           | Reset todo                | Users should be able to reset a previously completed todo                          | Yes         |
-| M-5                                                           | List todos                | Users should be able to list their todos                                           | Yes         |
-| M-6                                                           | Fetch todo                | Users should be able to fetch a specific todo                                      | Yes         |
-| M-7                                                           | Update todo               | Users should be able to update their open todos                                    | Yes         |
-| M-8                                                           | Storage gateway           | The application should have some kind of storage gateway to store the todos        | Yes         |
-| O-1                                                           | In-memory storage gateway | The application should support an in-memory storage gateway                        | Yes         |
-| [O-2](https://github.com/flens-dev/pendenzenliste/issues/1)   | File storage gateway      | The application should support a file storage gateway to persistently store todos  | Yes         |
-| [O-3](https://github.com/flens-dev/pendenzenliste/issues/2)   | Redis storage gateway     | The application should support a redis storage gateway to persistently store todos | No          |
-| [O-4](https://github.com/flens-dev/pendenzenliste/issues/10)  | REST storage gateway      | The application should support a REST storage gateway to persistently store todos  | No          |
-| M-9                                                           | App                       | The pendenzenliste should be bundled into an application                           | Yes         |
-| O-5                                                           | javafx app                | The pendenzenliste should be bundled into a javafx application                     | Yes         |
-| [O-6](https://github.com/flens-dev/pendenzenliste/issues/7)   | vaadin app                | The pendenzenliste should be bundled into a vaadin application                     | Yes         |
-| [O-7](https://github.com/flens-dev/pendenzenliste/issues/12)  | cli app                   | The pendenzenliste should be bundled into a command line interface application     | Yes         |
-| [O-8](https://github.com/flens-dev/pendenzenliste/issues/13)  | i18n                      | The pendenzenliste should be translated into german and english                    | No          |
-| [O-9](https://github.com/flens-dev/pendenzenliste/issues/9)   | achievements              | The user should be able to earn achievements by interacting with the application   | No          |
-| [O-10](https://github.com/flens-dev/pendenzenliste/issues/16) | statistics                | Users should be able to view statistics of their usage                             | No          |
-| [O-11](https://github.com/flens-dev/pendenzenliste/issues/17) | android app               | The pendenzenliste should be bundled into an android app                           | No          |
+| ID                                                            | Requirement               | Description                                                                                                                             | Implemented |
+|---------------------------------------------------------------|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------|
+| M-1                                                           | Create todo               | Users should be able to create their todos                                                                                              | Yes         |
+| M-2                                                           | Delete todo               | Users should be able to delete their todos                                                                                              | Yes         |
+| M-3                                                           | Complete todo             | Users should be able to complete their todos                                                                                            | Yes         |
+| M-4                                                           | Reset todo                | Users should be able to reset a previously completed todo                                                                               | Yes         |
+| M-5                                                           | List todos                | Users should be able to list their todos                                                                                                | Yes         |
+| M-6                                                           | Fetch todo                | Users should be able to fetch a specific todo                                                                                           | Yes         |
+| M-7                                                           | Update todo               | Users should be able to update their open todos                                                                                         | Yes         |
+| M-8                                                           | Storage gateway           | The application should have some kind of storage gateway to store the todos                                                             | Yes         |
+| O-1                                                           | In-memory storage gateway | The application should support an in-memory storage gateway                                                                             | Yes         |
+| [O-2](https://github.com/flens-dev/pendenzenliste/issues/1)   | File storage gateway      | The application should support a file storage gateway to persistently store todos                                                       | Yes         |
+| [O-3](https://github.com/flens-dev/pendenzenliste/issues/2)   | Redis storage gateway     | The application should support a redis storage gateway to persistently store todos                                                      | No          |
+| [O-4](https://github.com/flens-dev/pendenzenliste/issues/10)  | REST storage gateway      | The application should support a REST storage gateway to persistently store todos                                                       | No          |
+| M-9                                                           | App                       | The pendenzenliste should be bundled into an application                                                                                | Yes         |
+| O-5                                                           | javafx app                | The pendenzenliste should be bundled into a javafx application                                                                          | Yes         |
+| [O-6](https://github.com/flens-dev/pendenzenliste/issues/7)   | vaadin app                | The pendenzenliste should be bundled into a vaadin application                                                                          | Yes         |
+| [O-7](https://github.com/flens-dev/pendenzenliste/issues/12)  | cli app                   | The pendenzenliste should be bundled into a command line interface application                                                          | Yes         |
+| [O-8](https://github.com/flens-dev/pendenzenliste/issues/13)  | i18n                      | The pendenzenliste should be translated into german and english                                                                         | No          |
+| [O-9](https://github.com/flens-dev/pendenzenliste/issues/9)   | achievements              | The user should be able to earn achievements by interacting with the application                                                        | No          |
+| [O-10](https://github.com/flens-dev/pendenzenliste/issues/16) | statistics                | Users should be able to view statistics of their usage                                                                                  | No          |
+| [O-11](https://github.com/flens-dev/pendenzenliste/issues/17) | android app               | The pendenzenliste should be bundled into an android app                                                                                | No          |
+| [M-10](https://github.com/flens-dev/pendenzenliste/issues/18) | subscribe todo list       | The user should be able to subscribe to a list of todos to update the displayed todos when another app or user updates the stored todos | Yes         |
 
 Legend:
 

@@ -2,16 +2,17 @@ package pendenzenliste.usecases;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.gateway.ToDoGatewayProvider;
 import pendenzenliste.boundary.in.CompleteToDoInputBoundary;
 import pendenzenliste.boundary.in.CreateToDoInputBoundary;
 import pendenzenliste.boundary.in.DeleteToDoInputBoundary;
 import pendenzenliste.boundary.in.FetchToDoInputBoundary;
 import pendenzenliste.boundary.in.FetchToDoListInputBoundary;
 import pendenzenliste.boundary.in.ResetToDoInputBoundary;
+import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
 import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
+import pendenzenliste.gateway.ToDoGatewayProvider;
 
 /**
  * A factory that can be used to access ToDo specific use cases.
@@ -69,6 +70,15 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public FetchToDoListInputBoundary list()
   {
     return new FetchToDoListUseCase(provider.getInstance(), outputBoundaryFactory.list());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SubscribeToDoListInputBoundary subscribe()
+  {
+    return new SubscribeToDoListUseCase(provider.getInstance(), outputBoundaryFactory.list());
   }
 
   /**

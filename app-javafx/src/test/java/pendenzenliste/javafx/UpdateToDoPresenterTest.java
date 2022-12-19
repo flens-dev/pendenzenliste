@@ -22,7 +22,6 @@ class UpdateToDoPresenterTest
     presenter.handleSuccessfulResponse(new ToDoUpdatedResponse());
 
     verify(viewModel, times(1)).publishEvent(any(ClearEditorRequestedEvent.class));
-    verify(viewModel, times(1)).publishEvent(any(ListUpdateRequiredEvent.class));
   }
 
   @Test

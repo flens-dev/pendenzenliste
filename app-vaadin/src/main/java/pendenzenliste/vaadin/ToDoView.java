@@ -1,14 +1,13 @@
 package pendenzenliste.vaadin;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Consumer;
 
 import static java.util.Objects.requireNonNull;
 
-import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
@@ -19,13 +18,13 @@ import com.vaadin.flow.component.notification.NotificationVariant;
  */
 public class ToDoView extends Div
 {
-  private final Collection<Runnable> loadListeners = new ArrayList<>();
-
   private final ToDoListViewModel toDoListViewModel;
 
   private final ToDoEditorWidget editor = new ToDoEditorWidget();
 
   private final ToDoListWidget todoList = new ToDoListWidget();
+
+  private final UI ui;
 
   /**
    * Creates a new instance.
@@ -48,6 +47,8 @@ public class ToDoView extends Div
 
     mainContainer.add(todoList);
 
+    ui = UI.getCurrent();
+
     toDoListViewModel.todos.bind(todoList::setItems);
     toDoListViewModel.headline.bindTwoWay(editor.getHeadlineField());
     toDoListViewModel.description.bindTwoWay(editor.getDescriptionField());
@@ -61,32 +62,13 @@ public class ToDoView extends Div
   }
 
   /**
-   * Loads the todos.
-   */
-  public void loadToDos()
-  {
-    loadListeners.forEach(Runnable::run);
-  }
-
-  /**
    * Sets the todos.
    *
    * @param todos The todos.
    */
   public void setToDos(final Collection<ToDoListItemViewModel> todos)
   {
-    toDoListViewModel.todos.set(todos);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  protected void onAttach(final AttachEvent attachEvent)
-  {
-    super.onAttach(attachEvent);
-
-    loadToDos();
+    ui.access(() -> toDoListViewModel.todos.set(todos));
   }
 
   /**
@@ -187,15 +169,5 @@ public class ToDoView extends Div
   public void addClearListener(final ComponentEventListener<ClickEvent<Button>> listener)
   {
     editor.addClearListener(listener);
-  }
-
-  /**
-   * Adds a load listener.
-   *
-   * @param listener The listener.
-   */
-  public void addLoadListener(final Runnable listener)
-  {
-    loadListeners.add(listener);
   }
 }

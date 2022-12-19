@@ -66,6 +66,8 @@ public class PendenzenlisteApp extends Application
 
     subscription = editViewModel.events().subscribe(event -> event.visit(visitor));
 
+    controller.subscribe();
+
     //TODO: Figure out if there is a better way to achieve this
     listViewModel.selectedTodo.addListener((observable, oldValue, newValue) -> {
       if (newValue != null)

@@ -19,4 +19,11 @@ public interface FetchToDoListOutputBoundary
    * @param response The response.
    */
   void handleSuccessfulResponse(FetchedToDoListResponse response);
+
+  /**
+   * Indicates whether the boundary has been detached.
+   *
+   * @return The predicate.
+   */
+  boolean isDetached();
 }

@@ -20,7 +20,6 @@ class CreateToDoPresenterTest
     presenter.handleSuccessfulResponse(new ToDoCreatedResponse("test-identity"));
 
     verify(view, times(1)).clearEditor();
-    verify(view, times(1)).loadToDos();
   }
 
   @Test

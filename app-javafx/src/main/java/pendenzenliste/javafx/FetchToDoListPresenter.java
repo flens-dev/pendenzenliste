@@ -42,7 +42,7 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
   @Override
   public void handleSuccessfulResponse(final FetchedToDoListResponse response)
   {
-    viewModel.todos.setAll(response.todos().stream().map(mapToDTO()).toList());
+    viewModel.todos.setAll(response.todos().stream().map(mapToViewModel()).toList());
   }
 
   /**
@@ -50,7 +50,7 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
    *
    * @return The mapping function.
    */
-  private static Function<ToDoListResponseModel, ToDoListItemViewModel> mapToDTO()
+  private static Function<ToDoListResponseModel, ToDoListItemViewModel> mapToViewModel()
   {
     return todo -> {
       var viewModel = new ToDoListItemViewModel();
@@ -64,5 +64,14 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
 
       return viewModel;
     };
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean isDetached()
+  {
+    return false;
   }
 }

@@ -6,8 +6,8 @@ import pendenzenliste.boundary.in.CompleteToDoRequest;
 import pendenzenliste.boundary.in.CreateToDoRequest;
 import pendenzenliste.boundary.in.DeleteToDoRequest;
 import pendenzenliste.boundary.in.FetchToDoRequest;
-import pendenzenliste.boundary.in.FetchTodoListRequest;
 import pendenzenliste.boundary.in.ResetToDoRequest;
+import pendenzenliste.boundary.in.SubscribeToDoListRequest;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.UpdateToDoRequest;
 
@@ -27,17 +27,7 @@ public class ToDoController
   {
     this.factory = requireNonNull(factory, "The factory may not be null");
   }
-
-  /**
-   * Loads the todos that should be displayed.
-   */
-  public void loadTodos()
-  {
-    final var request = new FetchTodoListRequest();
-
-    factory.list().execute(request);
-  }
-
+  
   /**
    * Loads the displayed todo for editing.
    *
@@ -111,5 +101,15 @@ public class ToDoController
     final var request = new ResetToDoRequest(identity);
 
     factory.reset().execute(request);
+  }
+
+  /**
+   * Subscribes the todo list.
+   */
+  public void subscribe()
+  {
+    final var request = new SubscribeToDoListRequest();
+
+    factory.subscribe().execute(request);
   }
 }

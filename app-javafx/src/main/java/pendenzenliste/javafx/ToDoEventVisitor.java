@@ -17,13 +17,6 @@ public interface ToDoEventVisitor
    *
    * @param event The event.
    */
-  void visit(ListUpdateRequiredEvent event);
-
-  /**
-   * Visits the given event.
-   *
-   * @param event The event.
-   */
   void visit(DeleteRequestedEvent event);
 
   /**

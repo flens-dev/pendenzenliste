@@ -32,7 +32,6 @@ public class CreateToDoPresenter implements CreateToDoOutputBoundary
   public void handleSuccessfulResponse(final ToDoCreatedResponse response)
   {
     editViewModel.publishEvent(new ClearEditorRequestedEvent(LocalDateTime.now()));
-    editViewModel.publishEvent(new ListUpdateRequiredEvent(LocalDateTime.now()));
   }
 
   /**

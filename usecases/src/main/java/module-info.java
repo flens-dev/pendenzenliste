@@ -10,4 +10,6 @@ module pendenzenliste.usecases.main {
 
   provides ToDoInputBoundaryFactoryProvider
       with ToDoUseCaseFactoryProvider;
+
+  requires io.reactivex.rxjava3;
 }

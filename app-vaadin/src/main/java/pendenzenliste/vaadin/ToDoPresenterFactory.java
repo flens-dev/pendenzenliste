@@ -18,7 +18,7 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
   /**
    * Creates a new instance.
    *
-   * @param view      The view that should be updated by the presenters.
+   * @param view The view that should be updated by the presenters.
    */
   public ToDoPresenterFactory(final ToDoView view)
   {

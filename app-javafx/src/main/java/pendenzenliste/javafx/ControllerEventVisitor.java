@@ -48,15 +48,6 @@ public class ControllerEventVisitor implements ToDoEventVisitor
    * {@inheritDoc}
    */
   @Override
-  public void visit(final ListUpdateRequiredEvent event)
-  {
-    controller.loadTodos();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public void visit(final DeleteRequestedEvent event)
   {
     controller.delete(event.identity());

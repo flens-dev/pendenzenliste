@@ -45,8 +45,6 @@ public class ToDoListView extends Scene
     layout.addToMain(table);
     layout.addToDetail(buildEditForm());
 
-    editViewModel.publishEvent(new ListUpdateRequiredEvent(LocalDateTime.now()));
-
     table.addResetListener(todo -> editViewModel.publishEvent(
         new ResetRequestedEvent(LocalDateTime.now(), todo.identity.get())));
 

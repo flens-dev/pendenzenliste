@@ -1,19 +1,14 @@
 package pendenzenliste.usecases;
 
-import java.util.Optional;
-import java.util.function.Function;
-
 import static java.util.Objects.requireNonNull;
+import static pendenzenliste.usecases.ResponseModelMappingUtils.mapToResponseModel;
 
-import pendenzenliste.domain.CompletedTimestampValueObject;
-import pendenzenliste.domain.ToDoEntity;
-import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.boundary.in.FetchToDoListInputBoundary;
 import pendenzenliste.boundary.in.FetchTodoListRequest;
 import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
 import pendenzenliste.boundary.out.FetchToDoListResponse;
 import pendenzenliste.boundary.out.FetchedToDoListResponse;
-import pendenzenliste.boundary.out.ToDoListResponseModel;
+import pendenzenliste.gateway.ToDoGateway;
 
 /**
  * A use case that can be used to fetch a list of todos
@@ -51,18 +46,5 @@ public class FetchToDoListUseCase implements FetchToDoListInputBoundary
   public FetchToDoListResponse executeRequest(final FetchTodoListRequest request)
   {
     return new FetchedToDoListResponse(gateway.fetchAll().map(mapToResponseModel()).toList());
-  }
-
-  /**
-   * Maps the todo to a response model.
-   *
-   * @return The mapping function.
-   */
-  private static Function<ToDoEntity, ToDoListResponseModel> mapToResponseModel()
-  {
-    return v -> new ToDoListResponseModel(v.identity().value(), v.headline().value(),
-        v.description().value(), v.created().value(), v.lastModified().value(),
-        Optional.ofNullable(v.completed()).map(CompletedTimestampValueObject::value).orElse(null),
-        v.state().name(), v.capabilities().stream().map(Enum::name).toList());
   }
 }

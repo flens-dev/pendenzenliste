@@ -13,9 +13,7 @@ import pendenzenliste.boundary.in.CreateToDoRequest;
 import pendenzenliste.boundary.in.DeleteToDoInputBoundary;
 import pendenzenliste.boundary.in.DeleteToDoRequest;
 import pendenzenliste.boundary.in.FetchToDoInputBoundary;
-import pendenzenliste.boundary.in.FetchToDoListInputBoundary;
 import pendenzenliste.boundary.in.FetchToDoRequest;
-import pendenzenliste.boundary.in.FetchTodoListRequest;
 import pendenzenliste.boundary.in.ResetToDoInputBoundary;
 import pendenzenliste.boundary.in.ResetToDoRequest;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
@@ -24,21 +22,6 @@ import pendenzenliste.boundary.in.UpdateToDoRequest;
 
 class ToDoControllerTest
 {
-
-  @Test
-  public void loadTodos()
-  {
-    var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
-    var inputBoundary = mock(FetchToDoListInputBoundary.class);
-    when(inputBoundaryFactory.list()).thenReturn(inputBoundary);
-
-    var controller = new ToDoController(inputBoundaryFactory);
-
-    controller.loadTodos();
-
-    verify(inputBoundary, times(1)).execute(new FetchTodoListRequest());
-  }
-
   @Test
   public void loadForEdit()
   {

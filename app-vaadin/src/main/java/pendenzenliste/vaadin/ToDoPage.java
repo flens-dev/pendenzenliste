@@ -36,7 +36,6 @@ public class ToDoPage extends Composite<Div>
     final var presenter = new ToDoPresenterFactory(view);
     final var controller = new ToDoController(inputBoundaryFactoryProvider.getInstance(presenter));
 
-    view.addLoadListener(controller::loadTodos);
     view.addSaveListener(saveToDo(controller));
     view.addClearListener(l -> viewModel.clearEditor());
 
@@ -46,6 +45,8 @@ public class ToDoPage extends Composite<Div>
     view.addCompleteListener(todo -> controller.complete(todo.identity.get()));
     view.addDeleteListener(todo -> controller.delete(todo.identity.get()));
     view.addResetListener(todo -> controller.reset(todo.identity.get()));
+
+    controller.subscribeToDoList();
 
     getContent().add(view);
   }

@@ -23,7 +23,6 @@ class CreateToDoPresenterTest
     presenter.handleSuccessfulResponse(new ToDoCreatedResponse("some-uid"));
 
     verify(viewModel, times(1)).publishEvent(any(ClearEditorRequestedEvent.class));
-    verify(viewModel, times(1)).publishEvent(any(ListUpdateRequiredEvent.class));
   }
 
   @Test

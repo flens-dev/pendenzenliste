@@ -43,4 +43,13 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
 
     System.exit(0);
   }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean isDetached()
+  {
+    return false;
+  }
 }

@@ -30,7 +30,6 @@ public class UpdateToDoPresenter implements UpdateToDoOutputBoundary
   public void handleSuccessfulResponse(final ToDoUpdatedResponse response)
   {
     view.clearEditor();
-    view.loadToDos();
   }
 
   /**

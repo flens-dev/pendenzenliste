@@ -32,7 +32,6 @@ public class UpdateToDoPresenter implements UpdateToDoOutputBoundary
   public void handleSuccessfulResponse(final ToDoUpdatedResponse response)
   {
     editViewModel.publishEvent(new ClearEditorRequestedEvent(LocalDateTime.now()));
-    editViewModel.publishEvent(new ListUpdateRequiredEvent(LocalDateTime.now()));
   }
 
   /**

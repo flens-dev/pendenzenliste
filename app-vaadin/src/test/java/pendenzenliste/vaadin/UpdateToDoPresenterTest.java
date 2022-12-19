@@ -19,7 +19,6 @@ class UpdateToDoPresenterTest
 
     presenter.handleSuccessfulResponse(new ToDoUpdatedResponse());
 
-    verify(view, times(1)).loadToDos();
     verify(view, times(1)).clearEditor();
   }
 

@@ -34,6 +34,13 @@ public interface ToDoInputBoundaryFactory
   FetchToDoListInputBoundary list();
 
   /**
+   * Creates a new input boundary that can be used to subscribe to a list of todos.
+   *
+   * @return The boundary.
+   */
+  SubscribeToDoListInputBoundary subscribe();
+
+  /**
    * Creates a new input boundary that can be used to delete a ToDo.
    *
    * @return The boundary.

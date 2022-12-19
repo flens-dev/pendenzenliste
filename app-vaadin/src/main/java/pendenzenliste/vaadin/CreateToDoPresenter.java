@@ -30,7 +30,6 @@ public class CreateToDoPresenter implements CreateToDoOutputBoundary
   public void handleSuccessfulResponse(final ToDoCreatedResponse response)
   {
     view.clearEditor();
-    view.loadToDos();
   }
 
   /**

@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Consumer;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.contextmenu.SubMenu;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.GridSortOrder;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.menubar.MenuBarVariant;
 import com.vaadin.flow.function.ValueProvider;
@@ -76,21 +76,9 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
    *
    * @return The provider.
    */
-  private ValueProvider<ToDoListItemViewModel, Span> renderStateBadge()
+  private ValueProvider<ToDoListItemViewModel, Component> renderStateBadge()
   {
-    return l -> {
-      final Span badge = new Span(l.state.get());
-
-      if ("DONE".equals(l.state.get()))
-      {
-        badge.getElement().getThemeList().add("badge success");
-      } else
-      {
-        badge.getElement().getThemeList().add("badge");
-      }
-
-      return badge;
-    };
+    return l -> new StatusBadgeWidget(l.state.get());
   }
 
   /**

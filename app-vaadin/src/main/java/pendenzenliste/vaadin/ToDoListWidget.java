@@ -46,9 +46,12 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
   {
     final var todoList = super.initContent();
 
-    todoList.addColumn(todo -> todo.headline.get()).setHeader("Headline").setSortable(true);
+    todoList.addComponentColumn(renderStateBadge()).setHeader("State")
+        .setFlexGrow(0);
 
-    todoList.addComponentColumn(renderStateBadge()).setHeader("State");
+    todoList.addColumn(todo -> todo.headline.get()).setHeader("Headline")
+        .setFlexGrow(1)
+        .setSortable(true);
 
     todoList.addColumn(todo -> todo.created.get().format(DATE_TIME_FORMAT)).setHeader("Created")
         .setSortable(true);

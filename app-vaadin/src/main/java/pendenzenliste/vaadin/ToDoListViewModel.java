@@ -18,4 +18,14 @@ public class ToDoListViewModel
   public final StringBindingProperty description = new StringBindingProperty();
 
   public final StringBindingProperty errorMessage = new StringBindingProperty();
+
+  /**
+   * Clears the editor input values.
+   */
+  public void clearEditor()
+  {
+    identity.set(null);
+    headline.clear();
+    description.clear();
+  }
 }

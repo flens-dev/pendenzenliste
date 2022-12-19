@@ -1,7 +1,8 @@
 package pendenzenliste.vaadin;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
+import java.util.function.Consumer;
 
 import static java.util.Objects.requireNonNull;
 
@@ -12,35 +13,28 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
 
 /**
  * A view that can be used to display a list of todos and interact with them.
  */
-@PageTitle("Pendenzenliste")
-@Route("")
 public class ToDoView extends Div
 {
-  private final ToDoListViewModel toDoListViewModel = new ToDoListViewModel();
+  private final Collection<Runnable> loadListeners = new ArrayList<>();
 
-  private final ToDoController controller;
+  private final ToDoListViewModel toDoListViewModel;
+
+  private final ToDoEditorWidget editor = new ToDoEditorWidget();
+
+  private final ToDoListWidget todoList = new ToDoListWidget();
 
   /**
    * Creates a new instance.
-   *
-   * @param inputBoundaryFactoryProvider The input boundary factory provider.
    */
-  public ToDoView(@Autowired final ToDoInputBoundaryFactoryProvider inputBoundaryFactoryProvider)
+  public ToDoView(final ToDoListViewModel viewModel)
   {
     super();
 
-    //TODO: The view should not have access to the controller
-    this.controller = new ToDoController(requireNonNull(inputBoundaryFactoryProvider,
-        "The input boundary factory provider may not be null").getInstance(
-        new ToDoPresenterFactory(this)));
+    this.toDoListViewModel = requireNonNull(viewModel, "The view model may not be null");
 
     final var container = new Div();
 
@@ -52,21 +46,7 @@ public class ToDoView extends Div
 
     mainContainer.getStyle().set("padding", "var(--lumo-space-m)");
 
-    final var todoList = new ToDoListWidget();
-
-    todoList.addEditListener(l -> Optional.ofNullable(l).map(todo -> todo.identity.get())
-        .ifPresent(controller::loadForEdit));
-
-    todoList.addCompleteListener(l -> controller.complete(l.identity.get()));
-    todoList.addDeleteListener(l -> controller.delete(l.identity.get()));
-    todoList.addResetListener(l -> controller.reset(l.identity.get()));
-
     mainContainer.add(todoList);
-
-    final var editor = new ToDoEditorWidget();
-
-    editor.addSaveListener(saveToDo());
-    editor.addClearListener(l -> clearEditor());
 
     toDoListViewModel.todos.bind(todoList::setItems);
     toDoListViewModel.headline.bindTwoWay(editor.getHeadlineField());
@@ -81,30 +61,11 @@ public class ToDoView extends Div
   }
 
   /**
-   * Saves the todo.
-   *
-   * @return The listener.
-   */
-  private ComponentEventListener<ClickEvent<Button>> saveToDo()
-  {
-    return l -> {
-      if (toDoListViewModel.identity.isEmpty())
-      {
-        controller.create(toDoListViewModel.headline.get(), toDoListViewModel.description.get());
-      } else
-      {
-        controller.update(toDoListViewModel.identity.get(), toDoListViewModel.headline.get(),
-            toDoListViewModel.description.get());
-      }
-    };
-  }
-
-  /**
    * Loads the todos.
    */
   public void loadToDos()
   {
-    controller.loadTodos();
+    loadListeners.forEach(Runnable::run);
   }
 
   /**
@@ -138,6 +99,7 @@ public class ToDoView extends Div
     if (message != null && !message.isEmpty())
     {
       Notification.show(message).addThemeVariants(NotificationVariant.LUMO_ERROR);
+      toDoListViewModel.errorMessage.clear();
     }
   }
 
@@ -164,8 +126,76 @@ public class ToDoView extends Div
    */
   public void clearEditor()
   {
-    toDoListViewModel.identity.set(null);
-    toDoListViewModel.headline.set("");
-    toDoListViewModel.description.set("");
+    toDoListViewModel.clearEditor();
+  }
+
+  /**
+   * Adds an edit listener.
+   *
+   * @param listener The listener.
+   */
+  public void addEditListener(final Consumer<ToDoListItemViewModel> listener)
+  {
+    todoList.addEditListener(listener);
+  }
+
+  /**
+   * Adds a complete listener.
+   *
+   * @param listener The listener.
+   */
+  public void addCompleteListener(final Consumer<ToDoListItemViewModel> listener)
+  {
+    todoList.addCompleteListener(listener);
+  }
+
+  /**
+   * Adds a delete listener.
+   *
+   * @param listener The listener.
+   */
+  public void addDeleteListener(final Consumer<ToDoListItemViewModel> listener)
+  {
+    todoList.addDeleteListener(listener);
+  }
+
+  /**
+   * Adds a reset listener.
+   *
+   * @param listener The listener.
+   */
+  public void addResetListener(final Consumer<ToDoListItemViewModel> listener)
+  {
+    todoList.addResetListener(listener);
+  }
+
+  /**
+   * Adds a save listener.
+   *
+   * @param listener The listener.
+   */
+  public void addSaveListener(final ComponentEventListener<ClickEvent<Button>> listener)
+  {
+    editor.addSaveListener(listener);
+  }
+
+  /**
+   * Adds a clear listener.
+   *
+   * @param listener The listener.
+   */
+  public void addClearListener(final ComponentEventListener<ClickEvent<Button>> listener)
+  {
+    editor.addClearListener(listener);
+  }
+
+  /**
+   * Adds a load listener.
+   *
+   * @param listener The listener.
+   */
+  public void addLoadListener(final Runnable listener)
+  {
+    loadListeners.add(listener);
   }
 }

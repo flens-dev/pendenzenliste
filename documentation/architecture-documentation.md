@@ -264,16 +264,18 @@ The `Response` will then be used to update the `OutputBoundary`.
 
 An `OutputBoundary` defines a public interface for objects that handle the responses of the applications `UseCase`s.
 
+## Page
+
+A `Page` is an application specific wrapper for a view that is used to register handlers and do some general wiring for
+the view.
+This pattern can be used in the context of a framework that has no other means to register those resources, but should
+only allow sane dependencies.
+
 ## Presenter
 
 A `Presenter` is an application specific implementation of an `OutputBoundary`.
 The `Presenter` modifies the `ViewModel`, which is bound to a `View`, so the `Presenter` indirectly modifies the data
 displayed by the `View`.
-
-## UseCase
-
-A `UseCase` implements an `InputBoundary` and encapsulates the interactions required to fulfill some kind of goal within
-the application.
 
 ## Request
 
@@ -298,6 +300,11 @@ The `Response` may only contain native datatypes, such as strings, integers, etc
 A `ResponseModel` is a technology-agnostic model that may be contained in a `Response`.
 
 The `ResponseModel` may represent some kind of `Entity` without exposing the actual data types of the domain module.
+
+## UseCase
+
+A `UseCase` implements an `InputBoundary` and encapsulates the interactions required to fulfill some kind of goal within
+the application.
 
 ## ValueObject
 

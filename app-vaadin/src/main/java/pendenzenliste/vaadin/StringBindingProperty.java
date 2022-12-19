@@ -32,4 +32,13 @@ public class StringBindingProperty extends BindingProperty<String>
   {
     return isNull() || get().isEmpty();
   }
+
+  /**
+   * Clears the current value of the property.
+   * The property will be set to an empty string afterwards.
+   */
+  public void clear()
+  {
+    set("");
+  }
 }

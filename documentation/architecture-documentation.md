@@ -84,6 +84,26 @@ O = Optional requirement
 
 ## Technical Context
 
+**\<Diagram or Table\>**
+
+**\<optionally: Explanation of technical interfaces\>**
+
+**\<Mapping Input/Output to Channels\>**
+
+# Solution Strategy {#section-solution-strategy}
+
+# Building Block View {#section-building-block-view}
+
+## Whitebox Overall System
+
+![Whitebox System](diagrams/whitebox-system.drawio.png)
+
+Motivation
+
+:   *\<text explanation\>*
+
+Contained Building Blocks
+
 | Component          | Description                                                                                           |
 |--------------------|-------------------------------------------------------------------------------------------------------|
 | app-cli            | Provides the end user access to the pendenzenliste through a cli                                      |
@@ -96,28 +116,6 @@ O = Optional requirement
 | gateway-inmemory   | An implementation of the gateway API that stores the todos in an in-memory storage                    |
 | gateway-redis      | An implementation of the gateway API that stores the todos in a redis instance                        |
 | usecases           | An implementation of the apps input boundaries that represent the actual use cases of the application |
-
-**\<Diagram or Table\>**
-
-**\<optionally: Explanation of technical interfaces\>**
-
-**\<Mapping Input/Output to Channels\>**
-
-# Solution Strategy {#section-solution-strategy}
-
-# Building Block View {#section-building-block-view}
-
-## Whitebox Overall System {#_whitebox_overall_system}
-
-***\<Overview Diagram\>***
-
-Motivation
-
-:   *\<text explanation\>*
-
-Contained Building Blocks
-
-:   *\<Description of contained building block (black boxes)\>*
 
 Important Interfaces
 

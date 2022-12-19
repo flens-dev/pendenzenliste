@@ -5,6 +5,8 @@ configure(subprojects.findAll()) {
     apply plugin: 'java'
     apply plugin: 'idea'
 
+    apply plugin: 'jacoco'
+
     repositories {
         mavenCentral()
     }
@@ -32,6 +34,20 @@ configure(subprojects.findAll()) {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
             vendor.set(JvmVendorSpec.ADOPTIUM)
+        }
+    }
+
+    tasks.test {
+        finalizedBy(tasks.jacocoTestReport)
+    }
+    tasks.jacocoTestReport {
+        dependsOn(tasks.test)
+    }
+
+    jacocoTestReport {
+        reports {
+            xml.required = false
+            csv.required = false
         }
     }
 }

@@ -52,6 +52,7 @@ public class ToDoEditorWidget extends Composite<Div>
     editorLayout.getStyle().set("display", "flex");
     editorLayout.getStyle().set("flex-direction", "column");
     editorLayout.getStyle().set("padding", "var(--lumo-space-m)");
+    editorLayout.getStyle().set("height", "calc(100% - 2 * var(--lumo-space-m)");
 
     headlineField.setWidthFull();
     descriptionField.setWidthFull();

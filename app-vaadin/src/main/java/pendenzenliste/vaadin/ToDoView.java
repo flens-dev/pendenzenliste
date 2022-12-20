@@ -6,18 +6,24 @@ import static java.util.Objects.requireNonNull;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.DetachEvent;
+import com.vaadin.flow.component.HasComponents;
+import com.vaadin.flow.component.HasSize;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 
 /**
  * A view that can be used to display a list of todos and interact with them.
  */
-public class ToDoView extends Div
+@JsModule("./src/todo-view.ts")
+@Tag("todo-view")
+public class ToDoView extends Component implements HasSize, HasComponents
 {
   private final ToDoListViewModel viewModel;
 
@@ -34,18 +40,6 @@ public class ToDoView extends Div
 
     this.viewModel = requireNonNull(viewModel, "The view model may not be null");
 
-    final var container = new Div();
-
-    container.setHeightFull();
-    container.getStyle().set("display", "grid");
-    container.getStyle().set("grid-template-columns", "2fr 1fr");
-
-    final var mainContainer = new Div();
-
-    mainContainer.getStyle().set("padding", "var(--lumo-space-m)");
-
-    mainContainer.add(todoList);
-
     final var ui = UI.getCurrent();
 
     this.viewModel.todos.bind(items -> ui.access(() -> todoList.setItems(items)));
@@ -53,9 +47,10 @@ public class ToDoView extends Div
     this.viewModel.description.bindTwoWay(editor.getDescriptionField());
     this.viewModel.errorMessage.bind(this::showGenericErrorMessage);
 
-    container.add(mainContainer, editor);
+    editor.getElement().setProperty("slot", "editor");
+    todoList.getElement().setProperty("slot", "list");
 
-    add(container);
+    add(todoList, editor);
 
     setHeightFull();
   }

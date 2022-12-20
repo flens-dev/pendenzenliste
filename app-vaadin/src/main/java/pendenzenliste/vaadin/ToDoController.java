@@ -103,6 +103,9 @@ public class ToDoController
     factory.reset().execute(request);
   }
 
+  /**
+   * Subscribes to the todo list.
+   */
   public void subscribeToDoList()
   {
     final var request = new SubscribeToDoListRequest();

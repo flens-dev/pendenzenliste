@@ -16,6 +16,8 @@ import pendenzenliste.boundary.in.FetchToDoInputBoundary;
 import pendenzenliste.boundary.in.FetchToDoRequest;
 import pendenzenliste.boundary.in.ResetToDoInputBoundary;
 import pendenzenliste.boundary.in.ResetToDoRequest;
+import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
+import pendenzenliste.boundary.in.SubscribeToDoListRequest;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
 import pendenzenliste.boundary.in.UpdateToDoRequest;
@@ -157,5 +159,19 @@ class ToDoControllerTest
     verify(inputBoundary, times(1))
         .execute(new UpdateToDoRequest(
             "test-identity", "test-headline", "test-description"));
+  }
+
+  @Test
+  public void subscribeToDoList()
+  {
+    var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
+    var inputBoundary = mock(SubscribeToDoListInputBoundary.class);
+    when(inputBoundaryFactory.subscribe()).thenReturn(inputBoundary);
+
+    var controller = new ToDoController(inputBoundaryFactory);
+
+    controller.subscribeToDoList();
+
+    verify(inputBoundary, times(1)).execute(new SubscribeToDoListRequest());
   }
 }

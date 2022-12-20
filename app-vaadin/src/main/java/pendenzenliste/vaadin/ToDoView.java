@@ -75,14 +75,6 @@ public class ToDoView extends Div
   }
 
   /**
-   * Clears the editor.
-   */
-  public void clearEditor()
-  {
-    viewModel.clearEditor();
-  }
-
-  /**
    * Adds an edit listener.
    *
    * @param listener The listener.

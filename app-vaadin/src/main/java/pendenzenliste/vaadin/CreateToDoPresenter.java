@@ -11,16 +11,16 @@ import pendenzenliste.boundary.out.ToDoCreationFailedResponse;
  */
 public class CreateToDoPresenter implements CreateToDoOutputBoundary
 {
-  private final ToDoView view;
+  private final ToDoListViewModel viewModel;
 
   /**
    * Creates a new instance.
    *
-   * @param view The view that should be used by this instance.
+   * @param viewModel The view model that should be used by this instance.
    */
-  public CreateToDoPresenter(final ToDoView view)
+  public CreateToDoPresenter(final ToDoListViewModel viewModel)
   {
-    this.view = requireNonNull(view, "The view may not be null");
+    this.viewModel = requireNonNull(viewModel, "The view model may not be null");
   }
 
   /**
@@ -29,7 +29,7 @@ public class CreateToDoPresenter implements CreateToDoOutputBoundary
   @Override
   public void handleSuccessfulResponse(final ToDoCreatedResponse response)
   {
-    view.clearEditor();
+    viewModel.clearEditor();
   }
 
   /**
@@ -38,6 +38,6 @@ public class CreateToDoPresenter implements CreateToDoOutputBoundary
   @Override
   public void handleFailedResponse(final ToDoCreationFailedResponse response)
   {
-    view.showGenericErrorMessage(response.reason());
+    viewModel.errorMessage.set(response.reason());
   }
 }

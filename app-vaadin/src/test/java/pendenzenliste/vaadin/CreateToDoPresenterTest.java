@@ -1,9 +1,8 @@
 package pendenzenliste.vaadin;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import pendenzenliste.boundary.out.ToDoCreatedResponse;
 import pendenzenliste.boundary.out.ToDoCreationFailedResponse;
@@ -14,22 +13,32 @@ class CreateToDoPresenterTest
   @Test
   public void handleSuccessfulResponse()
   {
-    final var view = mock(ToDoView.class);
-    final var presenter = new CreateToDoPresenter(view);
+    final var viewModel = new ToDoListViewModel();
+    final var presenter = new CreateToDoPresenter(viewModel);
+
+    viewModel.identity.set("test-identity");
+    viewModel.headline.set("test-headline");
+    viewModel.description.set("test-description");
 
     presenter.handleSuccessfulResponse(new ToDoCreatedResponse("test-identity"));
 
-    verify(view, times(1)).clearEditor();
+    final var assertions = new SoftAssertions();
+
+    assertions.assertThat(viewModel.identity.get()).isNull();
+    assertions.assertThat(viewModel.headline.get()).isEmpty();
+    assertions.assertThat(viewModel.description.get()).isEmpty();
+
+    assertions.assertAll();
   }
 
   @Test
   public void handleFailedResponse()
   {
-    final var view = mock(ToDoView.class);
-    final var presenter = new CreateToDoPresenter(view);
+    final var viewModel = new ToDoListViewModel();
+    final var presenter = new CreateToDoPresenter(viewModel);
 
     presenter.handleFailedResponse(new ToDoCreationFailedResponse("Something bad happened"));
 
-    verify(view, times(1)).showGenericErrorMessage("Something bad happened");
+    assertThat(viewModel.errorMessage.get()).isEqualTo("Something bad happened");
   }
 }

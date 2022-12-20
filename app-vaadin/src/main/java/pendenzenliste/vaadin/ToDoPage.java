@@ -33,7 +33,7 @@ public class ToDoPage extends Composite<Div>
 
     final var view = new ToDoView(viewModel);
     //TODO: The presenter should not know the view, but instead should know the view model
-    final var presenter = new ToDoPresenterFactory(view);
+    final var presenter = new ToDoPresenterFactory(view, viewModel);
     final var controller = new ToDoController(inputBoundaryFactoryProvider.getInstance(presenter));
 
     view.addSaveListener(saveToDo(controller));

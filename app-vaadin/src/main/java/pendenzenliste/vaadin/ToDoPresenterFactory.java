@@ -13,19 +13,15 @@ import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
  */
 public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
 {
-  private final ToDoView view;
   private final ToDoListViewModel viewModel;
 
   /**
    * Creates a new instance.
    *
-   * @param view      The view that should be updated by the presenters.
-   * @param viewModel
+   * @param viewModel The view model that should be used by the presenters.
    */
-  public ToDoPresenterFactory(final ToDoView view,
-                              final ToDoListViewModel viewModel)
+  public ToDoPresenterFactory(final ToDoListViewModel viewModel)
   {
-    this.view = requireNonNull(view, "The view may not be null");
     this.viewModel = requireNonNull(viewModel, "The view model may not be null");
   }
 
@@ -44,7 +40,7 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
   @Override
   public FetchToDoListOutputBoundary list()
   {
-    return new FetchToDoListPresenter(view, viewModel);
+    return new FetchToDoListPresenter(viewModel);
   }
 
   /**

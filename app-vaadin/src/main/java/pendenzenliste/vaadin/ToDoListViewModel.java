@@ -19,6 +19,8 @@ public class ToDoListViewModel
 
   public final StringBindingProperty errorMessage = new StringBindingProperty();
 
+  public final BooleanBindingProperty detached = new BooleanBindingProperty();
+
   /**
    * Clears the editor input values.
    */

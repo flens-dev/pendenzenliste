@@ -4,8 +4,10 @@ import java.util.function.Consumer;
 
 import static java.util.Objects.requireNonNull;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
@@ -17,7 +19,7 @@ import com.vaadin.flow.component.notification.NotificationVariant;
  */
 public class ToDoView extends Div
 {
-  private final ToDoListViewModel toDoListViewModel;
+  private final ToDoListViewModel viewModel;
 
   private final ToDoEditorWidget editor = new ToDoEditorWidget();
 
@@ -30,7 +32,7 @@ public class ToDoView extends Div
   {
     super();
 
-    this.toDoListViewModel = requireNonNull(viewModel, "The view model may not be null");
+    this.viewModel = requireNonNull(viewModel, "The view model may not be null");
 
     final var container = new Div();
 
@@ -46,10 +48,10 @@ public class ToDoView extends Div
 
     final var ui = UI.getCurrent();
 
-    toDoListViewModel.todos.bind(items -> ui.access(() -> todoList.setItems(items)));
-    toDoListViewModel.headline.bindTwoWay(editor.getHeadlineField());
-    toDoListViewModel.description.bindTwoWay(editor.getDescriptionField());
-    toDoListViewModel.errorMessage.bind(this::showGenericErrorMessage);
+    this.viewModel.todos.bind(items -> ui.access(() -> todoList.setItems(items)));
+    this.viewModel.headline.bindTwoWay(editor.getHeadlineField());
+    this.viewModel.description.bindTwoWay(editor.getDescriptionField());
+    this.viewModel.errorMessage.bind(this::showGenericErrorMessage);
 
     container.add(mainContainer, editor);
 
@@ -68,7 +70,7 @@ public class ToDoView extends Div
     if (message != null && !message.isEmpty())
     {
       Notification.show(message).addThemeVariants(NotificationVariant.LUMO_ERROR);
-      toDoListViewModel.errorMessage.clear();
+      viewModel.errorMessage.clear();
     }
   }
 
@@ -77,7 +79,7 @@ public class ToDoView extends Div
    */
   public void clearEditor()
   {
-    toDoListViewModel.clearEditor();
+    viewModel.clearEditor();
   }
 
   /**
@@ -138,5 +140,27 @@ public class ToDoView extends Div
   public void addClearListener(final ComponentEventListener<ClickEvent<Button>> listener)
   {
     editor.addClearListener(listener);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected void onAttach(final AttachEvent attachEvent)
+  {
+    super.onAttach(attachEvent);
+
+    viewModel.detached.set(Boolean.FALSE);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  protected void onDetach(final DetachEvent detachEvent)
+  {
+    super.onDetach(detachEvent);
+
+    viewModel.detached.set(Boolean.TRUE);
   }
 }

@@ -1,6 +1,5 @@
 package pendenzenliste.vaadin;
 
-import java.util.Collection;
 import java.util.function.Consumer;
 
 import static java.util.Objects.requireNonNull;
@@ -24,8 +23,6 @@ public class ToDoView extends Div
 
   private final ToDoListWidget todoList = new ToDoListWidget();
 
-  private final UI ui;
-
   /**
    * Creates a new instance.
    */
@@ -47,9 +44,9 @@ public class ToDoView extends Div
 
     mainContainer.add(todoList);
 
-    ui = UI.getCurrent();
+    final var ui = UI.getCurrent();
 
-    toDoListViewModel.todos.bind(todoList::setItems);
+    toDoListViewModel.todos.bind(items -> ui.access(() -> todoList.setItems(items)));
     toDoListViewModel.headline.bindTwoWay(editor.getHeadlineField());
     toDoListViewModel.description.bindTwoWay(editor.getDescriptionField());
     toDoListViewModel.errorMessage.bind(this::showGenericErrorMessage);
@@ -59,16 +56,6 @@ public class ToDoView extends Div
     add(container);
 
     setHeightFull();
-  }
-
-  /**
-   * Sets the todos.
-   *
-   * @param todos The todos.
-   */
-  public void setToDos(final Collection<ToDoListItemViewModel> todos)
-  {
-    ui.access(() -> toDoListViewModel.todos.set(todos));
   }
 
   /**
@@ -82,24 +69,6 @@ public class ToDoView extends Div
     {
       Notification.show(message).addThemeVariants(NotificationVariant.LUMO_ERROR);
       toDoListViewModel.errorMessage.clear();
-    }
-  }
-
-  /**
-   * Sets the selected todo.
-   *
-   * @param viewModel The view model.
-   */
-  public void setSelectedToDo(final ToDoViewModel viewModel)
-  {
-    if (viewModel == null)
-    {
-      clearEditor();
-    } else
-    {
-      toDoListViewModel.identity.set(viewModel.identity());
-      toDoListViewModel.headline.set(viewModel.headline());
-      toDoListViewModel.description.set(viewModel.description());
     }
   }
 

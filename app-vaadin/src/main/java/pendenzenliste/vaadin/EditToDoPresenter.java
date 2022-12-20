@@ -11,16 +11,16 @@ import pendenzenliste.boundary.out.ToDoFetchedResponse;
  */
 public class EditToDoPresenter implements FetchToDoOutputBoundary
 {
-  private final ToDoView view;
+  private final ToDoListViewModel viewModel;
 
   /**
    * Creates a new instance.
    *
-   * @param view The view that should be used by this instance.
+   * @param viewModel The view model that should be used by this instance.
    */
-  public EditToDoPresenter(final ToDoView view)
+  public EditToDoPresenter(final ToDoListViewModel viewModel)
   {
-    this.view = requireNonNull(view, "The view may not be null");
+    this.viewModel = requireNonNull(viewModel, "The view model may not be null");
   }
 
   /**
@@ -29,7 +29,7 @@ public class EditToDoPresenter implements FetchToDoOutputBoundary
   @Override
   public void handleFailedResponse(final FetchToDoFailedResponse response)
   {
-    view.showGenericErrorMessage(response.reason());
+    viewModel.errorMessage.set(response.reason());
   }
 
   /**
@@ -38,10 +38,8 @@ public class EditToDoPresenter implements FetchToDoOutputBoundary
   @Override
   public void handleSuccessfulResponse(final ToDoFetchedResponse response)
   {
-    view.setSelectedToDo(new ToDoViewModel(
-        response.identity(),
-        response.headline(),
-        response.description()
-    ));
+    viewModel.identity.set(response.identity());
+    viewModel.headline.set(response.headline());
+    viewModel.description.set(response.description());
   }
 }

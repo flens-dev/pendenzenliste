@@ -53,7 +53,7 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
   @Override
   public FetchToDoOutputBoundary fetch()
   {
-    return new EditToDoPresenter(view);
+    return new EditToDoPresenter(viewModel);
   }
 
   /**

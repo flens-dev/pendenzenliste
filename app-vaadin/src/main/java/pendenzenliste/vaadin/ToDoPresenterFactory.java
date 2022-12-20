@@ -44,7 +44,7 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
   @Override
   public FetchToDoListOutputBoundary list()
   {
-    return new FetchToDoListPresenter(view);
+    return new FetchToDoListPresenter(view, viewModel);
   }
 
   /**

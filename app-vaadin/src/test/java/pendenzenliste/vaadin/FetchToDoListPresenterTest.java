@@ -3,10 +3,8 @@ package pendenzenliste.vaadin;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import pendenzenliste.boundary.out.FetchToDoListFailedResponse;
@@ -20,19 +18,21 @@ class FetchToDoListPresenterTest
   public void handleFailedResponse()
   {
     final var view = mock(ToDoView.class);
-    final var presenter = new FetchToDoListPresenter(view);
+    final var viewModel = new ToDoListViewModel();
+    final var presenter = new FetchToDoListPresenter(view, viewModel);
 
     presenter.handleFailedResponse(
         new FetchToDoListFailedResponse("Something bad happened"));
 
-    verify(view, times(1)).showGenericErrorMessage("Something bad happened");
+    assertThat(viewModel.errorMessage.get()).isEqualTo("Something bad happened");
   }
 
   @Test
   public void handleSuccessfulResponse()
   {
     final var view = mock(ToDoView.class);
-    final var presenter = new FetchToDoListPresenter(view);
+    final var viewModel = new ToDoListViewModel();
+    final var presenter = new FetchToDoListPresenter(view, viewModel);
 
     final var createdTimestamp = LocalDateTime.now().minusMinutes(5);
     final var lastModifiedTimestamp = LocalDateTime.now().minusMinutes(3);
@@ -51,6 +51,6 @@ class FetchToDoListPresenterTest
         ))
     ));
 
-    verify(view, times(1)).setToDos(any());
+    assertThat(viewModel.todos.get()).hasSize(1);
   }
 }

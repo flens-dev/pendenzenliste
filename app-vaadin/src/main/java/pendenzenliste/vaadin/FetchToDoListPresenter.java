@@ -13,15 +13,18 @@ import pendenzenliste.boundary.out.FetchedToDoListResponse;
 public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
 {
   private final ToDoView view;
+  private final ToDoListViewModel viewModel;
 
   /**
    * Creates a new instance.
    *
    * @param view The view that should be used by this instance.
    */
-  public FetchToDoListPresenter(final ToDoView view)
+  public FetchToDoListPresenter(final ToDoView view,
+                                final ToDoListViewModel viewModel)
   {
     this.view = requireNonNull(view, "The view may not be null");
+    this.viewModel = requireNonNull(viewModel, "The view model may not be null");
   }
 
   /**
@@ -30,7 +33,7 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
   @Override
   public void handleFailedResponse(final FetchToDoListFailedResponse response)
   {
-    view.showGenericErrorMessage(response.reason());
+    viewModel.errorMessage.set(response.reason());
   }
 
   /**
@@ -39,7 +42,7 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
   @Override
   public void handleSuccessfulResponse(final FetchedToDoListResponse response)
   {
-    view.setToDos(response.todos().stream().map(mapToViewModel()).toList());
+    viewModel.todos.set(response.todos().stream().map(mapToViewModel()).toList());
   }
 
   /**
@@ -48,6 +51,7 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
   @Override
   public boolean isDetached()
   {
+    //TODO: Find a better way to achieve this without passing the view
     return !view.isAttached();
   }
 }

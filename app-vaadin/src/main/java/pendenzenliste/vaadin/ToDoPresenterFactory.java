@@ -62,6 +62,6 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory
   @Override
   public UpdateToDoOutputBoundary update()
   {
-    return new UpdateToDoPresenter(view);
+    return new UpdateToDoPresenter(viewModel);
   }
 }

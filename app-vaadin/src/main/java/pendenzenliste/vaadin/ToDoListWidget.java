@@ -78,7 +78,7 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
    */
   private ValueProvider<ToDoListItemViewModel, Component> renderStateBadge()
   {
-    return l -> new StatusBadgeWidget(l.state.get());
+    return l -> new StateBadgeWidget(l.state.get());
   }
 
   /**

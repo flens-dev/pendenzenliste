@@ -2,10 +2,7 @@ package pendenzenliste.vaadin;
 
 import java.util.Optional;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -35,7 +32,8 @@ public class ToDoPage extends Composite<Div>
     final var presenter = new ToDoPresenterFactory(viewModel);
     final var controller = new ToDoController(inputBoundaryFactoryProvider.getInstance(presenter));
 
-    view.addSaveListener(saveToDo(controller));
+    view.addSaveListener(l -> controller.save(
+        viewModel.identity.get(), viewModel.headline.get(), viewModel.description.get()));
     view.addClearListener(l -> viewModel.clearEditor());
 
     view.addEditListener(todo -> Optional.ofNullable(todo).map(t -> t.identity.get())
@@ -48,25 +46,5 @@ public class ToDoPage extends Composite<Div>
     controller.subscribeToDoList();
 
     getContent().add(view);
-  }
-
-  /**
-   * The controller that should be used.
-   *
-   * @param controller The controller.
-   * @return The listener.
-   */
-  private ComponentEventListener<ClickEvent<Button>> saveToDo(final ToDoController controller)
-  {
-    return l -> {
-      if (viewModel.identity.isEmpty())
-      {
-        controller.create(viewModel.headline.get(), viewModel.description.get());
-      } else
-      {
-        controller.update(viewModel.identity.get(), viewModel.headline.get(),
-            viewModel.description.get());
-      }
-    };
   }
 }

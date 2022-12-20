@@ -109,4 +109,22 @@ public class ToDoController
 
     factory.subscribe().execute(request);
   }
+
+  /**
+   * Saves the given data.
+   *
+   * @param identity    The identity.
+   * @param headline    The headline.
+   * @param description The description.
+   */
+  public void save(final String identity, final String headline, final String description)
+  {
+    if (identity == null || identity.isEmpty())
+    {
+      create(headline, description);
+    } else
+    {
+      update(identity, headline, description);
+    }
+  }
 }

@@ -112,4 +112,50 @@ class ToDoControllerTest
     verify(inputBoundary, times(1))
         .execute(new ResetToDoRequest("test-identity"));
   }
+
+  @Test
+  public void save_nullIdentity()
+  {
+    var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
+    var inputBoundary = mock(CreateToDoInputBoundary.class);
+    when(inputBoundaryFactory.create()).thenReturn(inputBoundary);
+
+    var controller = new ToDoController(inputBoundaryFactory);
+
+    controller.save(null, "test-headline", "test-description");
+
+    verify(inputBoundary, times(1))
+        .execute(new CreateToDoRequest("test-headline", "test-description"));
+  }
+
+  @Test
+  public void save_emptyIdentity()
+  {
+    var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
+    var inputBoundary = mock(CreateToDoInputBoundary.class);
+    when(inputBoundaryFactory.create()).thenReturn(inputBoundary);
+
+    var controller = new ToDoController(inputBoundaryFactory);
+
+    controller.save("", "test-headline", "test-description");
+
+    verify(inputBoundary, times(1))
+        .execute(new CreateToDoRequest("test-headline", "test-description"));
+  }
+
+  @Test
+  public void save_presentIdentity()
+  {
+    var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
+    var inputBoundary = mock(UpdateToDoInputBoundary.class);
+    when(inputBoundaryFactory.update()).thenReturn(inputBoundary);
+
+    var controller = new ToDoController(inputBoundaryFactory);
+
+    controller.save("test-identity", "test-headline", "test-description");
+
+    verify(inputBoundary, times(1))
+        .execute(new UpdateToDoRequest(
+            "test-identity", "test-headline", "test-description"));
+  }
 }

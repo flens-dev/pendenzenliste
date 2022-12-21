@@ -2,15 +2,15 @@ package pendenzenliste.usecases;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoCapability;
-import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.boundary.in.CompleteToDoInputBoundary;
 import pendenzenliste.boundary.in.CompleteToDoRequest;
 import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
+import pendenzenliste.domain.IdentityValueObject;
+import pendenzenliste.domain.ToDoCapabilityValueObject;
+import pendenzenliste.gateway.ToDoGateway;
 
 /**
  * A use case that can be used to complete a ToDo.
@@ -60,7 +60,7 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary
         return new ToDoUpdateFailedResponse("The ToDo does not exist");
       }
 
-      if (todo.get().doesNotHave(ToDoCapability.COMPLETE))
+      if (todo.get().doesNotHave(ToDoCapabilityValueObject.COMPLETE))
       {
         return new ToDoUpdateFailedResponse("The ToDo cannot be completed in its current state");
       }

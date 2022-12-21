@@ -2,15 +2,15 @@ package pendenzenliste.usecases;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoCapability;
-import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.boundary.in.ResetToDoInputBoundary;
 import pendenzenliste.boundary.in.ResetToDoRequest;
 import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
+import pendenzenliste.domain.IdentityValueObject;
+import pendenzenliste.domain.ToDoCapabilityValueObject;
+import pendenzenliste.gateway.ToDoGateway;
 
 /**
  * A use case that can be used to reset a closed ToDo.
@@ -59,7 +59,7 @@ public class ResetToDoUseCase implements ResetToDoInputBoundary
         return new ToDoUpdateFailedResponse("The ToDo does not exist");
       }
 
-      if (todo.get().doesNotHave(ToDoCapability.RESET))
+      if (todo.get().doesNotHave(ToDoCapabilityValueObject.RESET))
       {
         return new ToDoUpdateFailedResponse("The ToDo cannot be reset in its current state");
       }

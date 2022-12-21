@@ -19,7 +19,7 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
                          DescriptionValueObject description, CreatedTimestampValueObject created,
                          LastModifiedTimestampValueObject lastModified,
                          CompletedTimestampValueObject completed, ToDoState state)
-    implements Entity<IdentityValueObject>, HasCapabilities<ToDoCapability>, Serializable
+    implements Entity<IdentityValueObject>, HasCapabilities<ToDoCapabilityValueObject>, Serializable
 {
   /**
    * Completes the todo.
@@ -35,20 +35,20 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
    * {@inheritDoc}
    */
   @Override
-  public Collection<ToDoCapability> capabilities()
+  public Collection<ToDoCapabilityValueObject> capabilities()
   {
-    final Collection<ToDoCapability> capabilities = new ArrayList<>();
+    final Collection<ToDoCapabilityValueObject> capabilities = new ArrayList<>();
 
     if (ToDoState.OPEN.equals(state))
     {
-      capabilities.add(ToDoCapability.COMPLETE);
-      capabilities.add(ToDoCapability.UPDATE);
-      capabilities.add(ToDoCapability.DELETE);
+      capabilities.add(ToDoCapabilityValueObject.COMPLETE);
+      capabilities.add(ToDoCapabilityValueObject.UPDATE);
+      capabilities.add(ToDoCapabilityValueObject.DELETE);
     }
 
     if (ToDoState.DONE.equals(state))
     {
-      capabilities.add(ToDoCapability.RESET);
+      capabilities.add(ToDoCapabilityValueObject.RESET);
     }
 
     return capabilities;

@@ -2,17 +2,17 @@ package pendenzenliste.usecases;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.domain.DescriptionValueObject;
-import pendenzenliste.domain.HeadlineValueObject;
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoCapability;
-import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
 import pendenzenliste.boundary.in.UpdateToDoRequest;
 import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
+import pendenzenliste.domain.DescriptionValueObject;
+import pendenzenliste.domain.HeadlineValueObject;
+import pendenzenliste.domain.IdentityValueObject;
+import pendenzenliste.domain.ToDoCapabilityValueObject;
+import pendenzenliste.gateway.ToDoGateway;
 
 /**
  * A use case that can be used to update an existing todo.
@@ -67,7 +67,7 @@ public class UpdateToDoUseCase implements UpdateToDoInputBoundary
         return new ToDoUpdateFailedResponse("The ToDo does not exist");
       }
 
-      if (todo.get().doesNotHave(ToDoCapability.UPDATE))
+      if (todo.get().doesNotHave(ToDoCapabilityValueObject.UPDATE))
       {
         return new ToDoUpdateFailedResponse("The ToDo cannot be updated in its current state");
       }

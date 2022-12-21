@@ -1,5 +1,7 @@
 package pendenzenliste.usecases;
 
+import java.time.LocalDateTime;
+
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.boundary.in.CompleteToDoInputBoundary;
@@ -10,6 +12,8 @@ import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
 import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoCapabilityValueObject;
+import pendenzenliste.domain.ToDoCompletedEvent;
+import pendenzenliste.domain.ToDoEventPublisher;
 import pendenzenliste.gateway.ToDoGateway;
 
 /**
@@ -19,18 +23,24 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final UpdateToDoOutputBoundary outputBoundary;
+  private final ToDoEventPublisher eventPublisher;
 
   /**
    * Creates a new instance.
    *
-   * @param gateway The gateway that should be used by this instance.
+   * @param gateway        The gateway that should be used by this instance.
+   * @param outputBoundary The output boundary that should be used by this instance.
+   * @param eventPublisher The subscription topic that should be used by this instance.
    */
   public CompleteToDoUseCase(final ToDoGateway gateway,
-                             final UpdateToDoOutputBoundary outputBoundary)
+                             final UpdateToDoOutputBoundary outputBoundary,
+                             final ToDoEventPublisher eventPublisher)
   {
 
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
+    this.eventPublisher =
+        requireNonNull(eventPublisher, "The event publisher may nto be null");
   }
 
   /**
@@ -50,8 +60,7 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary
   {
     try
     {
-      final var identity =
-          new IdentityValueObject(request.identity());
+      final var identity = new IdentityValueObject(request.identity());
 
       final var todo = gateway.findById(identity);
 
@@ -66,6 +75,8 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary
       }
 
       gateway.store(todo.get().complete());
+      eventPublisher.publish(
+          new ToDoCompletedEvent(LocalDateTime.now(), todo.get().identity()));
 
       return new ToDoUpdatedResponse();
     } catch (final IllegalArgumentException e)

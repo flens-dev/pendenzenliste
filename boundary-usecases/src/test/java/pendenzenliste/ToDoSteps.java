@@ -1,12 +1,17 @@
 package pendenzenliste;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import io.cucumber.datatable.DataTable;
@@ -37,8 +42,16 @@ import pendenzenliste.domain.DescriptionValueObject;
 import pendenzenliste.domain.HeadlineValueObject;
 import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.LastModifiedTimestampValueObject;
+import pendenzenliste.domain.ToDoCompletedEvent;
+import pendenzenliste.domain.ToDoCreatedEvent;
+import pendenzenliste.domain.ToDoDeletedEvent;
 import pendenzenliste.domain.ToDoEntity;
+import pendenzenliste.domain.ToDoEvent;
+import pendenzenliste.domain.ToDoEventPublisher;
+import pendenzenliste.domain.ToDoEventSubscriptionTopic;
+import pendenzenliste.domain.ToDoResetEvent;
 import pendenzenliste.domain.ToDoStateValueObject;
+import pendenzenliste.domain.ToDoUpdatedEvent;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.usecases.ToDoUseCaseFactory;
 
@@ -77,8 +90,11 @@ public class ToDoSteps
         }
       };
 
+  private final ToDoEventPublisher eventPublisher = mock(ToDoEventPublisher.class);
+
   private final ToDoInputBoundaryFactory factory = new ToDoUseCaseFactory(() -> gateway,
-      outputBoundaryFactory);
+      outputBoundaryFactory, eventPublisher,
+      ToDoEventSubscriptionTopic.defaultSubscriptionTopic());
 
   private String id;
 
@@ -291,5 +307,22 @@ public class ToDoSteps
         Optional.ofNullable(row.getOrDefault("completed", null)).map(LocalDateTime::parse)
             .map(CompletedTimestampValueObject::new).orElse(null),
         ToDoStateValueObject.valueOf(row.get("state")));
+  }
+
+  @Then("a {string} should have been published")
+  public void thenAnEventEventShouldHaveBeenPublished(final String type)
+  {
+    final Map<String, ? extends Class<? extends ToDoEvent>> typeMap =
+        List.of(ToDoCompletedEvent.class,
+                ToDoCreatedEvent.class,
+                ToDoDeletedEvent.class,
+                ToDoResetEvent.class,
+                ToDoUpdatedEvent.class)
+            .stream()
+            .collect(Collectors.toMap(Class::getSimpleName, clazz -> clazz));
+
+    final Class<? extends ToDoEvent> expectedEventType = typeMap.get(type);
+
+    verify(eventPublisher, times(1)).publish(any(expectedEventType));
   }
 }

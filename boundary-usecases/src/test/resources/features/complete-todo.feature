@@ -50,3 +50,4 @@ Feature: Complete ToDo
     When I try to complete the ToDo
 
     Then the todo update should have been successful
+    And a 'ToDoCompletedEvent' should have been published

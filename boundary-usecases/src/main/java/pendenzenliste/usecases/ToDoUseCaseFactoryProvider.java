@@ -1,5 +1,7 @@
 package pendenzenliste.usecases;
 
+import pendenzenliste.domain.ToDoEventPublisher;
+import pendenzenliste.domain.ToDoEventSubscriptionTopic;
 import pendenzenliste.gateway.ToDoGatewayProvider;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
@@ -17,6 +19,8 @@ public class ToDoUseCaseFactoryProvider implements ToDoInputBoundaryFactoryProvi
   public ToDoInputBoundaryFactory getInstance(final ToDoOutputBoundaryFactory outputBoundaryFactory)
   {
     return new ToDoUseCaseFactory(ToDoGatewayProvider.defaultProvider(),
-        outputBoundaryFactory);
+        outputBoundaryFactory,
+        ToDoEventPublisher.defaultPublisher(),
+        ToDoEventSubscriptionTopic.defaultSubscriptionTopic());
   }
 }

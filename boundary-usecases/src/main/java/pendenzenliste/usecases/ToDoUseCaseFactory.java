@@ -12,6 +12,8 @@ import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
 import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
+import pendenzenliste.domain.ToDoEventPublisher;
+import pendenzenliste.domain.ToDoEventSubscriptionTopic;
 import pendenzenliste.gateway.ToDoGatewayProvider;
 
 /**
@@ -21,19 +23,28 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
 {
   private final ToDoGatewayProvider provider;
   private final ToDoOutputBoundaryFactory outputBoundaryFactory;
+  private final ToDoEventPublisher eventPublisher;
+  private final ToDoEventSubscriptionTopic subscriptionTopic;
 
   /**
    * Creates a new instance.
    *
    * @param provider              The provider that should be used by this instance.
    * @param outputBoundaryFactory The output boundary that should be used by this instance.
+   * @param eventPublisher        The event publisher that should be used by this instance.
+   * @param subscriptionTopic     The event subscription topic that should be used by this instance.
    */
   public ToDoUseCaseFactory(final ToDoGatewayProvider provider,
-                            final ToDoOutputBoundaryFactory outputBoundaryFactory)
+                            final ToDoOutputBoundaryFactory outputBoundaryFactory,
+                            final ToDoEventPublisher eventPublisher,
+                            final ToDoEventSubscriptionTopic subscriptionTopic)
   {
     this.provider = requireNonNull(provider, "The provider may not be null");
     this.outputBoundaryFactory =
         requireNonNull(outputBoundaryFactory, "The output boundary factory may not be null");
+    this.eventPublisher = requireNonNull(eventPublisher, "The event publisher may not be null");
+    this.subscriptionTopic =
+        requireNonNull(subscriptionTopic, "The subscription topic may not be null");
   }
 
   /**
@@ -42,7 +53,8 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public CreateToDoInputBoundary create()
   {
-    return new CreateToDoUseCase(provider.getInstance(), outputBoundaryFactory.create());
+    return new CreateToDoUseCase(provider.getInstance(), outputBoundaryFactory.create(),
+        eventPublisher);
   }
 
   /**
@@ -51,7 +63,8 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public CompleteToDoInputBoundary complete()
   {
-    return new CompleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
+    return new CompleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
+        eventPublisher);
   }
 
   /**
@@ -78,7 +91,8 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public SubscribeToDoListInputBoundary subscribe()
   {
-    return new SubscribeToDoListUseCase(provider.getInstance(), outputBoundaryFactory.list());
+    return new SubscribeToDoListUseCase(provider.getInstance(), outputBoundaryFactory.list(),
+        subscriptionTopic);
   }
 
   /**
@@ -87,7 +101,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public DeleteToDoInputBoundary delete()
   {
-    return new DeleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
+    return new DeleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(), eventPublisher);
   }
 
   /**
@@ -96,7 +110,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public ResetToDoInputBoundary reset()
   {
-    return new ResetToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
+    return new ResetToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(), eventPublisher);
   }
 
   /**
@@ -105,6 +119,6 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public UpdateToDoInputBoundary update()
   {
-    return new UpdateToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
+    return new UpdateToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(), eventPublisher);
   }
 }

@@ -50,3 +50,4 @@ Feature: Reset ToDo
     When I try to reset the ToDo
 
     Then the todo update should have been successful
+    And a 'ToDoResetEvent' should have been published

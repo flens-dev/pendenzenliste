@@ -1,4 +1,6 @@
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.domain.ToDoEventPublisher;
+import pendenzenliste.domain.ToDoEventSubscriptionTopic;
 import pendenzenliste.usecases.ToDoUseCaseFactoryProvider;
 
 module pendenzenliste.usecases.main {
@@ -12,4 +14,7 @@ module pendenzenliste.usecases.main {
       with ToDoUseCaseFactoryProvider;
 
   requires io.reactivex.rxjava3;
+
+  uses ToDoEventPublisher;
+  uses ToDoEventSubscriptionTopic;
 }

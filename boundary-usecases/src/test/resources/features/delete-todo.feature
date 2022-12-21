@@ -52,3 +52,4 @@ Feature: Delete ToDo
     When I try to delete the ToDo
 
     Then the todo update should have been successful
+    And a 'ToDoDeletedEvent' should have been published

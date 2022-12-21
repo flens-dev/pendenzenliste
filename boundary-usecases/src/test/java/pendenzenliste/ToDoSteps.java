@@ -20,16 +20,20 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.assertj.core.api.SoftAssertions;
 import pendenzenliste.boundary.in.CompleteToDoRequest;
+import pendenzenliste.boundary.in.CreateToDoRequest;
 import pendenzenliste.boundary.in.DeleteToDoRequest;
 import pendenzenliste.boundary.in.FetchToDoRequest;
 import pendenzenliste.boundary.in.ResetToDoRequest;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.UpdateToDoRequest;
 import pendenzenliste.boundary.out.CreateToDoOutputBoundary;
+import pendenzenliste.boundary.out.CreateToDoResponse;
 import pendenzenliste.boundary.out.FetchToDoFailedResponse;
 import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
 import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
 import pendenzenliste.boundary.out.FetchToDoResponse;
+import pendenzenliste.boundary.out.ToDoCreatedResponse;
+import pendenzenliste.boundary.out.ToDoCreationFailedResponse;
 import pendenzenliste.boundary.out.ToDoFetchedResponse;
 import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
 import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
@@ -105,6 +109,8 @@ public class ToDoSteps
   private FetchToDoResponse fetchResponse;
 
   private UpdateToDoResponse updateResponse;
+
+  private CreateToDoResponse createResponse;
 
   @Given("that I do not enter an ID")
   public void givenThatIDoNotEnterAnID()
@@ -324,5 +330,61 @@ public class ToDoSteps
     final Class<? extends ToDoEvent> expectedEventType = typeMap.get(type);
 
     verify(eventPublisher, times(1)).publish(any(expectedEventType));
+  }
+
+  @Given("that I do not enter a headline")
+  public void givenThatIDoNotEnterAHeadline()
+  {
+  }
+
+  @Given("that I do not enter a description")
+  public void givenThatIDoNotEnterADescription()
+  {
+  }
+
+  @When("I try to create the todo")
+  public void whenITryToCreateTheTodo()
+  {
+    var request = new CreateToDoRequest(headline, description);
+
+    createResponse = factory.create().executeRequest(request);
+  }
+
+  @Then("creating the todo should have failed with the message {string}")
+  public void creatingTheTodoShouldHaveFailedWithTheMessage(final String expectedMessage)
+  {
+    createResponse.applyTo(new CreateToDoOutputBoundary()
+    {
+      @Override
+      public void handleSuccessfulResponse(ToDoCreatedResponse response)
+      {
+        fail("The request should have failed");
+      }
+
+      @Override
+      public void handleFailedResponse(ToDoCreationFailedResponse response)
+      {
+        assertThat(response.reason()).isEqualTo(expectedMessage);
+      }
+    });
+  }
+
+  @Then("creating the todo should have succeeded")
+  public void creatingTheTodoShouldHaveSucceeded()
+  {
+    createResponse.applyTo(new CreateToDoOutputBoundary()
+    {
+      @Override
+      public void handleSuccessfulResponse(ToDoCreatedResponse response)
+      {
+        assertThat(response).isNotNull();
+      }
+
+      @Override
+      public void handleFailedResponse(ToDoCreationFailedResponse response)
+      {
+        fail(response.reason());
+      }
+    });
   }
 }

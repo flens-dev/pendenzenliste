@@ -18,7 +18,7 @@ import java.util.Collection;
 public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headline,
                          DescriptionValueObject description, CreatedTimestampValueObject created,
                          LastModifiedTimestampValueObject lastModified,
-                         CompletedTimestampValueObject completed, ToDoState state)
+                         CompletedTimestampValueObject completed, ToDoStateValueObject state)
     implements Entity<IdentityValueObject>, HasCapabilities<ToDoCapabilityValueObject>, Serializable
 {
   /**
@@ -28,7 +28,7 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
   {
     return new ToDoEntity(identity, headline, description, created,
         LastModifiedTimestampValueObject.now(), CompletedTimestampValueObject.now(),
-        ToDoState.DONE);
+        ToDoStateValueObject.DONE);
   }
 
   /**
@@ -39,14 +39,14 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
   {
     final Collection<ToDoCapabilityValueObject> capabilities = new ArrayList<>();
 
-    if (ToDoState.OPEN.equals(state))
+    if (ToDoStateValueObject.OPEN.equals(state))
     {
       capabilities.add(ToDoCapabilityValueObject.COMPLETE);
       capabilities.add(ToDoCapabilityValueObject.UPDATE);
       capabilities.add(ToDoCapabilityValueObject.DELETE);
     }
 
-    if (ToDoState.DONE.equals(state))
+    if (ToDoStateValueObject.DONE.equals(state))
     {
       capabilities.add(ToDoCapabilityValueObject.RESET);
     }
@@ -62,7 +62,7 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
   public ToDoEntity reset()
   {
     return new ToDoEntity(identity, headline, description, created,
-        LastModifiedTimestampValueObject.now(), null, ToDoState.OPEN);
+        LastModifiedTimestampValueObject.now(), null, ToDoStateValueObject.OPEN);
   }
 
   /**
@@ -91,6 +91,6 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
   {
     return new ToDoEntity(IdentityValueObject.random(), headline, description,
         CreatedTimestampValueObject.now(), LastModifiedTimestampValueObject.now(), null,
-        ToDoState.OPEN);
+        ToDoStateValueObject.OPEN);
   }
 }

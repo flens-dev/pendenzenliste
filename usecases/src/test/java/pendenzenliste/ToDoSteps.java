@@ -14,15 +14,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.assertj.core.api.SoftAssertions;
-import pendenzenliste.domain.CompletedTimestampValueObject;
-import pendenzenliste.domain.CreatedTimestampValueObject;
-import pendenzenliste.domain.DescriptionValueObject;
-import pendenzenliste.domain.HeadlineValueObject;
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.LastModifiedTimestampValueObject;
-import pendenzenliste.domain.ToDoEntity;
-import pendenzenliste.domain.ToDoState;
-import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.boundary.in.CompleteToDoRequest;
 import pendenzenliste.boundary.in.DeleteToDoRequest;
 import pendenzenliste.boundary.in.FetchToDoRequest;
@@ -40,6 +31,15 @@ import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
+import pendenzenliste.domain.CompletedTimestampValueObject;
+import pendenzenliste.domain.CreatedTimestampValueObject;
+import pendenzenliste.domain.DescriptionValueObject;
+import pendenzenliste.domain.HeadlineValueObject;
+import pendenzenliste.domain.IdentityValueObject;
+import pendenzenliste.domain.LastModifiedTimestampValueObject;
+import pendenzenliste.domain.ToDoEntity;
+import pendenzenliste.domain.ToDoStateValueObject;
+import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.usecases.ToDoUseCaseFactory;
 
 /**
@@ -290,6 +290,6 @@ public class ToDoSteps
         new LastModifiedTimestampValueObject(LocalDateTime.parse(row.get("last modified"))),
         Optional.ofNullable(row.getOrDefault("completed", null)).map(LocalDateTime::parse)
             .map(CompletedTimestampValueObject::new).orElse(null),
-        ToDoState.valueOf(row.get("state")));
+        ToDoStateValueObject.valueOf(row.get("state")));
   }
 }

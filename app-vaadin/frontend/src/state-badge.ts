@@ -11,13 +11,13 @@ export default class StateBadge extends LitElement {
 
     render() {
         return html`
-            <span theme="badge ${this.#determineColorClass()}">
+            <span theme="badge ${this.determineColorClass()}">
                 ${this.state}
             </span>
         `
     }
 
-    #determineColorClass() {
+    private determineColorClass(): string {
         return this.state === "DONE" ? "success" : "";
     }
 

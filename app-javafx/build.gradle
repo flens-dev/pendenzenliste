@@ -15,8 +15,8 @@ mainClassName = 'pendenzenliste.javafx.PendenzenlisteApp'
 dependencies {
     implementation project(':boundary')
 
+    runtimeOnly project(':boundary-usecases')
     runtimeOnly project(':gateway-filesystem')
-    runtimeOnly project(':usecases')
 
     implementation "io.reactivex.rxjava3:rxjava:3.1.5"
 }

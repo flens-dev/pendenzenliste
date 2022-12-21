@@ -4,12 +4,12 @@ include 'app-cli'
 include 'app-javafx'
 include 'app-vaadin'
 
-include 'domain'
 include 'boundary'
+include 'boundary-usecases'
+
+include 'domain'
 
 include 'gateway'
 include 'gateway-filesystem'
 include 'gateway-inmemory'
 include 'gateway-redis'
-
-include 'usecases'

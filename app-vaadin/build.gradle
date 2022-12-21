@@ -14,8 +14,8 @@ defaultTasks("clean", "build")
 dependencies {
     implementation project(':boundary')
 
+    runtimeOnly project(':boundary-usecases')
     runtimeOnly project(':gateway-filesystem')
-    runtimeOnly project(':usecases')
 
     implementation enforcedPlatform("com.vaadin:vaadin-bom:${vaadinVersion}")
 

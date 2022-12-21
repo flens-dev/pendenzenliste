@@ -11,6 +11,6 @@ dependencies {
 
     implementation project(':boundary')
 
+    runtimeOnly project(':boundary-usecases')
     runtimeOnly project(':gateway-filesystem')
-    runtimeOnly project(':usecases')
 }

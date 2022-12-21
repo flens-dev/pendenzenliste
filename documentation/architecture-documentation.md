@@ -117,7 +117,7 @@ Contained Building Blocks
 | gateway-filesystem | An implementation of the gateway API that stores the todos in a filesystem                            |
 | gateway-inmemory   | An implementation of the gateway API that stores the todos in an in-memory storage                    |
 | gateway-redis      | An implementation of the gateway API that stores the todos in a redis instance                        |
-| usecases           | An implementation of the apps input boundaries that represent the actual use cases of the application |
+| boundary-usecases  | An implementation of the apps input boundaries that represent the actual use cases of the application |
 
 Important Interfaces
 

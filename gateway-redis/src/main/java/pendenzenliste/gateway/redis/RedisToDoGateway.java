@@ -2,7 +2,6 @@ package pendenzenliste.gateway.redis;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -149,8 +148,6 @@ public class RedisToDoGateway implements ToDoGateway
             new ByteArrayInputStream(storedToDoData)))
         {
           cache.putAll((Map<IdentityValueObject, ToDoEntity>) in.readObject());
-        } catch (final FileNotFoundException e)
-        {
         } catch (final IOException | ClassNotFoundException e)
         {
           throw new RuntimeException(e);

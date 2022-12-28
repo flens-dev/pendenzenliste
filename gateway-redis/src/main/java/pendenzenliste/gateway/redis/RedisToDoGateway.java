@@ -1,10 +1,5 @@
 package pendenzenliste.gateway.redis;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -14,6 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
+import static pendenzenliste.gateway.redis.SerializationUtils.deserializeMap;
+import static pendenzenliste.gateway.redis.SerializationUtils.deserializeObject;
+import static pendenzenliste.gateway.redis.SerializationUtils.serializeObject;
 
 import pendenzenliste.domain.IdentityValueObject;
 import pendenzenliste.domain.ToDoEntity;
@@ -106,8 +104,7 @@ public class RedisToDoGateway implements ToDoGateway
   {
     final var transaction = connection.multi();
 
-    transaction.set(TODO_KEY.getBytes(StandardCharsets.UTF_8),
-        serializeObject(cache));
+    transaction.set(TODO_KEY.getBytes(StandardCharsets.UTF_8), serializeObject(cache));
     transaction.set(LAST_MODIFIED_KEY.getBytes(StandardCharsets.UTF_8),
         serializeObject(lastModified));
 
@@ -119,64 +116,25 @@ public class RedisToDoGateway implements ToDoGateway
    */
   private void loadIfNecessary()
   {
-    final byte[] storedLastModifiedTimestamp =
-        connection.get(LAST_MODIFIED_KEY.getBytes(StandardCharsets.UTF_8));
+    final var storedTimestamp =
+        deserializeObject(connection.get(LAST_MODIFIED_KEY.getBytes(StandardCharsets.UTF_8)),
+            LocalDateTime.class);
 
-    LocalDateTime currentTimestamp = null;
-
-    if (storedLastModifiedTimestamp != null)
-    {
-      try (final ObjectInputStream in = new ObjectInputStream(
-          new ByteArrayInputStream(storedLastModifiedTimestamp)))
-      {
-        currentTimestamp = (LocalDateTime) in.readObject();
-      } catch (final IOException | ClassNotFoundException e)
-      {
-        throw new RuntimeException(e);
-      }
-    }
-
-    boolean hasBeenModified = !Objects.equals(currentTimestamp, lastModified);
+    final var hasBeenModified =
+        lastModified == null || !Objects.equals(storedTimestamp, lastModified);
 
     if (hasBeenModified)
     {
-      final byte[] storedToDoData = connection.get(TODO_KEY.getBytes(StandardCharsets.UTF_8));
+      final var deserializedMap =
+          deserializeMap(connection.get(TODO_KEY.getBytes(StandardCharsets.UTF_8)),
+              IdentityValueObject.class, ToDoEntity.class);
 
-      if (storedToDoData != null)
+      if (deserializedMap != null)
       {
-        try (final ObjectInputStream in = new ObjectInputStream(
-            new ByteArrayInputStream(storedToDoData)))
-        {
-          cache.putAll((Map<IdentityValueObject, ToDoEntity>) in.readObject());
-        } catch (final IOException | ClassNotFoundException e)
-        {
-          throw new RuntimeException(e);
-        }
-
+        cache.clear();
+        cache.putAll(deserializedMap);
         lastModified = LocalDateTime.now();
       }
-    }
-  }
-
-  /**
-   * Serializes the given object.
-   *
-   * @param object The object.
-   * @return The serialized object.
-   */
-  private byte[] serializeObject(final Object object)
-  {
-    try (final ByteArrayOutputStream out = new ByteArrayOutputStream())
-    {
-      try (final ObjectOutputStream os = new ObjectOutputStream(out))
-      {
-        os.writeObject(object);
-      }
-
-      return out.toByteArray();
-    } catch (final IOException e)
-    {
-      throw new RuntimeException(e);
     }
   }
 }

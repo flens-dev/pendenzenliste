@@ -15,7 +15,7 @@ import redis.clients.jedis.Jedis;
 public class RedisToDoGatewayIntegrationTest
 {
   @Test
-  public void findById_notExistingToDo()
+  public void findById_notExistingToDo() throws Throwable
   {
     final RedisToDoGateway gateway = setupGateway();
 

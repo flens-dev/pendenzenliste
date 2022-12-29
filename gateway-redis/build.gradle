@@ -26,3 +26,16 @@ dependencies {
 
     integrationTestImplementation 'org.testcontainers:testcontainers:1.17.2'
 }
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter test
+
+    useJUnitPlatform()
+}
+
+check.dependsOn integrationTest

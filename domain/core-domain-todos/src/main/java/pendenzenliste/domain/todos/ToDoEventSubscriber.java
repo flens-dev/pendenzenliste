@@ -8,7 +8,7 @@ public interface ToDoEventSubscriber
   /**
    * Handles the next
    *
-   * @param event
+   * @param event The event.
    */
   void next(final ToDoEvent event);
 }

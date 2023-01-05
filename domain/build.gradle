@@ -1,3 +1,4 @@
 dependencies {
     api project(':core-domain-todos')
+    api project(':supporting-domain-achievements')
 }

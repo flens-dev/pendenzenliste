@@ -1,12 +1,12 @@
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
-import pendenzenliste.domain.ToDoEventPublisher;
-import pendenzenliste.domain.ToDoEventSubscriptionTopic;
+import pendenzenliste.domain.todos.ToDoEventPublisher;
+import pendenzenliste.domain.todos.ToDoEventSubscriptionTopic;
 import pendenzenliste.usecases.ToDoUseCaseFactoryProvider;
 
 module pendenzenliste.usecases.main {
   exports pendenzenliste.usecases;
 
-  requires pendenzenliste.domain.main;
+  requires pendenzenliste.core.domain.todos.main;
   requires pendenzenliste.boundary.main;
   requires pendenzenliste.gateway.main;
 

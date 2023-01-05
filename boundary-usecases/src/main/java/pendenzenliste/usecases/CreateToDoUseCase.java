@@ -8,11 +8,11 @@ import pendenzenliste.boundary.out.CreateToDoOutputBoundary;
 import pendenzenliste.boundary.out.CreateToDoResponse;
 import pendenzenliste.boundary.out.ToDoCreatedResponse;
 import pendenzenliste.boundary.out.ToDoCreationFailedResponse;
-import pendenzenliste.domain.DescriptionValueObject;
-import pendenzenliste.domain.HeadlineValueObject;
-import pendenzenliste.domain.ToDoCreatedEvent;
-import pendenzenliste.domain.ToDoEntity;
-import pendenzenliste.domain.ToDoEventPublisher;
+import pendenzenliste.domain.todos.DescriptionValueObject;
+import pendenzenliste.domain.todos.HeadlineValueObject;
+import pendenzenliste.domain.todos.ToDoCreatedEvent;
+import pendenzenliste.domain.todos.ToDoEntity;
+import pendenzenliste.domain.todos.ToDoEventPublisher;
 import pendenzenliste.gateway.ToDoGateway;
 
 /**

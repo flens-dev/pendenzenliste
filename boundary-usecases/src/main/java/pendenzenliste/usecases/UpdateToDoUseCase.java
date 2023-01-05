@@ -10,12 +10,12 @@ import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
-import pendenzenliste.domain.DescriptionValueObject;
-import pendenzenliste.domain.HeadlineValueObject;
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoCapabilityValueObject;
-import pendenzenliste.domain.ToDoEventPublisher;
-import pendenzenliste.domain.ToDoUpdatedEvent;
+import pendenzenliste.domain.todos.DescriptionValueObject;
+import pendenzenliste.domain.todos.HeadlineValueObject;
+import pendenzenliste.domain.todos.IdentityValueObject;
+import pendenzenliste.domain.todos.ToDoCapabilityValueObject;
+import pendenzenliste.domain.todos.ToDoEventPublisher;
+import pendenzenliste.domain.todos.ToDoUpdatedEvent;
 import pendenzenliste.gateway.ToDoGateway;
 
 /**

@@ -12,8 +12,8 @@ import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
 import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
-import pendenzenliste.domain.ToDoEventPublisher;
-import pendenzenliste.domain.ToDoEventSubscriptionTopic;
+import pendenzenliste.domain.todos.ToDoEventPublisher;
+import pendenzenliste.domain.todos.ToDoEventSubscriptionTopic;
 import pendenzenliste.gateway.ToDoGatewayProvider;
 
 /**
@@ -101,7 +101,8 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public DeleteToDoInputBoundary delete()
   {
-    return new DeleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(), eventPublisher);
+    return new DeleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
+        eventPublisher);
   }
 
   /**
@@ -110,7 +111,8 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public ResetToDoInputBoundary reset()
   {
-    return new ResetToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(), eventPublisher);
+    return new ResetToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
+        eventPublisher);
   }
 
   /**
@@ -119,6 +121,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public UpdateToDoInputBoundary update()
   {
-    return new UpdateToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(), eventPublisher);
+    return new UpdateToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
+        eventPublisher);
   }
 }

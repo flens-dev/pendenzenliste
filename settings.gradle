@@ -8,6 +8,8 @@ include 'boundary'
 include 'boundary-usecases'
 
 include 'domain'
+include 'core-domain-todos'
+project(':core-domain-todos').projectDir = file('domain/core-domain-todos')
 
 include 'gateway'
 include 'gateway-filesystem'

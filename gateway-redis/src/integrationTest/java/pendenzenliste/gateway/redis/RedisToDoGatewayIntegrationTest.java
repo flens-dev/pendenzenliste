@@ -6,10 +6,10 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
-import pendenzenliste.domain.DescriptionValueObject;
-import pendenzenliste.domain.HeadlineValueObject;
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoEntity;
+import pendenzenliste.domain.todos.DescriptionValueObject;
+import pendenzenliste.domain.todos.HeadlineValueObject;
+import pendenzenliste.domain.todos.IdentityValueObject;
+import pendenzenliste.domain.todos.ToDoEntity;
 import redis.clients.jedis.Jedis;
 
 public class RedisToDoGatewayIntegrationTest

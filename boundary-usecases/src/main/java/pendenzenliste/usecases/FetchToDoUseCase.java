@@ -5,16 +5,16 @@ import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.domain.CompletedTimestampValueObject;
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoEntity;
-import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.boundary.in.FetchToDoInputBoundary;
 import pendenzenliste.boundary.in.FetchToDoRequest;
 import pendenzenliste.boundary.out.FetchToDoFailedResponse;
 import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
 import pendenzenliste.boundary.out.FetchToDoResponse;
 import pendenzenliste.boundary.out.ToDoFetchedResponse;
+import pendenzenliste.domain.todos.CompletedTimestampValueObject;
+import pendenzenliste.domain.todos.IdentityValueObject;
+import pendenzenliste.domain.todos.ToDoEntity;
+import pendenzenliste.gateway.ToDoGateway;
 
 /**
  * A use case that can be used to fetch a ToDo.

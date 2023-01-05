@@ -13,8 +13,8 @@ import static pendenzenliste.gateway.redis.SerializationUtils.deserializeMap;
 import static pendenzenliste.gateway.redis.SerializationUtils.deserializeObject;
 import static pendenzenliste.gateway.redis.SerializationUtils.serializeObject;
 
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoEntity;
+import pendenzenliste.domain.todos.IdentityValueObject;
+import pendenzenliste.domain.todos.ToDoEntity;
 import pendenzenliste.gateway.ToDoGateway;
 import redis.clients.jedis.Jedis;
 

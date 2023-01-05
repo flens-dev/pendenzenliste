@@ -4,8 +4,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import pendenzenliste.boundary.out.ToDoListResponseModel;
-import pendenzenliste.domain.CompletedTimestampValueObject;
-import pendenzenliste.domain.ToDoEntity;
+import pendenzenliste.domain.todos.CompletedTimestampValueObject;
+import pendenzenliste.domain.todos.ToDoEntity;
 
 /**
  * A utility class that can be used to map response models.

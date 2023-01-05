@@ -3,8 +3,8 @@ package pendenzenliste.gateway;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoEntity;
+import pendenzenliste.domain.todos.IdentityValueObject;
+import pendenzenliste.domain.todos.ToDoEntity;
 
 /**
  * A gateway that can be used to access ToDos

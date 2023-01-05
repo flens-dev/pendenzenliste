@@ -11,9 +11,9 @@ import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoDeletedEvent;
-import pendenzenliste.domain.ToDoEventPublisher;
+import pendenzenliste.domain.todos.IdentityValueObject;
+import pendenzenliste.domain.todos.ToDoDeletedEvent;
+import pendenzenliste.domain.todos.ToDoEventPublisher;
 import pendenzenliste.gateway.ToDoGateway;
 
 /**

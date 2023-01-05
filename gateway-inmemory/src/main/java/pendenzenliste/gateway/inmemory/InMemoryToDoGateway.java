@@ -5,8 +5,8 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-import pendenzenliste.domain.IdentityValueObject;
-import pendenzenliste.domain.ToDoEntity;
+import pendenzenliste.domain.todos.IdentityValueObject;
+import pendenzenliste.domain.todos.ToDoEntity;
 import pendenzenliste.gateway.ToDoGateway;
 
 /**

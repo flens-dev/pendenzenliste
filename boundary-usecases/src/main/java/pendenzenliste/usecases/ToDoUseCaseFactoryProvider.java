@@ -1,11 +1,11 @@
 package pendenzenliste.usecases;
 
-import pendenzenliste.domain.ToDoEventPublisher;
-import pendenzenliste.domain.ToDoEventSubscriptionTopic;
-import pendenzenliste.gateway.ToDoGatewayProvider;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
 import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
+import pendenzenliste.domain.todos.ToDoEventPublisher;
+import pendenzenliste.domain.todos.ToDoEventSubscriptionTopic;
+import pendenzenliste.gateway.ToDoGatewayProvider;
 
 /**
  * A {@link ToDoInputBoundaryFactoryProvider} that provides access to a {@link ToDoUseCaseFactory}

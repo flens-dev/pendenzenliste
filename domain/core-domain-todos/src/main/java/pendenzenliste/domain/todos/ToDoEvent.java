@@ -20,4 +20,11 @@ public interface ToDoEvent
    * @return The identity of the todo.
    */
   IdentityValueObject identity();
+
+  /**
+   * Visits the event with the given visitor.
+   *
+   * @param visitor The visitor.
+   */
+  void visit(ToDoEventVisitor visitor);
 }

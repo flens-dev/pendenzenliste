@@ -11,4 +11,12 @@ import java.time.LocalDateTime;
 public record ToDoDeletedEvent(LocalDateTime timestamp, IdentityValueObject identity)
     implements ToDoEvent
 {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void visit(final ToDoEventVisitor visitor)
+  {
+    visitor.visit(this);
+  }
 }

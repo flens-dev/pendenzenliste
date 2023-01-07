@@ -49,9 +49,11 @@ public class CreateToDoUseCase implements CreateToDoInputBoundary
   }
 
   /**
-   * {@inheritDoc}
+   * Executes the request.
+   *
+   * @param request The request that should be executed.
+   * @return The response.
    */
-  @Override
   public CreateToDoResponse executeRequest(final CreateToDoRequest request)
   {
     try

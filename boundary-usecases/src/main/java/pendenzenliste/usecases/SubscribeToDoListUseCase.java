@@ -6,7 +6,6 @@ import static pendenzenliste.usecases.ResponseModelMappingUtils.mapToResponseMod
 import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.SubscribeToDoListRequest;
 import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
-import pendenzenliste.boundary.out.FetchToDoListResponse;
 import pendenzenliste.boundary.out.FetchedToDoListResponse;
 import pendenzenliste.domain.todos.ToDoEvent;
 import pendenzenliste.domain.todos.ToDoEventSubscriber;
@@ -74,14 +73,5 @@ public class SubscribeToDoListUseCase implements SubscribeToDoListInputBoundary
     final var response = new FetchedToDoListResponse(todos);
 
     response.applyTo(outputBoundary);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public FetchToDoListResponse executeRequest(final SubscribeToDoListRequest request)
-  {
-    throw new IllegalStateException("Not implemented");
   }
 }

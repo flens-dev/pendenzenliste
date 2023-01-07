@@ -53,9 +53,11 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary
   }
 
   /**
-   * {@inheritDoc}
+   * Executes the request.
+   *
+   * @param request The request that should be executed.
+   * @return The response.
    */
-  @Override
   public UpdateToDoResponse executeRequest(final CompleteToDoRequest request)
   {
     try

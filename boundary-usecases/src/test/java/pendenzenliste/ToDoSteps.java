@@ -72,7 +72,20 @@ public class ToDoSteps
         @Override
         public CreateToDoOutputBoundary create()
         {
-          return mock(CreateToDoOutputBoundary.class);
+          return new CreateToDoOutputBoundary()
+          {
+            @Override
+            public void handleSuccessfulResponse(final ToDoCreatedResponse response)
+            {
+              createResponse = response;
+            }
+
+            @Override
+            public void handleFailedResponse(final ToDoCreationFailedResponse response)
+            {
+              createResponse = response;
+            }
+          };
         }
 
         @Override
@@ -84,13 +97,39 @@ public class ToDoSteps
         @Override
         public FetchToDoOutputBoundary fetch()
         {
-          return mock(FetchToDoOutputBoundary.class);
+          return new FetchToDoOutputBoundary()
+          {
+            @Override
+            public void handleFailedResponse(final FetchToDoFailedResponse response)
+            {
+              fetchResponse = response;
+            }
+
+            @Override
+            public void handleSuccessfulResponse(final ToDoFetchedResponse response)
+            {
+              fetchResponse = response;
+            }
+          };
         }
 
         @Override
         public UpdateToDoOutputBoundary update()
         {
-          return mock(UpdateToDoOutputBoundary.class);
+          return new UpdateToDoOutputBoundary()
+          {
+            @Override
+            public void handleSuccessfulResponse(final ToDoUpdatedResponse response)
+            {
+              updateResponse = response;
+            }
+
+            @Override
+            public void handleFailedResponse(final ToDoUpdateFailedResponse response)
+            {
+              updateResponse = response;
+            }
+          };
         }
       };
 
@@ -172,7 +211,7 @@ public class ToDoSteps
   {
     final var request = new FetchToDoRequest(id);
 
-    fetchResponse = factory.fetch().executeRequest(request);
+    factory.fetch().execute(request);
   }
 
 
@@ -181,7 +220,7 @@ public class ToDoSteps
   {
     final var request = new DeleteToDoRequest(id);
 
-    updateResponse = factory.delete().executeRequest(request);
+    factory.delete().execute(request);
   }
 
   @When("I try to complete the ToDo")
@@ -189,7 +228,7 @@ public class ToDoSteps
   {
     final var request = new CompleteToDoRequest(id);
 
-    updateResponse = factory.complete().executeRequest(request);
+    factory.complete().execute(request);
   }
 
 
@@ -198,7 +237,7 @@ public class ToDoSteps
   {
     final var request = new ResetToDoRequest(id);
 
-    updateResponse = factory.reset().executeRequest(request);
+    factory.reset().execute(request);
   }
 
   @When("I try to update the ToDo")
@@ -206,7 +245,7 @@ public class ToDoSteps
   {
     final var request = new UpdateToDoRequest(id, headline, description);
 
-    updateResponse = factory.update().executeRequest(request);
+    factory.update().execute(request);
   }
 
   @Then("fetching the ToDo should have failed with the message: {string}")
@@ -347,7 +386,7 @@ public class ToDoSteps
   {
     var request = new CreateToDoRequest(headline, description);
 
-    createResponse = factory.create().executeRequest(request);
+    factory.create().execute(request);
   }
 
   @Then("creating the todo should have failed with the message {string}")

@@ -50,9 +50,11 @@ public class ResetToDoUseCase implements ResetToDoInputBoundary
   }
 
   /**
-   * {@inheritDoc}
+   * Executes the request.
+   *
+   * @param request The request that should be executed.
+   * @return The response.
    */
-  @Override
   public UpdateToDoResponse executeRequest(final ResetToDoRequest request)
   {
     try

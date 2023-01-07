@@ -40,9 +40,11 @@ public class FetchToDoListUseCase implements FetchToDoListInputBoundary
   }
 
   /**
-   * {@inheritDoc}
+   * Executes the request.
+   *
+   * @param request The request that should be executed.
+   * @return The response.
    */
-  @Override
   public FetchToDoListResponse executeRequest(final FetchTodoListRequest request)
   {
     return new FetchedToDoListResponse(gateway.fetchAll().map(mapToResponseModel()).toList());

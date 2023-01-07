@@ -52,9 +52,11 @@ public class UpdateToDoUseCase implements UpdateToDoInputBoundary
   }
 
   /**
-   * {@inheritDoc}
+   * Executes the request.
+   *
+   * @param request The request that should be executed.
+   * @return The response.
    */
-  @Override
   public UpdateToDoResponse executeRequest(final UpdateToDoRequest request)
   {
     try

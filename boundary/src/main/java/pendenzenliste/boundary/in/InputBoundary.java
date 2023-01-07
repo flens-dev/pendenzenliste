@@ -14,12 +14,4 @@ public interface InputBoundary<REQ, RES extends Response<OUT, RES>, OUT extends 
    * @param request The request
    */
   void execute(REQ request);
-
-  /**
-   * Executes the given request.
-   *
-   * @param request The request that should be executed.
-   * @return The response to the request.
-   */
-  RES executeRequest(REQ request);
 }

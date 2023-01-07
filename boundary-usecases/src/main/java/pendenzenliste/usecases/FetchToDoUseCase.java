@@ -46,9 +46,11 @@ public class FetchToDoUseCase implements FetchToDoInputBoundary
   }
 
   /**
-   * {@inheritDoc}
+   * Executes the request.
+   *
+   * @param request The request that should be executed.
+   * @return The response.
    */
-  @Override
   public FetchToDoResponse executeRequest(final FetchToDoRequest request)
   {
     try

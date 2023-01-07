@@ -13,8 +13,8 @@ import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
 import pendenzenliste.domain.todos.IdentityValueObject;
 import pendenzenliste.domain.todos.ToDoDeletedEvent;
-import pendenzenliste.domain.todos.ToDoEventPublisher;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.messaging.EventBus;
 
 /**
  * A use case that can be used to delete an existing ToDo.
@@ -23,7 +23,7 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final UpdateToDoOutputBoundary outputBoundary;
-  private final ToDoEventPublisher eventPublisher;
+  private final EventBus eventPublisher;
 
   /**
    * Creates a new instance.
@@ -34,7 +34,7 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary
    */
   public DeleteToDoUseCase(final ToDoGateway gateway,
                            final UpdateToDoOutputBoundary outputBoundary,
-                           final ToDoEventPublisher eventPublisher)
+                           final EventBus eventPublisher)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");

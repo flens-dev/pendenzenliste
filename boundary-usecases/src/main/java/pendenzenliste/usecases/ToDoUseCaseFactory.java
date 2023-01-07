@@ -12,9 +12,8 @@ import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
 import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
-import pendenzenliste.domain.todos.ToDoEventPublisher;
-import pendenzenliste.domain.todos.ToDoEventSubscriptionTopic;
 import pendenzenliste.gateway.ToDoGatewayProvider;
+import pendenzenliste.messaging.EventBus;
 
 /**
  * A factory that can be used to access ToDo specific use cases.
@@ -23,28 +22,24 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
 {
   private final ToDoGatewayProvider provider;
   private final ToDoOutputBoundaryFactory outputBoundaryFactory;
-  private final ToDoEventPublisher eventPublisher;
-  private final ToDoEventSubscriptionTopic subscriptionTopic;
+  private final EventBus eventBus;
 
   /**
    * Creates a new instance.
    *
-   * @param provider              The provider that should be used by this instance.
-   * @param outputBoundaryFactory The output boundary that should be used by this instance.
-   * @param eventPublisher        The event publisher that should be used by this instance.
-   * @param subscriptionTopic     The event subscription topic that should be used by this instance.
+   * @param provider              The todo gateway provider.
+   * @param outputBoundaryFactory The output boundary factory.
+   * @param eventBus              The event bus.
    */
   public ToDoUseCaseFactory(final ToDoGatewayProvider provider,
                             final ToDoOutputBoundaryFactory outputBoundaryFactory,
-                            final ToDoEventPublisher eventPublisher,
-                            final ToDoEventSubscriptionTopic subscriptionTopic)
+                            final EventBus eventBus)
   {
+
     this.provider = requireNonNull(provider, "The provider may not be null");
     this.outputBoundaryFactory =
         requireNonNull(outputBoundaryFactory, "The output boundary factory may not be null");
-    this.eventPublisher = requireNonNull(eventPublisher, "The event publisher may not be null");
-    this.subscriptionTopic =
-        requireNonNull(subscriptionTopic, "The subscription topic may not be null");
+    this.eventBus = requireNonNull(eventBus, "The event bus may not be null");
   }
 
   /**
@@ -54,7 +49,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public CreateToDoInputBoundary create()
   {
     return new CreateToDoUseCase(provider.getInstance(), outputBoundaryFactory.create(),
-        eventPublisher);
+        eventBus);
   }
 
   /**
@@ -64,7 +59,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public CompleteToDoInputBoundary complete()
   {
     return new CompleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
-        eventPublisher);
+        eventBus);
   }
 
   /**
@@ -92,7 +87,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public SubscribeToDoListInputBoundary subscribe()
   {
     return new SubscribeToDoListUseCase(provider.getInstance(), outputBoundaryFactory.list(),
-        subscriptionTopic);
+        eventBus);
   }
 
   /**
@@ -102,7 +97,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public DeleteToDoInputBoundary delete()
   {
     return new DeleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
-        eventPublisher);
+        eventBus);
   }
 
   /**
@@ -112,7 +107,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public ResetToDoInputBoundary reset()
   {
     return new ResetToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
-        eventPublisher);
+        eventBus);
   }
 
   /**
@@ -122,6 +117,6 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   public UpdateToDoInputBoundary update()
   {
     return new UpdateToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
-        eventPublisher);
+        eventBus);
   }
 }

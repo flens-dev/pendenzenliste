@@ -51,12 +51,11 @@ import pendenzenliste.domain.todos.ToDoCreatedEvent;
 import pendenzenliste.domain.todos.ToDoDeletedEvent;
 import pendenzenliste.domain.todos.ToDoEntity;
 import pendenzenliste.domain.todos.ToDoEvent;
-import pendenzenliste.domain.todos.ToDoEventPublisher;
-import pendenzenliste.domain.todos.ToDoEventSubscriptionTopic;
 import pendenzenliste.domain.todos.ToDoResetEvent;
 import pendenzenliste.domain.todos.ToDoStateValueObject;
 import pendenzenliste.domain.todos.ToDoUpdatedEvent;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.messaging.EventBus;
 import pendenzenliste.usecases.ToDoUseCaseFactory;
 
 /**
@@ -133,11 +132,10 @@ public class ToDoSteps
         }
       };
 
-  private final ToDoEventPublisher eventPublisher = mock(ToDoEventPublisher.class);
+  private final EventBus eventPublisher = mock(EventBus.class);
 
   private final ToDoInputBoundaryFactory factory = new ToDoUseCaseFactory(() -> gateway,
-      outputBoundaryFactory, eventPublisher,
-      ToDoEventSubscriptionTopic.defaultSubscriptionTopic());
+      outputBoundaryFactory, eventPublisher);
 
   private String id;
 

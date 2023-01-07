@@ -12,8 +12,8 @@ import pendenzenliste.domain.todos.DescriptionValueObject;
 import pendenzenliste.domain.todos.HeadlineValueObject;
 import pendenzenliste.domain.todos.ToDoCreatedEvent;
 import pendenzenliste.domain.todos.ToDoEntity;
-import pendenzenliste.domain.todos.ToDoEventPublisher;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.messaging.EventBus;
 
 /**
  * A use case that can be used to create a new todo.
@@ -22,7 +22,7 @@ public class CreateToDoUseCase implements CreateToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final CreateToDoOutputBoundary outputBoundary;
-  private final ToDoEventPublisher eventPublisher;
+  private final EventBus eventPublisher;
 
   /**
    * Creates a new instance.
@@ -32,7 +32,7 @@ public class CreateToDoUseCase implements CreateToDoInputBoundary
    * @param eventPublisher The event publisher that should be used by this instance.
    */
   public CreateToDoUseCase(final ToDoGateway gateway, final CreateToDoOutputBoundary outputBoundary,
-                           final ToDoEventPublisher eventPublisher)
+                           final EventBus eventPublisher)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");

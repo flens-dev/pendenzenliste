@@ -12,9 +12,10 @@ import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
 import pendenzenliste.domain.todos.IdentityValueObject;
 import pendenzenliste.domain.todos.ToDoCapabilityValueObject;
-import pendenzenliste.domain.todos.ToDoEventPublisher;
 import pendenzenliste.domain.todos.ToDoResetEvent;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.messaging.EventBus;
+
 
 /**
  * A use case that can be used to reset a closed ToDo.
@@ -23,7 +24,7 @@ public class ResetToDoUseCase implements ResetToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final UpdateToDoOutputBoundary outputBoundary;
-  private final ToDoEventPublisher eventPublisher;
+  private final EventBus eventPublisher;
 
   /**
    * Creates a new instance.
@@ -33,7 +34,7 @@ public class ResetToDoUseCase implements ResetToDoInputBoundary
    * @param eventPublisher The event publisher that should be used by this instance.
    */
   public ResetToDoUseCase(final ToDoGateway gateway, final UpdateToDoOutputBoundary outputBoundary,
-                          final ToDoEventPublisher eventPublisher)
+                          final EventBus eventPublisher)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");

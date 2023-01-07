@@ -1,13 +1,9 @@
-import pendenzenliste.domain.todos.MultiThreadedToDoEventPublisher;
-import pendenzenliste.domain.todos.ToDoEventPublisher;
-import pendenzenliste.domain.todos.ToDoEventSubscriptionTopic;
+import pendenzenliste.messaging.EventBus;
 
 module pendenzenliste.core.domain.todos.main {
   exports pendenzenliste.domain.todos;
 
-  uses ToDoEventSubscriptionTopic;
-  provides ToDoEventSubscriptionTopic with MultiThreadedToDoEventPublisher;
+  requires pendenzenliste.messaging.main;
 
-  uses ToDoEventPublisher;
-  provides ToDoEventPublisher with MultiThreadedToDoEventPublisher;
+  uses EventBus;
 }

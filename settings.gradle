@@ -15,6 +15,9 @@ project(':core-domain-todos').projectDir = file('domain/core-domain-todos')
 include 'supporting-domain-achievements'
 project(':supporting-domain-achievements').projectDir = file('domain/supporting-domain-achievements')
 
+include 'messaging'
+project(':messaging').projectDir = file('domain/messaging')
+
 include 'gateway'
 include 'gateway-filesystem'
 include 'gateway-inmemory'

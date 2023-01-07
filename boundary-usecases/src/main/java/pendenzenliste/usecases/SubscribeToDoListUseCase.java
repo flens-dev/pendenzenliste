@@ -8,9 +8,9 @@ import pendenzenliste.boundary.in.SubscribeToDoListRequest;
 import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
 import pendenzenliste.boundary.out.FetchedToDoListResponse;
 import pendenzenliste.domain.todos.ToDoEvent;
-import pendenzenliste.domain.todos.ToDoEventSubscriber;
-import pendenzenliste.domain.todos.ToDoEventSubscriptionTopic;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.messaging.EventBus;
+import pendenzenliste.messaging.Subscriber;
 
 /**
  * A use case that can be used to subscribe to a list of todos.
@@ -19,7 +19,7 @@ public class SubscribeToDoListUseCase implements SubscribeToDoListInputBoundary
 {
   private final ToDoGateway gateway;
   private final FetchToDoListOutputBoundary outputBoundary;
-  private final ToDoEventSubscriptionTopic eventTopic;
+  private final EventBus eventTopic;
 
   /**
    * Creates a new instance.
@@ -30,7 +30,7 @@ public class SubscribeToDoListUseCase implements SubscribeToDoListInputBoundary
    */
   public SubscribeToDoListUseCase(final ToDoGateway gateway,
                                   final FetchToDoListOutputBoundary outputBoundary,
-                                  final ToDoEventSubscriptionTopic eventTopic)
+                                  final EventBus eventTopic)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
@@ -43,23 +43,7 @@ public class SubscribeToDoListUseCase implements SubscribeToDoListInputBoundary
   @Override
   public void execute(final SubscribeToDoListRequest request)
   {
-    final var subscriber = new ToDoEventSubscriber()
-    {
-
-      @Override
-      public void next(final ToDoEvent event)
-      {
-        if (outputBoundary.isDetached())
-        {
-          eventTopic.unsubscribe(this);
-        } else
-        {
-          fetchList();
-        }
-      }
-    };
-
-    eventTopic.subscribe(subscriber);
+    eventTopic.subscribe(subscriber());
 
     fetchList();
   }
@@ -73,5 +57,34 @@ public class SubscribeToDoListUseCase implements SubscribeToDoListInputBoundary
     final var response = new FetchedToDoListResponse(todos);
 
     response.applyTo(outputBoundary);
+  }
+
+  /**
+   * Builds the subscriber.
+   *
+   * @return The subscriber.
+   */
+  private Subscriber<ToDoEvent> subscriber()
+  {
+    return new Subscriber<>()
+    {
+      @Override
+      public void onEvent(final ToDoEvent event)
+      {
+        if (outputBoundary.isDetached())
+        {
+          eventTopic.unsubscribe(this);
+        } else
+        {
+          fetchList();
+        }
+      }
+
+      @Override
+      public Class<ToDoEvent> eventType()
+      {
+        return ToDoEvent.class;
+      }
+    };
   }
 }

@@ -13,8 +13,8 @@ import pendenzenliste.boundary.out.UpdateToDoResponse;
 import pendenzenliste.domain.todos.IdentityValueObject;
 import pendenzenliste.domain.todos.ToDoCapabilityValueObject;
 import pendenzenliste.domain.todos.ToDoCompletedEvent;
-import pendenzenliste.domain.todos.ToDoEventPublisher;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.messaging.EventBus;
 
 /**
  * A use case that can be used to complete a ToDo.
@@ -23,7 +23,7 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final UpdateToDoOutputBoundary outputBoundary;
-  private final ToDoEventPublisher eventPublisher;
+  private final EventBus eventPublisher;
 
   /**
    * Creates a new instance.
@@ -34,7 +34,7 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary
    */
   public CompleteToDoUseCase(final ToDoGateway gateway,
                              final UpdateToDoOutputBoundary outputBoundary,
-                             final ToDoEventPublisher eventPublisher)
+                             final EventBus eventPublisher)
   {
 
     this.gateway = requireNonNull(gateway, "The gateway may not be null");

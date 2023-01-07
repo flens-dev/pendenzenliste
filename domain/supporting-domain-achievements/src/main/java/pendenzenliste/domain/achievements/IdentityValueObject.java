@@ -1,4 +1,4 @@
-package pendenzenliste.domain.todos;
+package pendenzenliste.domain.achievements;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -32,27 +32,5 @@ public record IdentityValueObject(String value) implements Serializable
   public static IdentityValueObject random()
   {
     return new IdentityValueObject(UUID.randomUUID().toString());
-  }
-
-  /**
-   * Creates a new instance of the given value.
-   *
-   * @param value The value.
-   * @return The identity.
-   */
-  public static IdentityValueObject of(final String value)
-  {
-    return new IdentityValueObject(value);
-  }
-
-  /**
-   * Creates a new instance of the given value.
-   *
-   * @param value The value.
-   * @return The identity.
-   */
-  public static IdentityValueObject of(final int value)
-  {
-    return of(String.valueOf(value));
   }
 }

@@ -195,10 +195,8 @@ public class AchievementAggregate
         {
           return new ThirdTimesTheCharmAchievementProgressTracker();
         }
+        default -> throw new IllegalStateException("Unexpected value: " + achievement);
       }
-
-      throw new IllegalStateException(
-          "Missing achievement progress tracker implementation for " + achievement);
     }
 
     /**

@@ -1,5 +1,8 @@
 package pendenzenliste.usecases;
 
+import java.util.Collection;
+import java.util.List;
+
 import static java.util.Objects.requireNonNull;
 import static pendenzenliste.usecases.ResponseModelMappingUtils.mapToResponseModel;
 
@@ -81,9 +84,9 @@ public class SubscribeToDoListUseCase implements SubscribeToDoListInputBoundary
       }
 
       @Override
-      public Class<ToDoEvent> eventType()
+      public Collection<Class<? extends ToDoEvent>> eventTypes()
       {
-        return ToDoEvent.class;
+        return List.of(ToDoEvent.class);
       }
     };
   }

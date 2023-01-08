@@ -8,4 +8,14 @@ package pendenzenliste.domain.achievements;
  */
 public record AchievementEventEntity(IdentityValueObject identity, AchievementEvent event)
 {
+  /**
+   * Creates an instance of
+   *
+   * @param identity The identity.
+   * @return The event.
+   */
+  public AchievementEventEntity withIdentity(final IdentityValueObject identity)
+  {
+    return new AchievementEventEntity(identity, event);
+  }
 }

@@ -1,5 +1,9 @@
 package pendenzenliste.messaging;
 
+import java.util.Collection;
+import java.util.ServiceLoader;
+import java.util.stream.Stream;
+
 /**
  * The common interface for objects that subscribe to events.
  *
@@ -15,9 +19,20 @@ public interface Subscriber<T>
   void onEvent(T event);
 
   /**
-   * The event type.
+   * The supported event types.
    *
-   * @return The event type.
+   * @return The supported event types.
    */
-  Class<T> eventType();
+  Collection<Class<? extends T>> eventTypes();
+
+  /**
+   * Loads the subscriber services.
+   *
+   * @return The subscriber services.
+   */
+  static Stream<Subscriber<?>> loadSubscriberServices()
+  {
+    return ServiceLoader.load(Subscriber.class).stream()
+        .map(provider -> (Subscriber<?>) provider.get());
+  }
 }

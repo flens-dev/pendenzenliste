@@ -14,6 +14,10 @@ public final class InMemoryEventBus implements EventBus
 
   private static final Collection<Subscriber<?>> SUBSCRIBERS = new ArrayList<>();
 
+  static
+  {
+    Subscriber.loadSubscriberServices().forEach(SUBSCRIBERS::add);
+  }
 
   /**
    * {@inheritDoc}
@@ -23,11 +27,32 @@ public final class InMemoryEventBus implements EventBus
   {
     for (final Subscriber<?> subscriber : SUBSCRIBERS)
     {
-      if (subscriber.eventType().isAssignableFrom(event.getClass()))
+      if (subscriberIsInterestedInEvent(subscriber, event))
       {
         THREAD_POOL.submit(() -> publishEvent(subscriber, event));
       }
     }
+  }
+
+  /**
+   * Checks whether the given subscriber is interested in the given type of event.
+   *
+   * @param event      The event.
+   * @param subscriber The subscriber.
+   * @return True if the subscriber is interested in the given event.
+   */
+  private boolean subscriberIsInterestedInEvent(final Subscriber<?> subscriber,
+                                                final Object event)
+  {
+    for (final Class<?> eventType : subscriber.eventTypes())
+    {
+      if (eventType.isAssignableFrom(event.getClass()))
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**
@@ -39,20 +64,7 @@ public final class InMemoryEventBus implements EventBus
    */
   private <T> void publishEvent(final Subscriber<T> subscriber, final Object event)
   {
-    subscriber.onEvent(cast(subscriber.eventType(), event));
-  }
-
-  /**
-   * Casts the event to the given type.
-   *
-   * @param type  The type.
-   * @param event The event.
-   * @param <T>   The type.
-   * @return The event.
-   */
-  private <T> T cast(final Class<T> type, Object event)
-  {
-    return (T) event;
+    subscriber.onEvent((T) event);
   }
 
   /**

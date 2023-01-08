@@ -54,6 +54,17 @@ public class AchievementAggregate
   }
 
   /**
+   * Updates the events for the aggregate.
+   *
+   * @param events The events.
+   */
+  public void updateEvents(final Collection<AchievementEventEntity> events)
+  {
+    this.events.clear();
+    this.events.addAll(events);
+  }
+
+  /**
    * Progresses the achievement based on the given event.
    *
    * @param event The event.
@@ -108,7 +119,7 @@ public class AchievementAggregate
    */
   public static class Builder
   {
-    private IdentityValueObject identity = IdentityValueObject.random();
+    private IdentityValueObject identity;
     private AchievementValueType name;
 
     private StateValueType state;
@@ -146,6 +157,17 @@ public class AchievementAggregate
     public Builder identity(final String identity)
     {
       this.identity = new IdentityValueObject(identity);
+      return this;
+    }
+
+    /**
+     * Sets a random identity for the achievement.
+     *
+     * @return The builder.
+     */
+    public Builder randomIdentity()
+    {
+      this.identity = IdentityValueObject.random();
       return this;
     }
 
@@ -233,7 +255,7 @@ public class AchievementAggregate
     {
       for (final AchievementEvent event : events)
       {
-        this.events.add(new AchievementEventEntity(IdentityValueObject.random(), event));
+        this.events.add(new AchievementEventEntity(null, event));
       }
       return this;
     }

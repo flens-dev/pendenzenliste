@@ -1,5 +1,7 @@
 package pendenzenliste.domain.achievements;
 
+import java.io.Serializable;
+
 /**
  * An entity that can be used to represent an achievement.
  *
@@ -10,5 +12,6 @@ package pendenzenliste.domain.achievements;
  */
 public record AchievementEntity(IdentityValueObject identity, AchievementValueType name,
                                 StateValueType state, UnlockedTimestampValueType unlocked)
+    implements Serializable
 {
 }

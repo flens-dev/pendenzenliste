@@ -1,5 +1,7 @@
 package pendenzenliste.domain.achievements;
 
+import java.io.Serializable;
+
 import pendenzenliste.domain.todos.ToDoCompletedEvent;
 import pendenzenliste.domain.todos.ToDoCreatedEvent;
 import pendenzenliste.domain.todos.ToDoDeletedEvent;
@@ -15,7 +17,7 @@ import pendenzenliste.domain.todos.ToDoUpdatedEvent;
  * This is useful for implementations that are only interested in specific events and reduces the
  * need for unnecessary boilerplate.
  */
-public interface AchievementProgressTracker extends ToDoEventVisitor
+public interface AchievementProgressTracker extends ToDoEventVisitor, Serializable
 {
 
   /**

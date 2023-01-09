@@ -1,5 +1,7 @@
 package pendenzenliste.domain.achievements;
 
+import java.io.Serializable;
+
 /**
  * An entity that can be used to represent a persistent achievement entity.
  *
@@ -7,6 +9,7 @@ package pendenzenliste.domain.achievements;
  * @param event    The event.
  */
 public record AchievementEventEntity(IdentityValueObject identity, AchievementEvent event)
+    implements Serializable
 {
   /**
    * Creates an instance of

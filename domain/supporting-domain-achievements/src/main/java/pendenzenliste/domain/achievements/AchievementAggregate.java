@@ -1,5 +1,6 @@
 package pendenzenliste.domain.achievements;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,7 +12,7 @@ import pendenzenliste.domain.todos.ToDoEvent;
 /**
  * An aggregate that can be used to represent an achievement.
  */
-public class AchievementAggregate
+public class AchievementAggregate implements Serializable
 {
   private AchievementEntity achievement;
   private final Collection<AchievementEventEntity> events;

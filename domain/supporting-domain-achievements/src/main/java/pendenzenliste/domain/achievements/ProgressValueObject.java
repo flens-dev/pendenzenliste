@@ -1,12 +1,14 @@
 package pendenzenliste.domain.achievements;
 
+import java.io.Serializable;
+
 /**
  * A value object that can be used to represent the progress of an achievement.
  *
  * @param value  The current value.
  * @param target The target value.
  */
-public record ProgressValueObject(int value, int target)
+public record ProgressValueObject(int value, int target) implements Serializable
 {
   /**
    * Increments the value.

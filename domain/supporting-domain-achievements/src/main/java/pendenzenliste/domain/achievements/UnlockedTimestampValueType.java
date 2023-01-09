@@ -1,5 +1,6 @@
 package pendenzenliste.domain.achievements;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
  *
  * @param value The value.
  */
-public record UnlockedTimestampValueType(LocalDateTime value)
+public record UnlockedTimestampValueType(LocalDateTime value) implements Serializable
 {
 
   /**

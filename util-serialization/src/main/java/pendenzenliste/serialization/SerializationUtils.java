@@ -1,4 +1,4 @@
-package pendenzenliste.gateway.redis;
+package pendenzenliste.serialization;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

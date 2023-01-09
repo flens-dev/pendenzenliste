@@ -9,9 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
-import static pendenzenliste.gateway.redis.SerializationUtils.deserializeMap;
-import static pendenzenliste.gateway.redis.SerializationUtils.deserializeObject;
-import static pendenzenliste.gateway.redis.SerializationUtils.serializeObject;
+import static pendenzenliste.serialization.SerializationUtils.deserializeMap;
+import static pendenzenliste.serialization.SerializationUtils.deserializeObject;
+import static pendenzenliste.serialization.SerializationUtils.serializeObject;
 
 import pendenzenliste.domain.todos.IdentityValueObject;
 import pendenzenliste.domain.todos.ToDoEntity;

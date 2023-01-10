@@ -66,11 +66,11 @@ public class AchievementAggregate implements Serializable
   }
 
   /**
-   * Progresses the achievement based on the given event.
+   * Tracks the progress of the achievement based on the given event.
    *
    * @param event The event.
    */
-  public void progress(final ToDoEvent event)
+  public void trackProgress(final ToDoEvent event)
   {
     event.visit(progressTracker);
 

@@ -1,3 +1,4 @@
+import pendenzenliste.boundary.in.AchievementInputBoundaryFactory;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
 
 module pendenzenliste.boundary.main {
@@ -6,5 +7,6 @@ module pendenzenliste.boundary.main {
 
   requires pendenzenliste.gateway.main;
 
+  uses AchievementInputBoundaryFactory;
   uses ToDoInputBoundaryFactoryProvider;
 }

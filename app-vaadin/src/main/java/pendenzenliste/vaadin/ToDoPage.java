@@ -7,6 +7,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
+import pendenzenliste.boundary.in.AchievementInputBoundaryFactoryProvider;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
 
 /**
@@ -21,7 +22,8 @@ public class ToDoPage extends Composite<Div>
   /**
    * Creates a new instance.
    */
-  public ToDoPage(@Autowired final ToDoInputBoundaryFactoryProvider inputBoundaryFactoryProvider)
+  public ToDoPage(@Autowired final ToDoInputBoundaryFactoryProvider todoFactory,
+                  @Autowired final AchievementInputBoundaryFactoryProvider achievementFactory)
   {
     super();
 
@@ -29,8 +31,11 @@ public class ToDoPage extends Composite<Div>
     getContent().setWidthFull();
 
     final var view = new ToDoView(viewModel);
-    final var presenter = new ToDoPresenterFactory(viewModel);
-    final var controller = new ToDoController(inputBoundaryFactoryProvider.getInstance(presenter));
+    final var todoPresenter = new ToDoPresenterFactory(viewModel);
+    final var achievementPresenter = new AchievementPresenterFactory(viewModel);
+    final var controller = new ToDoController(
+        todoFactory.getInstance(todoPresenter),
+        achievementFactory.getInstance(achievementPresenter));
 
     view.addSaveListener(l -> controller.save(
         viewModel.identity.get(), viewModel.headline.get(), viewModel.description.get()));
@@ -44,6 +49,7 @@ public class ToDoPage extends Composite<Div>
     view.addResetListener(todo -> controller.reset(todo.identity.get()));
 
     controller.subscribeToDoList();
+    controller.subscribeAchievements();
 
     getContent().add(view);
   }

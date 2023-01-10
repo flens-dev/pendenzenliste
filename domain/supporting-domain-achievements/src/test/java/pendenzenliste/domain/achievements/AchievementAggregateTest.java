@@ -43,7 +43,7 @@ class AchievementAggregateTest
             .state(StateValueType.LOCKED)
             .build();
 
-    achievement.progress(new ToDoCreatedEvent(LocalDateTime.now(),
+    achievement.trackProgress(new ToDoCreatedEvent(LocalDateTime.now(),
         new pendenzenliste.domain.todos.IdentityValueObject("42")));
 
     final var assertions = new SoftAssertions();

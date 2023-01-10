@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
+import pendenzenliste.boundary.in.AchievementInputBoundaryFactory;
 import pendenzenliste.boundary.in.CompleteToDoInputBoundary;
 import pendenzenliste.boundary.in.CompleteToDoRequest;
 import pendenzenliste.boundary.in.CreateToDoInputBoundary;
@@ -30,8 +31,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(FetchToDoInputBoundary.class);
     when(inputBoundaryFactory.fetch()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.loadForEdit("test-identity");
 
@@ -45,8 +47,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(UpdateToDoInputBoundary.class);
     when(inputBoundaryFactory.update()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.update("test-identity", "test-headline", "test-description");
 
@@ -61,8 +64,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(CreateToDoInputBoundary.class);
     when(inputBoundaryFactory.create()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.create("test-headline", "test-description");
 
@@ -76,8 +80,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(DeleteToDoInputBoundary.class);
     when(inputBoundaryFactory.delete()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.delete("test-identity");
 
@@ -91,8 +96,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(CompleteToDoInputBoundary.class);
     when(inputBoundaryFactory.complete()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.complete("test-identity");
 
@@ -106,8 +112,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(ResetToDoInputBoundary.class);
     when(inputBoundaryFactory.reset()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.reset("test-identity");
 
@@ -121,8 +128,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(CreateToDoInputBoundary.class);
     when(inputBoundaryFactory.create()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.save(null, "test-headline", "test-description");
 
@@ -136,8 +144,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(CreateToDoInputBoundary.class);
     when(inputBoundaryFactory.create()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.save("", "test-headline", "test-description");
 
@@ -151,8 +160,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(UpdateToDoInputBoundary.class);
     when(inputBoundaryFactory.update()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.save("test-identity", "test-headline", "test-description");
 
@@ -167,8 +177,9 @@ class ToDoControllerTest
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
     var inputBoundary = mock(SubscribeToDoListInputBoundary.class);
     when(inputBoundaryFactory.subscribe()).thenReturn(inputBoundary);
+    var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
-    var controller = new ToDoController(inputBoundaryFactory);
+    var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
 
     controller.subscribeToDoList();
 

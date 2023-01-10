@@ -59,7 +59,7 @@ public class BindingProperty<T>
     if (!Objects.equals(value, oldValue))
     {
       this.value = value;
-      bindings.forEach(binding -> binding.accept(this.value));
+      bindings.forEach(binding -> binding.accept(value));
     }
   }
 

@@ -12,11 +12,16 @@ import com.vaadin.flow.component.DetachEvent;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 /**
  * A view that can be used to display a list of todos and interact with them.
@@ -30,6 +35,8 @@ public class ToDoView extends Component implements HasSize, HasComponents
   private final ToDoEditorWidget editor = new ToDoEditorWidget();
 
   private final ToDoListWidget todoList = new ToDoListWidget();
+
+  private final UI ui = UI.getCurrent();
 
   /**
    * Creates a new instance.
@@ -46,6 +53,7 @@ public class ToDoView extends Component implements HasSize, HasComponents
     this.viewModel.headline.bindTwoWay(editor.getHeadlineField());
     this.viewModel.description.bindTwoWay(editor.getDescriptionField());
     this.viewModel.errorMessage.bind(this::showGenericErrorMessage);
+    this.viewModel.unlockedAchievement.bind(this::showUnlockedAchievement);
 
     editor.getElement().setProperty("slot", "editor");
     todoList.getElement().setProperty("slot", "list");
@@ -66,6 +74,22 @@ public class ToDoView extends Component implements HasSize, HasComponents
     {
       Notification.show(message).addThemeVariants(NotificationVariant.LUMO_ERROR);
       viewModel.errorMessage.clear();
+    }
+  }
+
+  /**
+   * Shows an unlocked achievement.
+   *
+   * @param achievement The achievement.
+   */
+  public void showUnlockedAchievement(final UnlockedAchievementDTO achievement)
+  {
+    if (achievement != null)
+    {
+      ui.accessSynchronously(() -> {
+        createAchievementUnlockedNotification(achievement).open();
+        viewModel.unlockedAchievement.set(null);
+      });
     }
   }
 
@@ -149,5 +173,31 @@ public class ToDoView extends Component implements HasSize, HasComponents
     super.onDetach(detachEvent);
 
     viewModel.detached.set(Boolean.TRUE);
+  }
+
+  public static Notification createAchievementUnlockedNotification(
+      final UnlockedAchievementDTO achievement)
+  {
+    final var notification = new Notification();
+
+    final var icon = VaadinIcon.CHECK_CIRCLE.create();
+    icon.setColor("var(--lumo-success-color)");
+
+    final var uploadSuccessful = new Div(new Text(achievement.title()));
+    uploadSuccessful.getStyle().set("font-weight", "600").set("color",
+        "var(--lumo-success-text-color)");
+
+    final var info = new Div(uploadSuccessful,
+        new Div(new Text(achievement.description())));
+    info.getStyle().set("font-size", "var(--lumo-font-size-s)").set("color",
+        "var(--lumo-secondary-text-color)");
+
+    HorizontalLayout layout = new HorizontalLayout(icon, info);
+    layout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+    notification.add(layout);
+    notification.setDuration(10000);
+
+    return notification;
   }
 }

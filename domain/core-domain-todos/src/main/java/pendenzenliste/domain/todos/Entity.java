@@ -7,6 +7,7 @@ package pendenzenliste.domain.todos;
  */
 public interface Entity<I>
 {
+  
   /**
    * Retrieves the identity of the entity.
    *

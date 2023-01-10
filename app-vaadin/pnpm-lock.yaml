@@ -109,6 +109,7 @@ specifiers:
   construct-style-sheets-polyfill: 3.1.0
   date-fns: 2.29.3
   glob: 7.2.3
+  i18next: ^22.4.9
   lit: 2.4.1
   mkdirp: 1.0.4
   rollup-plugin-brotli: 3.1.0
@@ -226,6 +227,7 @@ dependencies:
   '@vaadin/virtual-list': 23.3.1
   construct-style-sheets-polyfill: 3.1.0
   date-fns: 2.29.3
+  i18next: 22.4.9
   lit: 2.4.1
 
 devDependencies:
@@ -1365,7 +1367,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
-    dev: true
 
   /@babel/template/7.18.10:
     resolution: {integrity: sha512-TI+rCtooWHr3QJ27kJxfjutghu44DLnasDMwpDqCXVTal9RLp3RSYNh4NdBrRP2cQAoG9A8juOQl6P6oZG4JxA==}
@@ -3641,6 +3642,12 @@ packages:
       function-bind: 1.1.1
     dev: true
 
+  /i18next/22.4.9:
+    resolution: {integrity: sha512-8gWMmUz460KJDQp/ob3MNUX84cVuDRY9PLFPnV8d+Qezz/6dkjxwOaH70xjrCNDO+JrUL25iXfAIN9wUkInNZw==}
+    dependencies:
+      '@babel/runtime': 7.20.6
+    dev: false
+
   /idb/6.1.5:
     resolution: {integrity: sha512-IJtugpKkiVXQn5Y+LteyBCNk1N8xpGV3wWZk9EVtZWH8DYkjBn0bX1XnGP9RkyZF0sAcywa6unHqSWKe7q4LGw==}
     dev: true
@@ -4113,7 +4120,6 @@ packages:
 
   /regenerator-runtime/0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
-    dev: true
 
   /regenerator-transform/0.15.1:
     resolution: {integrity: sha512-knzmNAcuyxV+gQCufkYcvOqX/qIIfHLv0u5x79kRxuGojfYVky1f15TzZEu2Avte8QGepvUNTnLskf8E6X6Vyg==}

@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoCompletedEvent;
+import pendenzenliste.domain.todos.ToDoResetEvent;
 
 /**
  * An achievement progress tracker that can be used to track the "Third time's the charm" achievement.
@@ -20,7 +20,7 @@ public class ThirdTimesTheCharmAchievementProgressTracker implements Achievement
    * {@inheritDoc}
    */
   @Override
-  public void visit(final ToDoCompletedEvent event)
+  public void visit(final ToDoResetEvent event)
   {
     final var progress = progressMap.getOrDefault(event.identity(), new ProgressValueObject(0, 3));
 

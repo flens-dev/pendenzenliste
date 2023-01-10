@@ -21,6 +21,9 @@ public class ToDoListViewModel
 
   public final BooleanBindingProperty detached = new BooleanBindingProperty();
 
+  public final BindingProperty<UnlockedAchievementDTO> unlockedAchievement =
+      new BindingProperty<>();
+
   /**
    * Clears the editor input values.
    */

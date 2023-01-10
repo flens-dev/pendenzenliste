@@ -125,7 +125,7 @@
       "workbox-core": "6.5.0",
       "workbox-precaching": "6.5.0"
     },
-    "hash": "50fec49d807b58ac2b3b720fb0fe68c2ac2296f8d1dabd0274d3a578dc382679"
+    "hash": "1c96b249ab8c722babb17511bfdc506ebb3fe2204110e9ad2c16d3a7801a3fcf"
   },
   "dependencies": {
     "@polymer/iron-icon": "3.0.1",
@@ -232,6 +232,7 @@
     "@vaadin/virtual-list": "23.3.1",
     "construct-style-sheets-polyfill": "3.1.0",
     "date-fns": "2.29.3",
+    "i18next": "^22.4.9",
     "lit": "2.4.1"
   },
   "devDependencies": {

@@ -5,6 +5,7 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
+import pendenzenliste.domain.achievements.StateValueType;
 import pendenzenliste.domain.todos.ToDoEvent;
 import pendenzenliste.messaging.Subscriber;
 
@@ -39,7 +40,13 @@ public class AchievementTrackingSubscriber implements Subscriber<ToDoEvent>
   @Override
   public void onEvent(final ToDoEvent event)
   {
-    gateway.fetchAll().forEach(achievement -> achievement.progress(event));
+    gateway.fetchAll()
+        .filter(aggregate ->
+            StateValueType.LOCKED.equals(aggregate.aggregateRoot().state()))
+        .forEach(achievement -> {
+          achievement.trackProgress(event);
+          gateway.store(achievement);
+        });
   }
 
   /**

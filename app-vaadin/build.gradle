@@ -4,9 +4,16 @@ buildscript {
     }
 }
 plugins {
+    id "com.github.node-gradle.node" version "3.5.1"
     id 'org.springframework.boot' version '3.0.0'
     id 'java'
     id 'com.vaadin' version "${vaadinVersion}"
+}
+
+node {
+    download = true
+    version = "16.19.0"
+    pnpmVersion = "7.23.0"
 }
 
 defaultTasks("clean", "build")
@@ -26,6 +33,8 @@ dependencies {
     implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.70'
     implementation "javax.servlet:javax.servlet-api:4.0.1"
 }
+
+vaadinPrepareFrontend.dependsOn(pnpmInstall)
 
 configurations {
     all {

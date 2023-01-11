@@ -28,7 +28,7 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
   {
     return new ToDoEntity(identity, headline, description, created,
         LastModifiedTimestampValueObject.now(), CompletedTimestampValueObject.now(),
-        ToDoStateValueObject.DONE);
+        ToDoStateValueObject.COMPLETED);
   }
 
   /**
@@ -46,9 +46,9 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
       capabilities.add(ToDoCapabilityValueObject.DELETE);
     }
 
-    if (ToDoStateValueObject.DONE.equals(state))
+    if (ToDoStateValueObject.COMPLETED.equals(state))
     {
-      capabilities.add(ToDoCapabilityValueObject.RESET);
+      capabilities.add(ToDoCapabilityValueObject.REOPEN);
     }
 
     return capabilities;

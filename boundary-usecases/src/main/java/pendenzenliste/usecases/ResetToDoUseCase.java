@@ -12,7 +12,7 @@ import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
 import pendenzenliste.domain.todos.IdentityValueObject;
 import pendenzenliste.domain.todos.ToDoCapabilityValueObject;
-import pendenzenliste.domain.todos.ToDoResetEvent;
+import pendenzenliste.domain.todos.ToDoReopenedEvent;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
 
@@ -69,13 +69,13 @@ public class ResetToDoUseCase implements ResetToDoInputBoundary
         return new ToDoUpdateFailedResponse("The ToDo does not exist");
       }
 
-      if (todo.get().doesNotHave(ToDoCapabilityValueObject.RESET))
+      if (todo.get().doesNotHave(ToDoCapabilityValueObject.REOPEN))
       {
         return new ToDoUpdateFailedResponse("The ToDo cannot be reset in its current state");
       }
 
       gateway.store(todo.get().reset());
-      eventPublisher.publish(new ToDoResetEvent(LocalDateTime.now(), identity));
+      eventPublisher.publish(new ToDoReopenedEvent(LocalDateTime.now(), identity));
 
       return new ToDoUpdatedResponse();
     } catch (final IllegalArgumentException e)

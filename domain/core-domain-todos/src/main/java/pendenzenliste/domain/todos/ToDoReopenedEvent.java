@@ -3,12 +3,12 @@ package pendenzenliste.domain.todos;
 import java.time.LocalDateTime;
 
 /**
- * An event that can be used to indicate that a todo has been reset.
+ * An event that can be used to indicate that a todo has been reopened.
  *
  * @param timestamp The timestamp.
  * @param identity  The identity of the todo.
  */
-public record ToDoResetEvent(LocalDateTime timestamp, IdentityValueObject identity)
+public record ToDoReopenedEvent(LocalDateTime timestamp, IdentityValueObject identity)
     implements ToDoEvent
 {
   /**

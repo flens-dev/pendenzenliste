@@ -35,7 +35,7 @@ public final class ViewModelMappingUtils
       viewModel.deletable.set(todo.capabilities().contains("DELETE"));
       viewModel.editable.set(todo.capabilities().contains("UPDATE"));
       viewModel.completable.set(todo.capabilities().contains("COMPLETE"));
-      viewModel.resettable.set(todo.capabilities().contains("RESET"));
+      viewModel.reopenable.set(todo.capabilities().contains("REOPEN"));
 
       return viewModel;
     };

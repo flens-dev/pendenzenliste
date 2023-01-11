@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import pendenzenliste.domain.todos.ToDoResetEvent;
+import pendenzenliste.domain.todos.ToDoReopenedEvent;
 
 class ThirdTimesTheCharmAchievementAggregateTest
 {
@@ -33,7 +33,7 @@ class ThirdTimesTheCharmAchievementAggregateTest
     for (int i = 0; i < 3; i++)
     {
       final var event =
-          new ToDoResetEvent(currentTimestamp,
+          new ToDoReopenedEvent(currentTimestamp,
               pendenzenliste.domain.todos.IdentityValueObject.of(i));
 
       achievement.trackProgress(event);
@@ -57,7 +57,7 @@ class ThirdTimesTheCharmAchievementAggregateTest
     for (int i = 0; i < 3; i++)
     {
       final var event =
-          new ToDoResetEvent(currentTimestamp,
+          new ToDoReopenedEvent(currentTimestamp,
               pendenzenliste.domain.todos.IdentityValueObject.of(42));
 
       achievement.trackProgress(event);

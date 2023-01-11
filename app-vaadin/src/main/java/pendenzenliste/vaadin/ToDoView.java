@@ -130,7 +130,7 @@ public class ToDoView extends Component implements HasSize, HasComponents
    */
   public void addResetListener(final Consumer<ToDoListItemViewModel> listener)
   {
-    todoList.addResetListener(listener);
+    todoList.addReopenListener(listener);
   }
 
   /**

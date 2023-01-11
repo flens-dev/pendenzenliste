@@ -1,7 +1,7 @@
 import {customElement, html, LitElement, property} from "lit-element";
 import {badge} from "@vaadin/vaadin-lumo-styles";
 
-type todoState = "DONE" | "OPEN";
+type todoState = "COMPLETED" | "OPEN";
 
 @customElement("state-badge")
 export default class StateBadge extends LitElement {
@@ -18,7 +18,7 @@ export default class StateBadge extends LitElement {
     }
 
     private determineColorClass(): string {
-        return this.state === "DONE" ? "success" : "";
+        return this.state === "COMPLETED" ? "success" : "";
     }
 
     static get styles() {

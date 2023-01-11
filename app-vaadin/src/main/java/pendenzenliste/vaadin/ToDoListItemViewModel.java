@@ -25,5 +25,5 @@ public class ToDoListItemViewModel
 
   public final BooleanBindingProperty completable = new BooleanBindingProperty(Boolean.FALSE);
 
-  public final BooleanBindingProperty resettable = new BooleanBindingProperty(Boolean.FALSE);
+  public final BooleanBindingProperty reopenable = new BooleanBindingProperty(Boolean.FALSE);
 }

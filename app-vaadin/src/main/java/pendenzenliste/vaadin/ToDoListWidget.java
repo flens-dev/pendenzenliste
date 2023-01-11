@@ -26,7 +26,7 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
   private final Collection<Consumer<ToDoListItemViewModel>> editListeners = new ArrayList<>();
   private final Collection<Consumer<ToDoListItemViewModel>> completeListeners = new ArrayList<>();
 
-  private final Collection<Consumer<ToDoListItemViewModel>> resetListeners = new ArrayList<>();
+  private final Collection<Consumer<ToDoListItemViewModel>> reopenListeners = new ArrayList<>();
 
   /**
    * Sets the items.
@@ -106,13 +106,13 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
       final var deleteItem =
           menu.addItem("Delete", event -> deleteListeners.forEach(l -> l.accept(todo)));
 
-      final var resetItem =
-          menu.addItem("Reset", event -> resetListeners.forEach(l -> l.accept(todo)));
+      final var reopenItem =
+          menu.addItem("Reopen", event -> reopenListeners.forEach(l -> l.accept(todo)));
 
       todo.editable.bind(editItem::setEnabled);
       todo.completable.bind(completeItem::setEnabled);
       todo.deletable.bind(deleteItem::setEnabled);
-      todo.resettable.bind(resetItem::setEnabled);
+      todo.reopenable.bind(reopenItem::setEnabled);
 
       return bar;
     };
@@ -149,12 +149,12 @@ public class ToDoListWidget extends Composite<Grid<ToDoListItemViewModel>>
   }
 
   /**
-   * Adds a reset listener.
+   * Adds a reopen listener.
    *
    * @param listener The listener.
    */
-  public void addResetListener(final Consumer<ToDoListItemViewModel> listener)
+  public void addReopenListener(final Consumer<ToDoListItemViewModel> listener)
   {
-    resetListeners.add(listener);
+    reopenListeners.add(listener);
   }
 }

@@ -3,7 +3,7 @@ package pendenzenliste.domain.achievements;
 import java.util.Collection;
 
 import pendenzenliste.domain.todos.ToDoEvent;
-import pendenzenliste.domain.todos.ToDoResetEvent;
+import pendenzenliste.domain.todos.ToDoReopenedEvent;
 
 /**
  * An achievement aggregate that can be used to track the "Third time's the charm" achievement.
@@ -51,7 +51,7 @@ public class ThirdTimesTheCharmAchievementAggregate extends AbstractAchievementA
    * {@inheritDoc}
    */
   @Override
-  public void visit(final ToDoResetEvent event)
+  public void visit(final ToDoReopenedEvent event)
   {
     final ProgressItemEntity progressItem = progressItems().stream()
         .filter(item -> item.identity().value().equals(event.identity().value()))

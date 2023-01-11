@@ -6,7 +6,7 @@ import pendenzenliste.domain.todos.ToDoCompletedEvent;
 import pendenzenliste.domain.todos.ToDoCreatedEvent;
 import pendenzenliste.domain.todos.ToDoDeletedEvent;
 import pendenzenliste.domain.todos.ToDoEventVisitor;
-import pendenzenliste.domain.todos.ToDoResetEvent;
+import pendenzenliste.domain.todos.ToDoReopenedEvent;
 import pendenzenliste.domain.todos.ToDoUpdatedEvent;
 
 /**
@@ -62,7 +62,7 @@ public interface AchievementProgressTracker extends ToDoEventVisitor, Serializab
    * {@inheritDoc}
    */
   @Override
-  default void visit(final ToDoResetEvent event)
+  default void visit(final ToDoReopenedEvent event)
   {
   }
 

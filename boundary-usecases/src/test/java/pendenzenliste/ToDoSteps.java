@@ -51,7 +51,7 @@ import pendenzenliste.domain.todos.ToDoCreatedEvent;
 import pendenzenliste.domain.todos.ToDoDeletedEvent;
 import pendenzenliste.domain.todos.ToDoEntity;
 import pendenzenliste.domain.todos.ToDoEvent;
-import pendenzenliste.domain.todos.ToDoResetEvent;
+import pendenzenliste.domain.todos.ToDoReopenedEvent;
 import pendenzenliste.domain.todos.ToDoStateValueObject;
 import pendenzenliste.domain.todos.ToDoUpdatedEvent;
 import pendenzenliste.gateway.ToDoGateway;
@@ -359,7 +359,7 @@ public class ToDoSteps
         List.of(ToDoCompletedEvent.class,
                 ToDoCreatedEvent.class,
                 ToDoDeletedEvent.class,
-                ToDoResetEvent.class,
+                ToDoReopenedEvent.class,
                 ToDoUpdatedEvent.class)
             .stream()
             .collect(Collectors.toMap(Class::getSimpleName, clazz -> clazz));

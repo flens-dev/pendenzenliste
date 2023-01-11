@@ -31,7 +31,7 @@ public interface ToDoEventVisitor
    *
    * @param event The event.
    */
-  void visit(ToDoResetEvent event);
+  void visit(ToDoReopenedEvent event);
 
   /**
    * Visits the given event.

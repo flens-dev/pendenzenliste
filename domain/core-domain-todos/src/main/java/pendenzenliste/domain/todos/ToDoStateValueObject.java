@@ -7,5 +7,5 @@ public enum ToDoStateValueObject
 {
   OPEN,
 
-  DONE
+  COMPLETED
 }

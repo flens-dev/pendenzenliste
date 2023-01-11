@@ -1,7 +1,7 @@
 package pendenzenliste.domain.achievements;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * A seed for the achievements.
@@ -15,15 +15,22 @@ public class AchievementSeed
    */
   public static Collection<AchievementAggregate> seededAchievements()
   {
-
-    final Collection<AchievementAggregate> achievements = new ArrayList<>();
-
-    for (final AchievementValueType type : AchievementValueType.values())
-    {
-      achievements.add(AchievementAggregate.builder().identity(type.name()).name(type)
-          .state(StateValueType.LOCKED).build());
-    }
-
-    return achievements;
+    return List.of(
+        DonezoAchievementAggregate.builder().state(StateValueType.LOCKED)
+            .randomIdentity()
+            .build(),
+        ItBurnsAchievementAggregate.builder().state(StateValueType.LOCKED)
+            .randomIdentity()
+            .build(),
+        JourneyBeginsAchievementAggregate.builder().state(StateValueType.LOCKED)
+            .randomIdentity()
+            .build(),
+        NewYearNewMeAchievementAggregate.builder().state(StateValueType.LOCKED)
+            .randomIdentity()
+            .build(),
+        ThirdTimesTheCharmAchievementAggregate.builder().state(StateValueType.LOCKED)
+            .randomIdentity()
+            .build()
+    );
   }
 }

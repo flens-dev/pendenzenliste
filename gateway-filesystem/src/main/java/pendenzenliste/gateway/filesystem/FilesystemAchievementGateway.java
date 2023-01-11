@@ -1,7 +1,5 @@
 package pendenzenliste.gateway.filesystem;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,7 +8,6 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.domain.achievements.AchievementAggregate;
-import pendenzenliste.domain.achievements.AchievementEvent;
 import pendenzenliste.domain.achievements.AchievementEventEntity;
 import pendenzenliste.domain.achievements.IdentityValueObject;
 import pendenzenliste.gateway.AchievementGateway;
@@ -63,33 +60,23 @@ public class FilesystemAchievementGateway implements AchievementGateway
   @Override
   public void store(final AchievementAggregate achievement)
   {
-    final Collection<AchievementEventEntity> events = new ArrayList<>();
-    final Collection<AchievementEvent> unpublishedEvents = new ArrayList<>();
-
-    for (final AchievementEventEntity event : achievement.events())
+    for (final AchievementEventEntity event :
+        achievement.events()
+            .stream()
+            .filter(event -> event.identity() == null)
+            .toList())
     {
-      if (event.identity() == null)
-      {
-        final var unpublishedEvent = event.withIdentity(IdentityValueObject.random());
+      final var unpublishedEvent =
+          event.withIdentity(IdentityValueObject.random());
 
-        events.add(unpublishedEvent);
-        unpublishedEvents.add(unpublishedEvent.event());
-      } else
-      {
-        events.add(event);
-      }
+      achievement.replaceEvent(event, unpublishedEvent);
+      eventBus.publish(unpublishedEvent.event());
     }
 
-    achievement.updateEvents(events);
     final Map<IdentityValueObject, AchievementAggregate> cache =
         storage.getOr(new ConcurrentHashMap<>());
 
     cache.put(achievement.aggregateRoot().identity(), achievement);
     storage.flushToDisk(cache);
-
-    for (final AchievementEvent unpublishedEvent : unpublishedEvents)
-    {
-      eventBus.publish(unpublishedEvent);
-    }
   }
 }

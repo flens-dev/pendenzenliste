@@ -1,275 +1,88 @@
 package pendenzenliste.domain.achievements;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-
-import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.domain.todos.ToDoEvent;
 
 /**
- * An aggregate that can be used to represent an achievement.
+ * The interface for objects that represent an achievement aggregate.
  */
-public class AchievementAggregate implements Serializable
+public interface AchievementAggregate extends Serializable
 {
-  private AchievementEntity achievement;
-  private final Collection<AchievementEventEntity> events;
-  private final AchievementProgressTracker progressTracker;
+  /**
+   * The aggregate root entity.
+   *
+   * @return The aggregate root entity.
+   */
+  AchievementEntity aggregateRoot();
 
   /**
-   * Creates a new instance.
+   * The event entities.
    *
-   * @param achievement     The achievement.
-   * @param events          The events.
-   * @param progressTracker The progress tracker.
+   * @return The event entities.
    */
-  public AchievementAggregate(final AchievementEntity achievement,
-                              final Collection<AchievementEventEntity> events,
-                              final AchievementProgressTracker progressTracker)
-  {
-    this.achievement = requireNonNull(achievement, "The achievement may not be null");
-    this.events = new ArrayList<>(requireNonNull(events, "The events may not be null"));
-    this.progressTracker = requireNonNull(progressTracker, "The progress tracker may not be null");
-  }
+  Collection<AchievementEventEntity> events();
 
   /**
-   * The aggregate root.
+   * The progress entities.
    *
-   * @return The aggregate root.
+   * @return The progress entities.
    */
-  public AchievementEntity aggregateRoot()
-  {
-    return achievement;
-  }
+  Collection<ProgressItemEntity> progressItems();
 
   /**
-   * The events associated with the aggregate root.
+   * Replaces the given old event with the new event.
    *
-   * @return The events.
+   * @param oldEvent The old event.
+   * @param newEvent The new event.
    */
-  public Collection<AchievementEventEntity> events()
-  {
-    return new ArrayList<>(events);
-  }
+  void replaceEvent(AchievementEventEntity oldEvent, AchievementEventEntity newEvent);
 
   /**
-   * Updates the events for the aggregate.
+   * Checks whether the achievement has been completed.
    *
-   * @param events The events.
+   * @return True if the achievement has been completed, otherwise false.
    */
-  public void updateEvents(final Collection<AchievementEventEntity> events)
+  default boolean isCompleted()
   {
-    this.events.clear();
-    this.events.addAll(events);
-  }
-
-  /**
-   * Tracks the progress of the achievement based on the given event.
-   *
-   * @param event The event.
-   */
-  public void trackProgress(final ToDoEvent event)
-  {
-    event.visit(progressTracker);
-
-    if (isLocked() && progressTracker.isCompleted())
+    for (final ProgressItemEntity progress : progressItems())
     {
-      unlock();
+      if (progress.isCompleted())
+      {
+        return true;
+      }
     }
+
+    return false;
   }
 
   /**
-   * Checks whether the achievement is locked.
+   * Checks whether the achievement is currently locked.
    *
-   * @return True if the achievement is locked, otherwise false.
+   * @return True if the achievement is locked.
    */
-  private boolean isLocked()
+  default boolean isLocked()
   {
-    return StateValueType.LOCKED.equals(achievement.state());
+    return StateValueType.LOCKED.equals(aggregateRoot().state());
   }
 
   /**
    * Unlocks the achievement.
    */
-  public void unlock()
-  {
-    final var update =
-        builder().copyFrom(this).state(StateValueType.UNLOCKED).unlocked(LocalDateTime.now())
-            .withEvents(new AchievementUnlockedEvent(LocalDateTime.now(), achievement.name()))
-            .build();
-
-    this.achievement = update.achievement;
-    this.events.clear();
-    this.events.addAll(update.events);
-  }
+  void unlockIfCompleted();
 
   /**
-   * The builder.
+   * Tracks the progress based on the given event.
    *
-   * @return The builder.
+   * @param event The event.
    */
-  public static Builder builder()
-  {
-    return new Builder();
-  }
+  void trackProgress(final ToDoEvent event);
 
   /**
-   * A builder for the {@link AchievementAggregate}
+   * Tracks the progress based on the given event.
+   *
+   * @param event The event.
    */
-  public static class Builder
-  {
-    private IdentityValueObject identity;
-    private AchievementValueType name;
-
-    private StateValueType state;
-
-    private UnlockedTimestampValueType unlocked;
-
-    private AchievementProgressTracker progressTracker;
-
-    private final Collection<AchievementEventEntity> events = new ArrayList<>();
-
-    /**
-     * Copies the data from the given aggregate.
-     *
-     * @param aggregate The aggregate.
-     * @return The builder.
-     */
-    public Builder copyFrom(final AchievementAggregate aggregate)
-    {
-      this.identity = aggregate.achievement.identity();
-      this.name = aggregate.achievement.name();
-      this.state = aggregate.achievement.state();
-      this.unlocked = aggregate.achievement.unlocked();
-      this.events.addAll(aggregate.events);
-      this.progressTracker = aggregate.progressTracker;
-
-      return this;
-    }
-
-    /**
-     * The identity of the achievement.
-     *
-     * @param identity The identity.
-     * @return The builder.
-     */
-    public Builder identity(final String identity)
-    {
-      this.identity = new IdentityValueObject(identity);
-      return this;
-    }
-
-    /**
-     * Sets a random identity for the achievement.
-     *
-     * @return The builder.
-     */
-    public Builder randomIdentity()
-    {
-      this.identity = IdentityValueObject.random();
-      return this;
-    }
-
-    /**
-     * Sets the name of the achievement.
-     *
-     * @param name The name.
-     * @return The builder.
-     */
-    public Builder name(final AchievementValueType name)
-    {
-      this.name = name;
-
-      this.progressTracker = createProgressTrackerFor(name);
-
-      return this;
-    }
-
-    /**
-     * Creates the appropriate progress tracker for the given achievement.
-     *
-     * @param achievement The achievement.
-     * @return The progress tracker.
-     */
-    private AchievementProgressTracker createProgressTrackerFor(
-        final AchievementValueType achievement)
-    {
-      switch (achievement)
-      {
-        case JOURNEY_BEGINS ->
-        {
-          return new JourneyBeginsAchievementProgressTracker();
-        }
-        case DONEZO ->
-        {
-          return new DonezoAchievementProgressTracker();
-        }
-        case NEW_YEAR_NEW_ME ->
-        {
-          return new NewYearNewMeAchievementProgressTracker();
-        }
-        case IT_BURNS ->
-        {
-          return new ItBurnsAchievementProgressTracker();
-        }
-        case THIRD_TIMES_THE_CHARM ->
-        {
-          return new ThirdTimesTheCharmAchievementProgressTracker();
-        }
-        default -> throw new IllegalStateException("Unexpected value: " + achievement);
-      }
-    }
-
-    /**
-     * The state of the achievement.
-     *
-     * @param state The state.
-     * @return The builder.
-     */
-    public Builder state(final StateValueType state)
-    {
-      this.state = state;
-      return this;
-    }
-
-    /**
-     * Sets the unlocked timestamp for the achievement.
-     *
-     * @param unlocked The unlocked timestamp.
-     * @return The builder.
-     */
-    public Builder unlocked(final LocalDateTime unlocked)
-    {
-      this.unlocked = new UnlockedTimestampValueType(unlocked);
-      return this;
-    }
-
-    /**
-     * Adds the given events to the aggregate.
-     *
-     * @param events The events.
-     * @return The builder.
-     */
-    public Builder withEvents(final AchievementEvent... events)
-    {
-      for (final AchievementEvent event : events)
-      {
-        this.events.add(new AchievementEventEntity(null, event));
-      }
-      return this;
-    }
-
-    /**
-     * Builds the aggregate.
-     *
-     * @return The aggregate.
-     */
-    public AchievementAggregate build()
-    {
-      return new AchievementAggregate(new AchievementEntity(identity, name, state, unlocked),
-          events, progressTracker);
-    }
-  }
+  void trackProgress(final AchievementEvent event);
 }

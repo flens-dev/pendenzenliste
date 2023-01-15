@@ -3,8 +3,8 @@ package pendenzenliste.usecases;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
 import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
-import pendenzenliste.gateway.ToDoGatewayProvider;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 /**
  * A {@link ToDoInputBoundaryFactoryProvider} that provides access to a {@link ToDoUseCaseFactory}

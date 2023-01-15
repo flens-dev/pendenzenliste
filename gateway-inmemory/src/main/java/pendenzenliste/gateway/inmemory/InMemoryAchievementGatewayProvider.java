@@ -2,10 +2,10 @@ package pendenzenliste.gateway.inmemory;
 
 import java.util.Collection;
 
+import pendenzenliste.achievements.gateway.AchievementGateway;
+import pendenzenliste.achievements.gateway.AchievementGatewayProvider;
 import pendenzenliste.achievements.model.AchievementAggregate;
 import pendenzenliste.achievements.model.AchievementSeed;
-import pendenzenliste.gateway.AchievementGateway;
-import pendenzenliste.gateway.AchievementGatewayProvider;
 import pendenzenliste.messaging.EventBus;
 
 /**

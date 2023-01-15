@@ -1,4 +1,4 @@
-package pendenzenliste.gateway;
+package pendenzenliste.achievements.gateway;
 
 import java.util.Collection;
 import java.util.List;

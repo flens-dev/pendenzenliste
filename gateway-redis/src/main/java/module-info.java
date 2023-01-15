@@ -1,7 +1,7 @@
-import pendenzenliste.gateway.AchievementGatewayProvider;
-import pendenzenliste.gateway.ToDoGatewayProvider;
+import pendenzenliste.achievements.gateway.AchievementGatewayProvider;
 import pendenzenliste.gateway.redis.RedisAchievementGatewayProvider;
 import pendenzenliste.gateway.redis.RedisToDoGatewayProvider;
+import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 module pendenzenliste.gateway.redis.main {
   requires pendenzenliste.core.domain.todos.main;

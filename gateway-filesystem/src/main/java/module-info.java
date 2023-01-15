@@ -1,7 +1,7 @@
-import pendenzenliste.gateway.AchievementGatewayProvider;
-import pendenzenliste.gateway.ToDoGatewayProvider;
-import pendenzenliste.gateway.filesystem.FilesystemAchievementGatewayProvider;
-import pendenzenliste.gateway.filesystem.FilesystemToDoGatewayProvider;
+import pendenzenliste.achievements.gateway.AchievementGatewayProvider;
+import pendenzenliste.achievements.gateway.filesystem.FilesystemAchievementGatewayProvider;
+import pendenzenliste.todos.gateway.ToDoGatewayProvider;
+import pendenzenliste.todos.gateway.filesystem.FilesystemToDoGatewayProvider;
 
 module pendenzenliste.gateway.filesystem.main {
   requires pendenzenliste.supporting.domain.achievements.main;

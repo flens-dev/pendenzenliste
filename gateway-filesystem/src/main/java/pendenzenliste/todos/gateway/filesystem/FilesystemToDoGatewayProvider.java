@@ -1,8 +1,8 @@
-package pendenzenliste.gateway.filesystem;
+package pendenzenliste.todos.gateway.filesystem;
 
-import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.gateway.ToDoGatewayProvider;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.gateway.ToDoGateway;
+import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 /**
  * A provider for a {@link FilesystemToDoGateway}.

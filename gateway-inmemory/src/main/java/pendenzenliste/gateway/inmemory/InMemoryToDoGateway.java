@@ -9,8 +9,8 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoAggregate;
 import pendenzenliste.todos.model.ToDoEvent;

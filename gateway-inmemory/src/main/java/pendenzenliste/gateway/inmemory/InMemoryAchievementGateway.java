@@ -7,10 +7,10 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
+import pendenzenliste.achievements.gateway.AchievementGateway;
 import pendenzenliste.achievements.model.AchievementAggregate;
 import pendenzenliste.achievements.model.AchievementEventEntity;
 import pendenzenliste.achievements.model.IdentityValueObject;
-import pendenzenliste.gateway.AchievementGateway;
 import pendenzenliste.messaging.EventBus;
 
 /**

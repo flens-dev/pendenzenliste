@@ -8,7 +8,7 @@ import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
-import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoCapabilityValueObject;
 

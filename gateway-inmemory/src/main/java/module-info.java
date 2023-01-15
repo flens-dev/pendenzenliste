@@ -1,7 +1,7 @@
-import pendenzenliste.gateway.AchievementGatewayProvider;
-import pendenzenliste.gateway.ToDoGatewayProvider;
+import pendenzenliste.achievements.gateway.AchievementGatewayProvider;
 import pendenzenliste.gateway.inmemory.InMemoryAchievementGatewayProvider;
 import pendenzenliste.gateway.inmemory.InMemoryToDoGatewayProvider;
+import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 module pendenzenliste.gateway.inmemory.main {
   requires pendenzenliste.core.domain.todos.main;

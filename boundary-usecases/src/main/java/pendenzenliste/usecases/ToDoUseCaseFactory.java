@@ -12,8 +12,8 @@ import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
 import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
-import pendenzenliste.gateway.ToDoGatewayProvider;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 /**
  * A factory that can be used to access ToDo specific use cases.

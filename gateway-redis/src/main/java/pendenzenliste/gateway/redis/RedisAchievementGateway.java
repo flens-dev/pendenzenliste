@@ -15,11 +15,11 @@ import static pendenzenliste.serialization.SerializationUtils.deserializeMap;
 import static pendenzenliste.serialization.SerializationUtils.deserializeObject;
 import static pendenzenliste.serialization.SerializationUtils.serializeObject;
 
+import pendenzenliste.achievements.gateway.AchievementGateway;
 import pendenzenliste.achievements.model.AchievementAggregate;
 import pendenzenliste.achievements.model.AchievementEvent;
 import pendenzenliste.achievements.model.AchievementEventEntity;
 import pendenzenliste.achievements.model.IdentityValueObject;
-import pendenzenliste.gateway.AchievementGateway;
 import pendenzenliste.messaging.EventBus;
 import redis.clients.jedis.Jedis;
 

@@ -15,8 +15,8 @@ import static pendenzenliste.serialization.SerializationUtils.deserializeMap;
 import static pendenzenliste.serialization.SerializationUtils.deserializeObject;
 import static pendenzenliste.serialization.SerializationUtils.serializeObject;
 
-import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoAggregate;
 import pendenzenliste.todos.model.ToDoEvent;

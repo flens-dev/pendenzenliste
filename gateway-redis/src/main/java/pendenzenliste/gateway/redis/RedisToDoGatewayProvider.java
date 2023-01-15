@@ -1,8 +1,9 @@
 package pendenzenliste.gateway.redis;
 
-import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.gateway.ToDoGatewayProvider;
+
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.gateway.ToDoGateway;
+import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 import redis.clients.jedis.Jedis;
 
 /**

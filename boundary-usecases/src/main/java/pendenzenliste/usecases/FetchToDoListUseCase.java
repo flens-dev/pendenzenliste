@@ -8,7 +8,7 @@ import pendenzenliste.boundary.in.FetchTodoListRequest;
 import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
 import pendenzenliste.boundary.out.FetchToDoListResponse;
 import pendenzenliste.boundary.out.FetchedToDoListResponse;
-import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.todos.gateway.ToDoGateway;
 
 /**
  * A use case that can be used to fetch a list of todos

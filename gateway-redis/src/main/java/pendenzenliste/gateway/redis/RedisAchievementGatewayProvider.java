@@ -1,7 +1,8 @@
 package pendenzenliste.gateway.redis;
 
-import pendenzenliste.gateway.AchievementGateway;
-import pendenzenliste.gateway.AchievementGatewayProvider;
+
+import pendenzenliste.achievements.gateway.AchievementGateway;
+import pendenzenliste.achievements.gateway.AchievementGatewayProvider;
 import pendenzenliste.messaging.EventBus;
 import redis.clients.jedis.Jedis;
 

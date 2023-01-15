@@ -1,8 +1,9 @@
 package pendenzenliste.gateway.inmemory;
 
-import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.gateway.ToDoGatewayProvider;
+
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.gateway.ToDoGateway;
+import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 /**
  * A provider that can be used to access the instance of an {@link InMemoryToDoGateway}.

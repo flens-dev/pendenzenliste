@@ -10,7 +10,7 @@ import pendenzenliste.boundary.out.CreateToDoOutputBoundary;
 import pendenzenliste.boundary.out.CreateToDoResponse;
 import pendenzenliste.boundary.out.ToDoCreatedResponse;
 import pendenzenliste.boundary.out.ToDoCreationFailedResponse;
-import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.DescriptionValueObject;
 import pendenzenliste.todos.model.HeadlineValueObject;
 import pendenzenliste.todos.model.ToDoAggregate;

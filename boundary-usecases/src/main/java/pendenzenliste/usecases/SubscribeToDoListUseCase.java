@@ -10,9 +10,9 @@ import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.SubscribeToDoListRequest;
 import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
 import pendenzenliste.boundary.out.FetchedToDoListResponse;
-import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.messaging.Subscriber;
+import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.ToDoEvent;
 
 /**

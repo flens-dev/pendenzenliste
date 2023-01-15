@@ -1,4 +1,4 @@
-package pendenzenliste.gateway.filesystem;
+package pendenzenliste.achievements.gateway.filesystem;
 
 import java.util.Map;
 import java.util.Optional;
@@ -7,10 +7,11 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
+import pendenzenliste.achievements.gateway.AchievementGateway;
 import pendenzenliste.achievements.model.AchievementAggregate;
 import pendenzenliste.achievements.model.AchievementEventEntity;
 import pendenzenliste.achievements.model.IdentityValueObject;
-import pendenzenliste.gateway.AchievementGateway;
+import pendenzenliste.filesystem.util.FileStorage;
 import pendenzenliste.messaging.EventBus;
 
 /**

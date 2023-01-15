@@ -11,7 +11,7 @@ import pendenzenliste.boundary.out.FetchToDoFailedResponse;
 import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
 import pendenzenliste.boundary.out.FetchToDoResponse;
 import pendenzenliste.boundary.out.ToDoFetchedResponse;
-import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.CompletedTimestampValueObject;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoAggregate;

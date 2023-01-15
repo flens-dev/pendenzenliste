@@ -1,4 +1,4 @@
-package pendenzenliste.gateway;
+package pendenzenliste.todos.gateway;
 
 import java.util.Optional;
 import java.util.stream.Stream;

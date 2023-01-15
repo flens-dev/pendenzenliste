@@ -1,4 +1,4 @@
-package pendenzenliste.gateway.filesystem;
+package pendenzenliste.filesystem.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

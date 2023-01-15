@@ -1,10 +1,11 @@
 import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactoryProvider;
+import pendenzenliste.achievements.usecases.AchievementUseCaseFactoryProvider;
 import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactoryProvider;
-import pendenzenliste.usecases.AchievementUseCaseFactoryProvider;
-import pendenzenliste.usecases.ToDoUseCaseFactoryProvider;
+import pendenzenliste.todos.usecases.ToDoUseCaseFactoryProvider;
 
 module pendenzenliste.usecases.main {
-  exports pendenzenliste.usecases;
+  exports pendenzenliste.achievements.usecases;
+  exports pendenzenliste.todos.usecases;
 
   requires pendenzenliste.boundary.main;
   requires pendenzenliste.core.domain.todos.main;

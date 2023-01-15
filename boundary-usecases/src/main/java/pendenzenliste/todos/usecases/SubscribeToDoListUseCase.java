@@ -1,10 +1,10 @@
-package pendenzenliste.usecases;
+package pendenzenliste.todos.usecases;
 
 import java.util.Collection;
 import java.util.List;
 
 import static java.util.Objects.requireNonNull;
-import static pendenzenliste.usecases.ResponseModelMappingUtils.mapToResponseModel;
+import static pendenzenliste.todos.usecases.ResponseModelMappingUtils.mapToResponseModel;
 
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.messaging.Subscriber;

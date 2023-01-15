@@ -1,4 +1,4 @@
-package pendenzenliste.usecases;
+package pendenzenliste.todos.usecases;
 
 import java.time.LocalDateTime;
 

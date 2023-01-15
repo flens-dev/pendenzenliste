@@ -1,23 +1,22 @@
-package pendenzenliste.usecases;
+package pendenzenliste.todos.usecases;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.todos.boundary.in.UpdateToDoInputBoundary;
-import pendenzenliste.todos.boundary.in.UpdateToDoRequest;
+import pendenzenliste.todos.boundary.in.ReopenToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.ResetToDoRequest;
 import pendenzenliste.todos.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.todos.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
-import pendenzenliste.todos.model.DescriptionValueObject;
-import pendenzenliste.todos.model.HeadlineValueObject;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoCapabilityValueObject;
 
+
 /**
- * A use case that can be used to update an existing todo.
+ * A use case that can be used to reset a closed ToDo.
  */
-public class UpdateToDoUseCase implements UpdateToDoInputBoundary
+public class ReopenToDoUseCase implements ReopenToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final UpdateToDoOutputBoundary outputBoundary;
@@ -28,7 +27,7 @@ public class UpdateToDoUseCase implements UpdateToDoInputBoundary
    * @param gateway        The gateway that should be used by this instance.
    * @param outputBoundary The output boundary that should be used by this instance.
    */
-  public UpdateToDoUseCase(final ToDoGateway gateway, final UpdateToDoOutputBoundary outputBoundary)
+  public ReopenToDoUseCase(final ToDoGateway gateway, final UpdateToDoOutputBoundary outputBoundary)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
@@ -38,7 +37,7 @@ public class UpdateToDoUseCase implements UpdateToDoInputBoundary
    * {@inheritDoc}
    */
   @Override
-  public void execute(final UpdateToDoRequest request)
+  public void execute(final ResetToDoRequest request)
   {
     executeRequest(request).applyTo(outputBoundary);
   }
@@ -49,15 +48,11 @@ public class UpdateToDoUseCase implements UpdateToDoInputBoundary
    * @param request The request that should be executed.
    * @return The response.
    */
-  public UpdateToDoResponse executeRequest(final UpdateToDoRequest request)
+  public UpdateToDoResponse executeRequest(final ResetToDoRequest request)
   {
     try
     {
       final var identity = new IdentityValueObject(request.identity());
-
-      final var headline = new HeadlineValueObject(request.headline());
-
-      final var description = new DescriptionValueObject(request.description());
 
       final var todo = gateway.findById(identity);
 
@@ -66,12 +61,12 @@ public class UpdateToDoUseCase implements UpdateToDoInputBoundary
         return new ToDoUpdateFailedResponse("The ToDo does not exist");
       }
 
-      if (todo.get().doesNotHave(ToDoCapabilityValueObject.UPDATE))
+      if (todo.get().doesNotHave(ToDoCapabilityValueObject.REOPEN))
       {
-        return new ToDoUpdateFailedResponse("The ToDo cannot be updated in its current state");
+        return new ToDoUpdateFailedResponse("The ToDo cannot be reset in its current state");
       }
 
-      todo.get().update(headline, description);
+      todo.get().reopen();
 
       gateway.store(todo.get());
 

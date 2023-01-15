@@ -1,4 +1,4 @@
-package pendenzenliste.usecases;
+package pendenzenliste.achievements.usecases;
 
 import static java.util.Objects.requireNonNull;
 

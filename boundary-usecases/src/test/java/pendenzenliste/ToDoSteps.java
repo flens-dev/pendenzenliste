@@ -51,7 +51,7 @@ import pendenzenliste.todos.model.ToDoEvent;
 import pendenzenliste.todos.model.ToDoReopenedEvent;
 import pendenzenliste.todos.model.ToDoStateValueObject;
 import pendenzenliste.todos.model.ToDoUpdatedEvent;
-import pendenzenliste.usecases.ToDoUseCaseFactory;
+import pendenzenliste.todos.usecases.ToDoUseCaseFactory;
 
 /**
  * The steps used to execute the ToDo acceptance tests.

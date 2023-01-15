@@ -1,4 +1,4 @@
-package pendenzenliste.usecases;
+package pendenzenliste.achievements.usecases;
 
 import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactory;
 import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactoryProvider;

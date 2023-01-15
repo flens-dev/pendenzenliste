@@ -1,4 +1,4 @@
-package pendenzenliste.usecases;
+package pendenzenliste.achievements.usecases;
 
 import java.util.Collection;
 import java.util.List;

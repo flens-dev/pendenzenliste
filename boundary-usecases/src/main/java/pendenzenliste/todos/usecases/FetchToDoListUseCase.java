@@ -1,7 +1,7 @@
-package pendenzenliste.usecases;
+package pendenzenliste.todos.usecases;
 
 import static java.util.Objects.requireNonNull;
-import static pendenzenliste.usecases.ResponseModelMappingUtils.mapToResponseModel;
+import static pendenzenliste.todos.usecases.ResponseModelMappingUtils.mapToResponseModel;
 
 import pendenzenliste.todos.boundary.in.FetchToDoListInputBoundary;
 import pendenzenliste.todos.boundary.in.FetchTodoListRequest;

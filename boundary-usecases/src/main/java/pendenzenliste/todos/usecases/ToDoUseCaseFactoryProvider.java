@@ -1,4 +1,4 @@
-package pendenzenliste.usecases;
+package pendenzenliste.todos.usecases;
 
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;

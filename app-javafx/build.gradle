@@ -18,5 +18,5 @@ dependencies {
     runtimeOnly project(':boundary-usecases')
     runtimeOnly project(':gateway-filesystem')
 
-    implementation "io.reactivex.rxjava3:rxjava:3.1.5"
+    implementation "io.reactivex.rxjava3:rxjava:${rxJavaVersion}"
 }

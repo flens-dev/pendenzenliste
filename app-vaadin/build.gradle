@@ -12,8 +12,8 @@ plugins {
 
 node {
     download = true
-    version = "16.19.0"
-    pnpmVersion = "7.23.0"
+    version = "${desiredNpmVersion}"
+    pnpmVersion = "${desiredPnpmVersion}"
 }
 
 defaultTasks("clean", "build")
@@ -30,8 +30,8 @@ dependencies {
     implementation("com.vaadin:vaadin-spring-boot-starter")
 
     // We need to use tomcat version 9.x because vaadin only supports servlet-api 4.x
-    implementation 'org.apache.tomcat.embed:tomcat-embed-core:9.0.70'
-    implementation "javax.servlet:javax.servlet-api:4.0.1"
+    implementation "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}"
+    implementation "javax.servlet:javax.servlet-api:${servletApiVersion}"
 }
 
 vaadinPrepareFrontend.dependsOn(pnpmInstall)

@@ -16,17 +16,17 @@ dependencies {
     implementation project(':messaging')
     implementation project(':util-serialization')
 
-    implementation 'redis.clients:jedis:4.4.0-m1'
+    implementation "redis.clients:jedis:${jedisVersion}"
 
-    integrationTestImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
-    integrationTestRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
-    integrationTestImplementation "org.junit.jupiter:junit-jupiter:5.9.0"
-    integrationTestImplementation "org.junit.platform:junit-platform-suite:1.9.1"
+    integrationTestImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    integrationTestRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+    integrationTestImplementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"
+    integrationTestImplementation "org.junit.platform:junit-platform-suite:${junitPlatformVersion}"
 
-    integrationTestImplementation 'org.assertj:assertj-core:3.23.1'
-    integrationTestImplementation 'org.mockito:mockito-core:4.8.0'
+    integrationTestImplementation "org.assertj:assertj-core:${assertJVersion}"
+    integrationTestImplementation "org.mockito:mockito-core:${mockitoVersion}"
 
-    integrationTestImplementation 'org.testcontainers:testcontainers:1.17.2'
+    integrationTestImplementation "org.testcontainers:testcontainers:${testContainersVersion}"
 }
 
 tasks.register('integrationTest', Test) {

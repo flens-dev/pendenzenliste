@@ -13,18 +13,18 @@ configure(subprojects.findAll()) {
     }
 
     dependencies {
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
-        testImplementation "org.junit.jupiter:junit-jupiter:5.9.0"
-        testImplementation "org.junit.platform:junit-platform-suite:1.9.1"
+        testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+        testImplementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"
+        testImplementation "org.junit.platform:junit-platform-suite:${junitPlatformVersion}"
 
-        testImplementation 'io.cucumber:cucumber-java:7.8.1'
-        testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.8.1'
+        testImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+        testImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
 
-        testImplementation 'org.assertj:assertj-core:3.23.1'
-        testImplementation 'org.mockito:mockito-core:4.8.0'
+        testImplementation "org.assertj:assertj-core:${assertJVersion}"
+        testImplementation "org.mockito:mockito-core:${mockitoVersion}"
 
-        testImplementation 'com.tngtech.archunit:archunit-junit5:1.0.1'
+        testImplementation "com.tngtech.archunit:archunit-junit5:${archUnitVersion}"
     }
 
     test {

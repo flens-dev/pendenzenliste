@@ -2,6 +2,7 @@ package pendenzenliste.gateway.redis;
 
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.gateway.ToDoGatewayProvider;
+import pendenzenliste.messaging.EventBus;
 import redis.clients.jedis.Jedis;
 
 /**
@@ -15,6 +16,6 @@ public class RedisToDoGatewayProvider implements ToDoGatewayProvider
   @Override
   public ToDoGateway getInstance()
   {
-    return new RedisToDoGateway(new Jedis());
+    return new RedisToDoGateway(new Jedis(), EventBus.defaultEventBus());
   }
 }

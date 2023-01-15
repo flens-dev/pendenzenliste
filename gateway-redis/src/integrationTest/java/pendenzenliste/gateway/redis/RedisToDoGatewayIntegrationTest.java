@@ -1,15 +1,19 @@
 package pendenzenliste.gateway.redis;
 
+import java.time.LocalDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
-import pendenzenliste.domain.todos.DescriptionValueObject;
-import pendenzenliste.domain.todos.HeadlineValueObject;
 import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoEntity;
+import pendenzenliste.domain.todos.ToDoAggregate;
+import pendenzenliste.domain.todos.ToDoStateValueObject;
+import pendenzenliste.messaging.EventBus;
+import pendenzenliste.messaging.InMemoryEventBus;
+import pendenzenliste.messaging.Subscriber;
 import redis.clients.jedis.Jedis;
 
 public class RedisToDoGatewayIntegrationTest
@@ -28,30 +32,45 @@ public class RedisToDoGatewayIntegrationTest
   {
     final RedisToDoGateway gateway = setupGateway();
 
-    final var seededToDo = ToDoEntity.createOpenToDo(new HeadlineValueObject("Some todo"),
-        new DescriptionValueObject(""));
+    final var seededToDo = ToDoAggregate.builder().randomIdentity()
+        .created(LocalDateTime.now())
+        .lastModified(LocalDateTime.now())
+        .headline("Some todo")
+        .description("")
+        .state(ToDoStateValueObject.OPEN)
+        .build();
 
     gateway.store(seededToDo);
 
-    final var fetchedToDo = gateway.findById(seededToDo.identity());
+    final var fetchedToDo = gateway.findById(seededToDo.aggregateRoot().identity());
 
     final var assertions = new SoftAssertions();
 
     assertions.assertThat(fetchedToDo).isPresent();
     assertions.assertThat(fetchedToDo)
-        .hasValueSatisfying(todo -> assertThat(todo.identity()).isEqualTo(seededToDo.identity()));
-    assertions.assertThat(fetchedToDo)
-        .hasValueSatisfying(todo -> assertThat(todo.headline()).isEqualTo(seededToDo.headline()));
+        .hasValueSatisfying(
+            todo -> assertThat(todo.aggregateRoot().identity()).isEqualTo(
+                seededToDo.aggregateRoot().identity()));
     assertions.assertThat(fetchedToDo)
         .hasValueSatisfying(
-            todo -> assertThat(todo.description()).isEqualTo(seededToDo.description()));
-    assertions.assertThat(fetchedToDo)
-        .hasValueSatisfying(todo -> assertThat(todo.completed()).isEqualTo(seededToDo.completed()));
+            todo -> assertThat(todo.aggregateRoot().headline()).isEqualTo(
+                seededToDo.aggregateRoot().headline()));
     assertions.assertThat(fetchedToDo)
         .hasValueSatisfying(
-            todo -> assertThat(todo.lastModified()).isEqualTo(seededToDo.lastModified()));
+            todo -> assertThat(todo.aggregateRoot().description()).isEqualTo(
+                seededToDo.aggregateRoot().description()));
     assertions.assertThat(fetchedToDo)
-        .hasValueSatisfying(todo -> assertThat(todo.created()).isEqualTo(seededToDo.created()));
+        .hasValueSatisfying(
+            todo -> assertThat(todo.aggregateRoot().completed()).isEqualTo(
+                seededToDo.aggregateRoot().completed()));
+    assertions.assertThat(fetchedToDo)
+        .hasValueSatisfying(
+            todo -> assertThat(todo.aggregateRoot().lastModified()).isEqualTo(
+                seededToDo.aggregateRoot().lastModified()));
+    assertions.assertThat(fetchedToDo)
+        .hasValueSatisfying(
+            todo -> assertThat(todo.aggregateRoot().created()).isEqualTo(
+                seededToDo.aggregateRoot().created()));
 
     assertions.assertAll();
   }
@@ -70,6 +89,6 @@ public class RedisToDoGatewayIntegrationTest
 
     final var connection = new Jedis(redis.getHost(), redis.getMappedPort(6379));
 
-    return new RedisToDoGateway(connection);
+    return new RedisToDoGateway(connection, new InMemoryEventBus());
   }
 }

@@ -1,5 +1,8 @@
 package pendenzenliste.gateway.filesystem;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,34 +11,40 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoEntity;
+import pendenzenliste.domain.todos.ToDoAggregate;
+import pendenzenliste.domain.todos.ToDoDeletedEvent;
+import pendenzenliste.domain.todos.ToDoEvent;
+import pendenzenliste.domain.todos.ToDoEventEntity;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.messaging.EventBus;
 
 /**
  * A gateway that provides access to todos stored in the filesystem.
  */
 public class FilesystemToDoGateway implements ToDoGateway
 {
-  private final FileStorage<Map<IdentityValueObject, ToDoEntity>> storage;
+  private final FileStorage<Map<IdentityValueObject, ToDoAggregate>> storage;
+  private final EventBus eventBus;
 
   /**
    * Creates a new instance.
    *
-   * @param path The path.
+   * @param path     The path.
+   * @param eventBus The event bus.
    */
-  public FilesystemToDoGateway(final String path)
+  public FilesystemToDoGateway(final String path, final EventBus eventBus)
   {
     storage = new FileStorage<>(requireNonNull(path, "The path may not be null"));
+    this.eventBus = requireNonNull(eventBus, "The event bus may not be null");
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Optional<ToDoEntity> findById(final IdentityValueObject id)
+  public Optional<ToDoAggregate> findById(final IdentityValueObject id)
   {
-    return Optional.ofNullable(storage.getOr(new ConcurrentHashMap<>())
-        .getOrDefault(id, null));
+    return Optional.ofNullable(storage.getOr(new ConcurrentHashMap<>()).getOrDefault(id, null));
   }
 
   /**
@@ -44,13 +53,14 @@ public class FilesystemToDoGateway implements ToDoGateway
   @Override
   public boolean delete(final IdentityValueObject id)
   {
-    final Map<IdentityValueObject, ToDoEntity> data = storage.getOr(new ConcurrentHashMap<>());
+    final Map<IdentityValueObject, ToDoAggregate> data = storage.getOr(new ConcurrentHashMap<>());
 
     final var removed = data.remove(id);
 
     if (removed != null)
     {
       storage.flushToDisk(data);
+      eventBus.publish(new ToDoDeletedEvent(LocalDateTime.now(), id));
     }
 
     return removed != null;
@@ -60,20 +70,34 @@ public class FilesystemToDoGateway implements ToDoGateway
    * {@inheritDoc}
    */
   @Override
-  public void store(final ToDoEntity todo)
+  public void store(final ToDoAggregate todo)
   {
-    final Map<IdentityValueObject, ToDoEntity> data = storage.getOr(new ConcurrentHashMap<>());
+    final Collection<ToDoEvent> eventQueue = new ArrayList<>();
 
-    data.put(todo.identity(), todo);
+    for (final ToDoEventEntity event :
+        todo.events()
+            .stream()
+            .filter(event -> event.identity() == null)
+            .toList())
+    {
+      todo.replaceEvent(event, event.withIdentity(IdentityValueObject.random()));
+      eventQueue.add(event.event());
+    }
+
+    final Map<IdentityValueObject, ToDoAggregate> data = storage.getOr(new ConcurrentHashMap<>());
+
+    data.put(todo.aggregateRoot().identity(), todo);
 
     storage.flushToDisk(data);
+
+    eventQueue.forEach(eventBus::publish);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Stream<ToDoEntity> fetchAll()
+  public Stream<ToDoAggregate> fetchAll()
   {
     return storage.getOr(new ConcurrentHashMap<>()).values().stream();
   }

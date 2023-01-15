@@ -62,11 +62,11 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary
     {
       final var identity = new IdentityValueObject(request.identity());
 
-
       final var response = gateway.findById(identity).map(todo -> gateway.delete(identity))
           .map(mapDeletedFlagToResponse())
           .orElse(new ToDoUpdateFailedResponse("The ToDo does not exist"));
 
+      //TODO: Find out a proper way to achieve this? Maybe the gateway should publish it?
       eventPublisher.publish(new ToDoDeletedEvent(LocalDateTime.now(), identity));
 
       return response;

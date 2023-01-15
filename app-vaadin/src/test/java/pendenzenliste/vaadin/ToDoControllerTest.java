@@ -15,7 +15,7 @@ import pendenzenliste.boundary.in.DeleteToDoInputBoundary;
 import pendenzenliste.boundary.in.DeleteToDoRequest;
 import pendenzenliste.boundary.in.FetchToDoInputBoundary;
 import pendenzenliste.boundary.in.FetchToDoRequest;
-import pendenzenliste.boundary.in.ResetToDoInputBoundary;
+import pendenzenliste.boundary.in.ReopenToDoInputBoundary;
 import pendenzenliste.boundary.in.ResetToDoRequest;
 import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.SubscribeToDoListRequest;
@@ -110,8 +110,8 @@ class ToDoControllerTest
   public void reset()
   {
     var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
-    var inputBoundary = mock(ResetToDoInputBoundary.class);
-    when(inputBoundaryFactory.reset()).thenReturn(inputBoundary);
+    var inputBoundary = mock(ReopenToDoInputBoundary.class);
+    when(inputBoundaryFactory.reopen()).thenReturn(inputBoundary);
     var achievementFactory = mock(AchievementInputBoundaryFactory.class);
 
     var controller = new ToDoController(inputBoundaryFactory, achievementFactory);

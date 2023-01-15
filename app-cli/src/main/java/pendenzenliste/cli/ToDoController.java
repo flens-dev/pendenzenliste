@@ -42,7 +42,7 @@ public class ToDoController
       factory.fetch().execute(new FetchToDoRequest(cmd.getOptionValue("fetch")));
     } else if (cmd.hasOption("reset"))
     {
-      factory.reset().execute(new ResetToDoRequest(cmd.getOptionValue("reset")));
+      factory.reopen().execute(new ResetToDoRequest(cmd.getOptionValue("reset")));
     } else if (cmd.hasOption("complete"))
     {
       factory.complete().execute(new CompleteToDoRequest(cmd.getOptionValue("complete")));

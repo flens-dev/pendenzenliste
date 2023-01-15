@@ -13,7 +13,7 @@ import pendenzenliste.boundary.out.FetchToDoResponse;
 import pendenzenliste.boundary.out.ToDoFetchedResponse;
 import pendenzenliste.domain.todos.CompletedTimestampValueObject;
 import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoEntity;
+import pendenzenliste.domain.todos.ToDoAggregate;
 import pendenzenliste.gateway.ToDoGateway;
 
 /**
@@ -73,12 +73,17 @@ public class FetchToDoUseCase implements FetchToDoInputBoundary
    *
    * @return The mapped response.
    */
-  private Function<ToDoEntity, FetchToDoResponse> mapToResponse()
+  private Function<ToDoAggregate, FetchToDoResponse> mapToResponse()
   {
-    return todo -> new ToDoFetchedResponse(todo.identity().value(), todo.headline().value(),
-        todo.description().value(), todo.created().value(), todo.lastModified().value(),
-        Optional.ofNullable(todo.completed()).map(CompletedTimestampValueObject::value)
-            .orElse(null), todo.state().name(),
+    return todo -> new ToDoFetchedResponse(todo.aggregateRoot().identity().value(),
+        todo.aggregateRoot().headline().value(),
+        todo.aggregateRoot().description().value(),
+        todo.aggregateRoot().created().value(),
+        todo.aggregateRoot().lastModified().value(),
+        Optional.ofNullable(todo.aggregateRoot().completed())
+            .map(CompletedTimestampValueObject::value)
+            .orElse(null),
+        todo.aggregateRoot().state().name(),
         todo.capabilities().stream().map(Enum::name).toList());
   }
 }

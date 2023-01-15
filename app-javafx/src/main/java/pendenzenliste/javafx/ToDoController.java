@@ -27,7 +27,7 @@ public class ToDoController
   {
     this.factory = requireNonNull(factory, "The factory may not be null");
   }
-  
+
   /**
    * Loads the displayed todo for editing.
    *
@@ -100,7 +100,7 @@ public class ToDoController
   {
     final var request = new ResetToDoRequest(identity);
 
-    factory.reset().execute(request);
+    factory.reopen().execute(request);
   }
 
   /**

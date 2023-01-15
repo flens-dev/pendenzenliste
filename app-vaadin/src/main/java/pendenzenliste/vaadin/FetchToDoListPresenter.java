@@ -39,6 +39,8 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary
   @Override
   public void handleSuccessfulResponse(final FetchedToDoListResponse response)
   {
+    System.out.println(response);
+
     viewModel.todos.set(response.todos().stream().map(mapToViewModel()).toList());
   }
 

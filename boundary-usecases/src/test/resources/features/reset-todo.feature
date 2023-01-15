@@ -44,10 +44,9 @@ Feature: Reset ToDo
 
     Given that I enter the ID '42'
     And that the following ToDo exists:
-      | identity | headline | description | created             | last modified       | completed           | state |
-      | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | 2022-01-01T13:00:00 | DONE  |
+      | identity | headline | description | created             | last modified       | completed           | state     |
+      | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | 2022-01-01T13:00:00 | COMPLETED |
 
     When I try to reset the ToDo
 
     Then the todo update should have been successful
-    And a 'ToDoResetEvent' should have been published

@@ -1,26 +1,44 @@
 package pendenzenliste.gateway.inmemory;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
+import static java.util.Objects.requireNonNull;
+
 import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoEntity;
+import pendenzenliste.domain.todos.ToDoAggregate;
+import pendenzenliste.domain.todos.ToDoEvent;
+import pendenzenliste.domain.todos.ToDoEventEntity;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.messaging.EventBus;
 
 /**
  * An implementation of the {@link ToDoGateway} interface that stores the ToDos in-memory.
  */
 public final class InMemoryToDoGateway implements ToDoGateway
 {
-  private static final Map<IdentityValueObject, ToDoEntity> STORE = new ConcurrentHashMap<>();
+  private static final Map<IdentityValueObject, ToDoAggregate> STORE = new ConcurrentHashMap<>();
+  private final EventBus eventBus;
+
+  /**
+   * Creates a new instance.
+   *
+   * @param eventBus The event bus that should be used by this instance.
+   */
+  public InMemoryToDoGateway(final EventBus eventBus)
+  {
+    this.eventBus = requireNonNull(eventBus, "The event bus may not be null");
+  }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Optional<ToDoEntity> findById(final IdentityValueObject id)
+  public Optional<ToDoAggregate> findById(final IdentityValueObject id)
   {
     return Optional.ofNullable(STORE.getOrDefault(id, null));
   }
@@ -44,16 +62,31 @@ public final class InMemoryToDoGateway implements ToDoGateway
    * {@inheritDoc}
    */
   @Override
-  public void store(final ToDoEntity todo)
+  public void store(final ToDoAggregate todo)
   {
-    STORE.put(todo.identity(), todo);
+    final Collection<ToDoEvent> eventQueue = new ArrayList<>();
+
+    for (final ToDoEventEntity event :
+        todo.events()
+            .stream()
+            .filter(event -> event.identity() == null)
+            .toList())
+    {
+      todo.replaceEvent(event, event.withIdentity(IdentityValueObject.random()));
+      eventQueue.add(event.event());
+    }
+
+    STORE.put(todo.aggregateRoot().identity(), todo);
+
+
+    eventQueue.forEach(eventBus::publish);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Stream<ToDoEntity> fetchAll()
+  public Stream<ToDoAggregate> fetchAll()
   {
     return STORE.values().stream();
   }

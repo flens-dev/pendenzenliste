@@ -53,7 +53,7 @@ public interface ToDoInputBoundaryFactory
    *
    * @return The boundary.
    */
-  ResetToDoInputBoundary reset();
+  ReopenToDoInputBoundary reopen();
 
   /**
    * Creates a new input boundary that can be used to update a todo.

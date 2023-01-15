@@ -1,10 +1,8 @@
 package pendenzenliste.usecases;
 
-import java.time.LocalDateTime;
-
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.in.ResetToDoInputBoundary;
+import pendenzenliste.boundary.in.ReopenToDoInputBoundary;
 import pendenzenliste.boundary.in.ResetToDoRequest;
 import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
@@ -12,33 +10,27 @@ import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
 import pendenzenliste.domain.todos.IdentityValueObject;
 import pendenzenliste.domain.todos.ToDoCapabilityValueObject;
-import pendenzenliste.domain.todos.ToDoReopenedEvent;
 import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.messaging.EventBus;
 
 
 /**
  * A use case that can be used to reset a closed ToDo.
  */
-public class ResetToDoUseCase implements ResetToDoInputBoundary
+public class ReopenToDoUseCase implements ReopenToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final UpdateToDoOutputBoundary outputBoundary;
-  private final EventBus eventPublisher;
 
   /**
    * Creates a new instance.
    *
    * @param gateway        The gateway that should be used by this instance.
    * @param outputBoundary The output boundary that should be used by this instance.
-   * @param eventPublisher The event publisher that should be used by this instance.
    */
-  public ResetToDoUseCase(final ToDoGateway gateway, final UpdateToDoOutputBoundary outputBoundary,
-                          final EventBus eventPublisher)
+  public ReopenToDoUseCase(final ToDoGateway gateway, final UpdateToDoOutputBoundary outputBoundary)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
-    this.eventPublisher = requireNonNull(eventPublisher, "The event publisher may not be null");
   }
 
   /**
@@ -74,8 +66,9 @@ public class ResetToDoUseCase implements ResetToDoInputBoundary
         return new ToDoUpdateFailedResponse("The ToDo cannot be reset in its current state");
       }
 
-      gateway.store(todo.get().reset());
-      eventPublisher.publish(new ToDoReopenedEvent(LocalDateTime.now(), identity));
+      todo.get().reopen();
+
+      gateway.store(todo.get());
 
       return new ToDoUpdatedResponse();
     } catch (final IllegalArgumentException e)

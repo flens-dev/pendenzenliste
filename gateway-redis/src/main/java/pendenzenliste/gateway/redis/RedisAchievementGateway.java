@@ -15,26 +15,27 @@ import static pendenzenliste.serialization.SerializationUtils.deserializeMap;
 import static pendenzenliste.serialization.SerializationUtils.deserializeObject;
 import static pendenzenliste.serialization.SerializationUtils.serializeObject;
 
-import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoAggregate;
-import pendenzenliste.domain.todos.ToDoEvent;
-import pendenzenliste.domain.todos.ToDoEventEntity;
-import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.domain.achievements.AchievementAggregate;
+import pendenzenliste.domain.achievements.AchievementEvent;
+import pendenzenliste.domain.achievements.AchievementEventEntity;
+import pendenzenliste.domain.achievements.IdentityValueObject;
+import pendenzenliste.gateway.AchievementGateway;
 import pendenzenliste.messaging.EventBus;
 import redis.clients.jedis.Jedis;
 
 /**
- * An implementation of the {@link ToDoGateway} that makes use of a redis instance to store todos.
+ * A redis based implementation of the {@link AchievementGateway}.
  */
-public class RedisToDoGateway implements ToDoGateway
+public class RedisAchievementGateway implements AchievementGateway
 {
   private static final String LAST_MODIFIED_KEY = "last_modified";
 
-  private static final String TODO_KEY = "todos";
+  private static final String ACHIEVEMENTS_KEY = "achievements";
 
   private LocalDateTime lastModified = null;
 
-  private final Map<IdentityValueObject, ToDoAggregate> cache = new ConcurrentHashMap<>();
+  private final Map<IdentityValueObject, AchievementAggregate>
+      cache = new ConcurrentHashMap<>();
 
   private final Jedis connection;
   private final EventBus eventBus;
@@ -43,10 +44,12 @@ public class RedisToDoGateway implements ToDoGateway
    * Creates a new instance.
    *
    * @param connection The connection that should be used by this instance.
+   * @param eventBus   The event bus that should be used by this instance.
    */
-  public RedisToDoGateway(final Jedis connection,
-                          final EventBus eventBus)
+  public RedisAchievementGateway(final Jedis connection,
+                                 final EventBus eventBus)
   {
+
     this.connection = requireNonNull(connection, "The connection may not be null");
     this.eventBus = requireNonNull(eventBus, "The event bus may not be null");
   }
@@ -55,68 +58,49 @@ public class RedisToDoGateway implements ToDoGateway
    * {@inheritDoc}
    */
   @Override
-  public Optional<ToDoAggregate> findById(final IdentityValueObject id)
+  public Optional<AchievementAggregate> findById(final IdentityValueObject identity)
   {
     loadIfNecessary();
 
-    return Optional.ofNullable(cache.getOrDefault(id, null));
+    return Optional.ofNullable(cache.getOrDefault(identity, null));
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public boolean delete(final IdentityValueObject id)
-  {
-    loadIfNecessary();
-
-    final var removed = cache.remove(id);
-    final var hasBeenRemoved = removed != null;
-
-    if (hasBeenRemoved)
-    {
-      flush();
-    }
-
-    return hasBeenRemoved;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void store(final ToDoAggregate todo)
-  {
-    loadIfNecessary();
-
-    final Collection<ToDoEvent> eventQueue = new ArrayList<>();
-
-    for (final ToDoEventEntity event :
-        todo.events()
-            .stream()
-            .filter(event -> event.identity() == null)
-            .toList())
-    {
-      todo.replaceEvent(event, event.withIdentity(IdentityValueObject.random()));
-      eventQueue.add(event.event());
-    }
-
-    cache.put(todo.aggregateRoot().identity(), todo);
-
-    flush();
-
-    eventQueue.forEach(eventBus::publish);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Stream<ToDoAggregate> fetchAll()
+  public Stream<AchievementAggregate> fetchAll()
   {
     loadIfNecessary();
 
     return cache.values().stream();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void store(final AchievementAggregate achievement)
+  {
+    loadIfNecessary();
+
+    final Collection<AchievementEvent> eventQueue = new ArrayList<>();
+
+    for (final AchievementEventEntity event :
+        achievement.events()
+            .stream()
+            .filter(event -> event.identity() == null)
+            .toList())
+    {
+      achievement.replaceEvent(event, event.withIdentity(IdentityValueObject.random()));
+      eventQueue.add(event.event());
+    }
+
+    cache.put(achievement.aggregateRoot().identity(), achievement);
+
+    flush();
+
+    eventQueue.forEach(eventBus::publish);
   }
 
   /**
@@ -126,7 +110,7 @@ public class RedisToDoGateway implements ToDoGateway
   {
     final var transaction = connection.multi();
 
-    transaction.set(TODO_KEY.getBytes(StandardCharsets.UTF_8), serializeObject(cache));
+    transaction.set(ACHIEVEMENTS_KEY.getBytes(StandardCharsets.UTF_8), serializeObject(cache));
     transaction.set(LAST_MODIFIED_KEY.getBytes(StandardCharsets.UTF_8),
         serializeObject(lastModified));
 
@@ -148,8 +132,8 @@ public class RedisToDoGateway implements ToDoGateway
     if (hasBeenModified)
     {
       final var deserializedMap =
-          deserializeMap(connection.get(TODO_KEY.getBytes(StandardCharsets.UTF_8)),
-              IdentityValueObject.class, ToDoAggregate.class);
+          deserializeMap(connection.get(ACHIEVEMENTS_KEY.getBytes(StandardCharsets.UTF_8)),
+              IdentityValueObject.class, AchievementAggregate.class);
 
       if (deserializedMap != null)
       {

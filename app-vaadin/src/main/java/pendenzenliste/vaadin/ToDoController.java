@@ -105,7 +105,7 @@ public class ToDoController
   {
     final var request = new ResetToDoRequest(identity);
 
-    factory.reset().execute(request);
+    factory.reopen().execute(request);
   }
 
   /**

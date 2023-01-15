@@ -1,7 +1,5 @@
 package pendenzenliste.usecases;
 
-import java.time.LocalDateTime;
-
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.boundary.in.CompleteToDoInputBoundary;
@@ -12,9 +10,7 @@ import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
 import pendenzenliste.domain.todos.IdentityValueObject;
 import pendenzenliste.domain.todos.ToDoCapabilityValueObject;
-import pendenzenliste.domain.todos.ToDoCompletedEvent;
 import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.messaging.EventBus;
 
 /**
  * A use case that can be used to complete a ToDo.
@@ -23,24 +19,19 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final UpdateToDoOutputBoundary outputBoundary;
-  private final EventBus eventPublisher;
 
   /**
    * Creates a new instance.
    *
    * @param gateway        The gateway that should be used by this instance.
    * @param outputBoundary The output boundary that should be used by this instance.
-   * @param eventPublisher The subscription topic that should be used by this instance.
    */
   public CompleteToDoUseCase(final ToDoGateway gateway,
-                             final UpdateToDoOutputBoundary outputBoundary,
-                             final EventBus eventPublisher)
+                             final UpdateToDoOutputBoundary outputBoundary)
   {
 
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
-    this.eventPublisher =
-        requireNonNull(eventPublisher, "The event publisher may nto be null");
   }
 
   /**
@@ -76,9 +67,9 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary
         return new ToDoUpdateFailedResponse("The ToDo cannot be completed in its current state");
       }
 
-      gateway.store(todo.get().complete());
-      eventPublisher.publish(
-          new ToDoCompletedEvent(LocalDateTime.now(), todo.get().identity()));
+      todo.get().complete();
+
+      gateway.store(todo.get());
 
       return new ToDoUpdatedResponse();
     } catch (final IllegalArgumentException e)

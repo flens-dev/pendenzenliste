@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoEntity;
+import pendenzenliste.domain.todos.ToDoAggregate;
 
 /**
  * A gateway that can be used to access ToDos
@@ -17,7 +17,7 @@ public interface ToDoGateway
    * @param id The ID.
    * @return The ToDo or {@link Optional#empty()}
    */
-  Optional<ToDoEntity> findById(IdentityValueObject id);
+  Optional<ToDoAggregate> findById(IdentityValueObject id);
 
   /**
    * Deletes the ToDo with the given ID.
@@ -32,12 +32,12 @@ public interface ToDoGateway
    *
    * @param todo The todo.
    */
-  void store(final ToDoEntity todo);
+  void store(final ToDoAggregate todo);
 
   /**
    * Fetches all the todos.
    *
    * @return The stream of all todos.
    */
-  Stream<ToDoEntity> fetchAll();
+  Stream<ToDoAggregate> fetchAll();
 }

@@ -28,4 +28,3 @@ Feature: Create ToDo
     When I try to create the todo
 
     Then creating the todo should have succeeded
-    And a 'ToDoCreatedEvent' should have been published

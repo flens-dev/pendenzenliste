@@ -5,7 +5,7 @@ import java.util.function.Function;
 
 import pendenzenliste.boundary.out.ToDoListResponseModel;
 import pendenzenliste.domain.todos.CompletedTimestampValueObject;
-import pendenzenliste.domain.todos.ToDoEntity;
+import pendenzenliste.domain.todos.ToDoAggregate;
 
 /**
  * A utility class that can be used to map response models.
@@ -24,11 +24,15 @@ public final class ResponseModelMappingUtils
    *
    * @return The mapping function.
    */
-  public static Function<ToDoEntity, ToDoListResponseModel> mapToResponseModel()
+  public static Function<ToDoAggregate, ToDoListResponseModel> mapToResponseModel()
   {
-    return v -> new ToDoListResponseModel(v.identity().value(), v.headline().value(),
-        v.description().value(), v.created().value(), v.lastModified().value(),
-        Optional.ofNullable(v.completed()).map(CompletedTimestampValueObject::value).orElse(null),
-        v.state().name(), v.capabilities().stream().map(Enum::name).toList());
+    return v -> new ToDoListResponseModel(v.aggregateRoot().identity().value(),
+        v.aggregateRoot().headline().value(),
+        v.aggregateRoot().description().value(), v.aggregateRoot().created().value(),
+        v.aggregateRoot().lastModified().value(),
+        Optional.ofNullable(v.aggregateRoot().completed()).map(CompletedTimestampValueObject::value)
+            .orElse(null),
+        v.aggregateRoot().state().name(),
+        v.capabilities().stream().map(Enum::name).toList());
   }
 }

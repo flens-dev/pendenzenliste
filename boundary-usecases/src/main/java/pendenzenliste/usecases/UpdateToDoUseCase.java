@@ -1,7 +1,5 @@
 package pendenzenliste.usecases;
 
-import java.time.LocalDateTime;
-
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
@@ -14,9 +12,7 @@ import pendenzenliste.domain.todos.DescriptionValueObject;
 import pendenzenliste.domain.todos.HeadlineValueObject;
 import pendenzenliste.domain.todos.IdentityValueObject;
 import pendenzenliste.domain.todos.ToDoCapabilityValueObject;
-import pendenzenliste.domain.todos.ToDoUpdatedEvent;
 import pendenzenliste.gateway.ToDoGateway;
-import pendenzenliste.messaging.EventBus;
 
 /**
  * A use case that can be used to update an existing todo.
@@ -25,21 +21,17 @@ public class UpdateToDoUseCase implements UpdateToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final UpdateToDoOutputBoundary outputBoundary;
-  private final EventBus eventPublisher;
 
   /**
    * Creates a new instance.
    *
    * @param gateway        The gateway that should be used by this instance.
    * @param outputBoundary The output boundary that should be used by this instance.
-   * @param eventPublisher Te event publisher that should be used by this instance.
    */
-  public UpdateToDoUseCase(final ToDoGateway gateway, final UpdateToDoOutputBoundary outputBoundary,
-                           final EventBus eventPublisher)
+  public UpdateToDoUseCase(final ToDoGateway gateway, final UpdateToDoOutputBoundary outputBoundary)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
-    this.eventPublisher = requireNonNull(eventPublisher, "The event publisher may not be null");
   }
 
   /**
@@ -79,8 +71,9 @@ public class UpdateToDoUseCase implements UpdateToDoInputBoundary
         return new ToDoUpdateFailedResponse("The ToDo cannot be updated in its current state");
       }
 
-      gateway.store(todo.get().update(headline, description));
-      eventPublisher.publish(new ToDoUpdatedEvent(LocalDateTime.now(), identity));
+      todo.get().update(headline, description);
+
+      gateway.store(todo.get());
 
       return new ToDoUpdatedResponse();
     } catch (final IllegalArgumentException e)

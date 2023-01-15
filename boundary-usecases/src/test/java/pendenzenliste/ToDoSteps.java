@@ -40,16 +40,11 @@ import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
-import pendenzenliste.domain.todos.CompletedTimestampValueObject;
-import pendenzenliste.domain.todos.CreatedTimestampValueObject;
-import pendenzenliste.domain.todos.DescriptionValueObject;
-import pendenzenliste.domain.todos.HeadlineValueObject;
 import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.LastModifiedTimestampValueObject;
+import pendenzenliste.domain.todos.ToDoAggregate;
 import pendenzenliste.domain.todos.ToDoCompletedEvent;
 import pendenzenliste.domain.todos.ToDoCreatedEvent;
 import pendenzenliste.domain.todos.ToDoDeletedEvent;
-import pendenzenliste.domain.todos.ToDoEntity;
 import pendenzenliste.domain.todos.ToDoEvent;
 import pendenzenliste.domain.todos.ToDoReopenedEvent;
 import pendenzenliste.domain.todos.ToDoStateValueObject;
@@ -235,7 +230,7 @@ public class ToDoSteps
   {
     final var request = new ResetToDoRequest(id);
 
-    factory.reset().execute(request);
+    factory.reopen().execute(request);
   }
 
   @When("I try to update the ToDo")
@@ -283,12 +278,16 @@ public class ToDoSteps
 
         final SoftAssertions assertions = new SoftAssertions();
 
-        assertions.assertThat(response.identity()).isEqualTo(todo.identity().value());
-        assertions.assertThat(response.headline()).isEqualTo(todo.headline().value());
-        assertions.assertThat(response.description()).isEqualTo(todo.description().value());
-        assertions.assertThat(response.created()).isEqualTo(todo.created().value());
-        assertions.assertThat(response.lastModified()).isEqualTo(todo.lastModified().value());
-        assertions.assertThat(response.state()).isEqualTo(todo.state().name());
+        assertions.assertThat(response.identity())
+            .isEqualTo(todo.aggregateRoot().identity().value());
+        assertions.assertThat(response.headline())
+            .isEqualTo(todo.aggregateRoot().headline().value());
+        assertions.assertThat(response.description())
+            .isEqualTo(todo.aggregateRoot().description().value());
+        assertions.assertThat(response.created()).isEqualTo(todo.aggregateRoot().created().value());
+        assertions.assertThat(response.lastModified())
+            .isEqualTo(todo.aggregateRoot().lastModified().value());
+        assertions.assertThat(response.state()).isEqualTo(todo.aggregateRoot().state().name());
 
         assertions.assertAll();
       }
@@ -340,16 +339,19 @@ public class ToDoSteps
    * @param row The row that should be parsed.
    * @return The parsed entity.
    */
-  private static ToDoEntity parseToDoFrom(final Map<String, String> row)
+  private static ToDoAggregate parseToDoFrom(final Map<String, String> row)
   {
-    return new ToDoEntity(new IdentityValueObject(row.get("identity")),
-        new HeadlineValueObject(row.get("headline")),
-        new DescriptionValueObject(row.get("description")),
-        new CreatedTimestampValueObject(LocalDateTime.parse(row.get("created"))),
-        new LastModifiedTimestampValueObject(LocalDateTime.parse(row.get("last modified"))),
-        Optional.ofNullable(row.getOrDefault("completed", null)).map(LocalDateTime::parse)
-            .map(CompletedTimestampValueObject::new).orElse(null),
-        ToDoStateValueObject.valueOf(row.get("state")));
+    return ToDoAggregate.builder()
+        .identity(row.get("identity"))
+        .headline(row.get("headline"))
+        .description(row.get("description"))
+        .created(LocalDateTime.parse(row.get("created")))
+        .lastModified(LocalDateTime.parse(row.get("last modified")))
+        .completed(
+            Optional.ofNullable(row.getOrDefault("completed", null)).map(LocalDateTime::parse)
+                .orElse(null))
+        .state(ToDoStateValueObject.valueOf(row.get("state")))
+        .build();
   }
 
   @Then("a {string} should have been published")

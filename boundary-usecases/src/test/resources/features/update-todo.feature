@@ -29,8 +29,8 @@ Feature: Update ToDo
     And that I enter the headline 'Cool Headline'
     And that I enter the description 'Lorem ipsum dolor sit amet'
     And that the following ToDo exists:
-      | identity | headline | description | created             | last modified       | completed           | state |
-      | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | 2022-01-01T13:00:00 | DONE  |
+      | identity | headline | description | created             | last modified       | completed           | state     |
+      | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | 2022-01-01T13:00:00 | COMPLETED |
 
     When I try to update the ToDo
 
@@ -48,4 +48,3 @@ Feature: Update ToDo
     When I try to update the ToDo
 
     Then the todo update should have been successful
-    And a 'ToDoUpdatedEvent' should have been published

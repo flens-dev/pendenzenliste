@@ -7,7 +7,7 @@ import pendenzenliste.boundary.in.CreateToDoInputBoundary;
 import pendenzenliste.boundary.in.DeleteToDoInputBoundary;
 import pendenzenliste.boundary.in.FetchToDoInputBoundary;
 import pendenzenliste.boundary.in.FetchToDoListInputBoundary;
-import pendenzenliste.boundary.in.ResetToDoInputBoundary;
+import pendenzenliste.boundary.in.ReopenToDoInputBoundary;
 import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
@@ -48,8 +48,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public CreateToDoInputBoundary create()
   {
-    return new CreateToDoUseCase(provider.getInstance(), outputBoundaryFactory.create(),
-        eventBus);
+    return new CreateToDoUseCase(provider.getInstance(), outputBoundaryFactory.create());
   }
 
   /**
@@ -58,8 +57,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public CompleteToDoInputBoundary complete()
   {
-    return new CompleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
-        eventBus);
+    return new CompleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
   }
 
   /**
@@ -104,10 +102,9 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
    * {@inheritDoc}
    */
   @Override
-  public ResetToDoInputBoundary reset()
+  public ReopenToDoInputBoundary reopen()
   {
-    return new ResetToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
-        eventBus);
+    return new ReopenToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
   }
 
   /**
@@ -116,7 +113,6 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public UpdateToDoInputBoundary update()
   {
-    return new UpdateToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
-        eventBus);
+    return new UpdateToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
   }
 }

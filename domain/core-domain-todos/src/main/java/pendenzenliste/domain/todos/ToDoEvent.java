@@ -1,11 +1,12 @@
 package pendenzenliste.domain.todos;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * The common interface for objects that represent some kind of event in the context of a domain.
  */
-public interface ToDoEvent
+public interface ToDoEvent extends Serializable
 {
   /**
    * The timestamp when the event occurred.

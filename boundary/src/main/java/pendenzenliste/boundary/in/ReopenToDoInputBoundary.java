@@ -6,7 +6,7 @@ import pendenzenliste.boundary.out.UpdateToDoResponse;
 /**
  * An input boundary that can be used to reset a todo.
  */
-public interface ResetToDoInputBoundary
+public interface ReopenToDoInputBoundary
     extends InputBoundary<ResetToDoRequest, UpdateToDoResponse, UpdateToDoOutputBoundary>
 {
 }

@@ -30,6 +30,7 @@ public class ToDoGatewayAcceptanceTestSteps
   private String id;
 
   private ToDoGateway gateway;
+  private boolean deleted;
 
   @Given("that no todos exist")
   public void givenThatNoTodosExist()
@@ -160,5 +161,23 @@ public class ToDoGatewayAcceptanceTestSteps
     final var connection = new Jedis(redis.getHost(), redis.getMappedPort(6379));
 
     return new RedisToDoGateway(connection, EventBus.defaultEventBus());
+  }
+
+  @When("I try to delete the todo")
+  public void whenITryToDeleteTheTodo()
+  {
+    this.deleted = gateway.delete(new IdentityValueObject(id));
+  }
+
+  @Then("deleting the todo should have failed")
+  public void deletingTheTodoShouldHaveFailed()
+  {
+    assertThat(deleted).isFalse();
+  }
+
+  @Then("deleting the todo should have succeeded")
+  public void thenDeletingTheTodoShouldHaveSucceeded()
+  {
+    assertThat(deleted).isTrue();
   }
 }

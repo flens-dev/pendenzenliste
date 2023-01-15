@@ -15,10 +15,10 @@ import static pendenzenliste.serialization.SerializationUtils.deserializeMap;
 import static pendenzenliste.serialization.SerializationUtils.deserializeObject;
 import static pendenzenliste.serialization.SerializationUtils.serializeObject;
 
-import pendenzenliste.domain.achievements.AchievementAggregate;
-import pendenzenliste.domain.achievements.AchievementEvent;
-import pendenzenliste.domain.achievements.AchievementEventEntity;
-import pendenzenliste.domain.achievements.IdentityValueObject;
+import pendenzenliste.achievements.model.AchievementAggregate;
+import pendenzenliste.achievements.model.AchievementEvent;
+import pendenzenliste.achievements.model.AchievementEventEntity;
+import pendenzenliste.achievements.model.IdentityValueObject;
 import pendenzenliste.gateway.AchievementGateway;
 import pendenzenliste.messaging.EventBus;
 import redis.clients.jedis.Jedis;
@@ -49,7 +49,6 @@ public class RedisAchievementGateway implements AchievementGateway
   public RedisAchievementGateway(final Jedis connection,
                                  final EventBus eventBus)
   {
-
     this.connection = requireNonNull(connection, "The connection may not be null");
     this.eventBus = requireNonNull(eventBus, "The event bus may not be null");
   }

@@ -8,11 +8,11 @@ import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
-import pendenzenliste.domain.todos.DescriptionValueObject;
-import pendenzenliste.domain.todos.HeadlineValueObject;
-import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoCapabilityValueObject;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.todos.model.DescriptionValueObject;
+import pendenzenliste.todos.model.HeadlineValueObject;
+import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.model.ToDoCapabilityValueObject;
 
 /**
  * A use case that can be used to update an existing todo.

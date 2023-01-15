@@ -1,7 +1,7 @@
 import pendenzenliste.messaging.EventBus;
 
 module pendenzenliste.core.domain.todos.main {
-  exports pendenzenliste.domain.todos;
+  exports pendenzenliste.todos.model;
 
   requires pendenzenliste.messaging.main;
 

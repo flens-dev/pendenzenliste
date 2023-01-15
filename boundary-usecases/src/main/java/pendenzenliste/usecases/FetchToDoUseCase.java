@@ -11,10 +11,10 @@ import pendenzenliste.boundary.out.FetchToDoFailedResponse;
 import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
 import pendenzenliste.boundary.out.FetchToDoResponse;
 import pendenzenliste.boundary.out.ToDoFetchedResponse;
-import pendenzenliste.domain.todos.CompletedTimestampValueObject;
-import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoAggregate;
 import pendenzenliste.gateway.ToDoGateway;
+import pendenzenliste.todos.model.CompletedTimestampValueObject;
+import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.model.ToDoAggregate;
 
 /**
  * A use case that can be used to fetch a ToDo.

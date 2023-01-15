@@ -9,12 +9,11 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoAggregate;
-import pendenzenliste.domain.todos.ToDoEvent;
-import pendenzenliste.domain.todos.ToDoEventEntity;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.model.ToDoAggregate;
+import pendenzenliste.todos.model.ToDoEvent;
 
 /**
  * An implementation of the {@link ToDoGateway} interface that stores the ToDos in-memory.
@@ -66,15 +65,13 @@ public final class InMemoryToDoGateway implements ToDoGateway
   {
     final Collection<ToDoEvent> eventQueue = new ArrayList<>();
 
-    for (final ToDoEventEntity event :
-        todo.events()
-            .stream()
-            .filter(event -> event.identity() == null)
-            .toList())
-    {
-      todo.replaceEvent(event, event.withIdentity(IdentityValueObject.random()));
-      eventQueue.add(event.event());
-    }
+    todo.events()
+        .stream()
+        .filter(event -> event.identity() == null)
+        .toList().forEach(event -> {
+          todo.replaceEvent(event, event.withIdentity(IdentityValueObject.random()));
+          eventQueue.add(event.event());
+        });
 
     STORE.put(todo.aggregateRoot().identity(), todo);
 

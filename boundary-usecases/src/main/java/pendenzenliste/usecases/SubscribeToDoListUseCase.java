@@ -10,10 +10,10 @@ import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
 import pendenzenliste.boundary.in.SubscribeToDoListRequest;
 import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
 import pendenzenliste.boundary.out.FetchedToDoListResponse;
-import pendenzenliste.domain.todos.ToDoEvent;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.messaging.Subscriber;
+import pendenzenliste.todos.model.ToDoEvent;
 
 /**
  * A use case that can be used to subscribe to a list of todos.

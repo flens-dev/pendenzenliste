@@ -5,9 +5,9 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.domain.achievements.StateValueType;
-import pendenzenliste.domain.todos.ToDoEvent;
+import pendenzenliste.achievements.model.StateValueType;
 import pendenzenliste.messaging.Subscriber;
+import pendenzenliste.todos.model.ToDoEvent;
 
 /**
  * A subscriber that subscribes to todo events in order to track the achievements.

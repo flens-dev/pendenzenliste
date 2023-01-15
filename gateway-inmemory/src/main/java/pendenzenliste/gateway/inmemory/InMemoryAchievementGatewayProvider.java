@@ -2,8 +2,8 @@ package pendenzenliste.gateway.inmemory;
 
 import java.util.Collection;
 
-import pendenzenliste.domain.achievements.AchievementAggregate;
-import pendenzenliste.domain.achievements.AchievementSeed;
+import pendenzenliste.achievements.model.AchievementAggregate;
+import pendenzenliste.achievements.model.AchievementSeed;
 import pendenzenliste.gateway.AchievementGateway;
 import pendenzenliste.gateway.AchievementGatewayProvider;
 import pendenzenliste.messaging.EventBus;

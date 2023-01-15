@@ -10,7 +10,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 
 @AnalyzeClasses(
-    packages = "pendenzenliste.domain",
+    packages = "pendenzenliste",
     importOptions = {ImportOption.DoNotIncludeTests.class, ImportOption.DoNotIncludeJars.class}
 )
 public class SerializationTest

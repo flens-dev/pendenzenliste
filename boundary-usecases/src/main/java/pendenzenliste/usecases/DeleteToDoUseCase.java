@@ -11,10 +11,10 @@ import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
-import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoDeletedEvent;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.model.ToDoDeletedEvent;
 
 /**
  * A use case that can be used to delete an existing ToDo.

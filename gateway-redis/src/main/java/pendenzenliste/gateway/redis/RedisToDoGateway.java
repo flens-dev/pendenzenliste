@@ -15,12 +15,12 @@ import static pendenzenliste.serialization.SerializationUtils.deserializeMap;
 import static pendenzenliste.serialization.SerializationUtils.deserializeObject;
 import static pendenzenliste.serialization.SerializationUtils.serializeObject;
 
-import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoAggregate;
-import pendenzenliste.domain.todos.ToDoEvent;
-import pendenzenliste.domain.todos.ToDoEventEntity;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.model.ToDoAggregate;
+import pendenzenliste.todos.model.ToDoEvent;
+import pendenzenliste.todos.model.ToDoEventEntity;
 import redis.clients.jedis.Jedis;
 
 /**

@@ -3,8 +3,8 @@ package pendenzenliste.gateway;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import pendenzenliste.domain.achievements.AchievementAggregate;
-import pendenzenliste.domain.achievements.IdentityValueObject;
+import pendenzenliste.achievements.model.AchievementAggregate;
+import pendenzenliste.achievements.model.IdentityValueObject;
 
 /**
  * A gateway that can be used to access the achievements.

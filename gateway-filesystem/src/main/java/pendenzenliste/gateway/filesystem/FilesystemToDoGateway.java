@@ -10,13 +10,13 @@ import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoAggregate;
-import pendenzenliste.domain.todos.ToDoDeletedEvent;
-import pendenzenliste.domain.todos.ToDoEvent;
-import pendenzenliste.domain.todos.ToDoEventEntity;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.model.ToDoAggregate;
+import pendenzenliste.todos.model.ToDoDeletedEvent;
+import pendenzenliste.todos.model.ToDoEvent;
+import pendenzenliste.todos.model.ToDoEventEntity;
 
 /**
  * A gateway that provides access to todos stored in the filesystem.

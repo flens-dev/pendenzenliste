@@ -40,17 +40,17 @@ import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
 import pendenzenliste.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.boundary.out.UpdateToDoResponse;
-import pendenzenliste.domain.todos.IdentityValueObject;
-import pendenzenliste.domain.todos.ToDoAggregate;
-import pendenzenliste.domain.todos.ToDoCompletedEvent;
-import pendenzenliste.domain.todos.ToDoCreatedEvent;
-import pendenzenliste.domain.todos.ToDoDeletedEvent;
-import pendenzenliste.domain.todos.ToDoEvent;
-import pendenzenliste.domain.todos.ToDoReopenedEvent;
-import pendenzenliste.domain.todos.ToDoStateValueObject;
-import pendenzenliste.domain.todos.ToDoUpdatedEvent;
 import pendenzenliste.gateway.ToDoGateway;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.model.ToDoAggregate;
+import pendenzenliste.todos.model.ToDoCompletedEvent;
+import pendenzenliste.todos.model.ToDoCreatedEvent;
+import pendenzenliste.todos.model.ToDoDeletedEvent;
+import pendenzenliste.todos.model.ToDoEvent;
+import pendenzenliste.todos.model.ToDoReopenedEvent;
+import pendenzenliste.todos.model.ToDoStateValueObject;
+import pendenzenliste.todos.model.ToDoUpdatedEvent;
 import pendenzenliste.usecases.ToDoUseCaseFactory;
 
 /**

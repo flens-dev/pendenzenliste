@@ -1,10 +1,10 @@
 package pendenzenliste.cli;
 
-import pendenzenliste.boundary.out.CreateToDoOutputBoundary;
-import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
-import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
-import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
-import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.CreateToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.FetchToDoListOutputBoundary;
+import pendenzenliste.todos.boundary.out.FetchToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.ToDoOutputBoundaryFactory;
+import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
 
 /**
  * A factory that can be used to create CLI presenters.

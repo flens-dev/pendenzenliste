@@ -2,8 +2,8 @@ package pendenzenliste.vaadin;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.out.AchievementOutputBoundaryFactory;
-import pendenzenliste.boundary.out.SubscribeAchievementsOutputBoundary;
+import pendenzenliste.achievements.boundary.out.AchievementOutputBoundaryFactory;
+import pendenzenliste.achievements.boundary.out.SubscribeAchievementsOutputBoundary;
 
 /**
  * A factory that can be used to provide presenters for the achievements.

@@ -5,12 +5,12 @@ import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.in.FetchToDoInputBoundary;
-import pendenzenliste.boundary.in.FetchToDoRequest;
-import pendenzenliste.boundary.out.FetchToDoFailedResponse;
-import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
-import pendenzenliste.boundary.out.FetchToDoResponse;
-import pendenzenliste.boundary.out.ToDoFetchedResponse;
+import pendenzenliste.todos.boundary.in.FetchToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.FetchToDoRequest;
+import pendenzenliste.todos.boundary.out.FetchToDoFailedResponse;
+import pendenzenliste.todos.boundary.out.FetchToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.FetchToDoResponse;
+import pendenzenliste.todos.boundary.out.ToDoFetchedResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.CompletedTimestampValueObject;
 import pendenzenliste.todos.model.IdentityValueObject;

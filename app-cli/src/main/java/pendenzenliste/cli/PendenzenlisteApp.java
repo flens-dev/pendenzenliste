@@ -2,7 +2,7 @@ package pendenzenliste.cli;
 
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactoryProvider;
 
 /**
  * An application that can be used to run access the pendenzenliste from the command line.

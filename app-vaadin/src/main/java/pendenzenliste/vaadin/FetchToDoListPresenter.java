@@ -3,9 +3,9 @@ package pendenzenliste.vaadin;
 import static java.util.Objects.requireNonNull;
 import static pendenzenliste.vaadin.ViewModelMappingUtils.mapToViewModel;
 
-import pendenzenliste.boundary.out.FetchToDoListFailedResponse;
-import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
-import pendenzenliste.boundary.out.FetchedToDoListResponse;
+import pendenzenliste.todos.boundary.out.FetchToDoListFailedResponse;
+import pendenzenliste.todos.boundary.out.FetchToDoListOutputBoundary;
+import pendenzenliste.todos.boundary.out.FetchedToDoListResponse;
 
 /**
  * A presenter that can be used to handle the results of a fetch todo list request.

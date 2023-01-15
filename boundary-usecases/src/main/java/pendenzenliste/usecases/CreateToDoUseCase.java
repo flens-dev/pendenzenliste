@@ -4,12 +4,12 @@ import java.time.LocalDateTime;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.in.CreateToDoInputBoundary;
-import pendenzenliste.boundary.in.CreateToDoRequest;
-import pendenzenliste.boundary.out.CreateToDoOutputBoundary;
-import pendenzenliste.boundary.out.CreateToDoResponse;
-import pendenzenliste.boundary.out.ToDoCreatedResponse;
-import pendenzenliste.boundary.out.ToDoCreationFailedResponse;
+import pendenzenliste.todos.boundary.in.CreateToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.CreateToDoRequest;
+import pendenzenliste.todos.boundary.out.CreateToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.CreateToDoResponse;
+import pendenzenliste.todos.boundary.out.ToDoCreatedResponse;
+import pendenzenliste.todos.boundary.out.ToDoCreationFailedResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.DescriptionValueObject;
 import pendenzenliste.todos.model.HeadlineValueObject;

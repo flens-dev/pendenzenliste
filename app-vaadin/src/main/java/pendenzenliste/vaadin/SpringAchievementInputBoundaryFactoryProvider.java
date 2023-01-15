@@ -1,9 +1,9 @@
 package pendenzenliste.vaadin;
 
 import org.springframework.stereotype.Component;
-import pendenzenliste.boundary.in.AchievementInputBoundaryFactory;
-import pendenzenliste.boundary.in.AchievementInputBoundaryFactoryProvider;
-import pendenzenliste.boundary.out.AchievementOutputBoundaryFactory;
+import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactory;
+import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactoryProvider;
+import pendenzenliste.achievements.boundary.out.AchievementOutputBoundaryFactory;
 
 /**
  * A spring based achievement input boundary factory provider.

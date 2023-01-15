@@ -1,0 +1,14 @@
+package pendenzenliste.todos.boundary.in;
+
+
+import pendenzenliste.boundary.in.InputBoundary;
+import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
+
+/**
+ * An input boundary that can be used to complete a ToDo.
+ */
+public interface CompleteToDoInputBoundary
+    extends InputBoundary<CompleteToDoRequest, UpdateToDoResponse, UpdateToDoOutputBoundary>
+{
+}

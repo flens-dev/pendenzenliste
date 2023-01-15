@@ -5,11 +5,11 @@ import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
+import pendenzenliste.achievements.boundary.in.SubscribeAchievementsInputBoundary;
+import pendenzenliste.achievements.boundary.in.SubscribeAchievementsRequest;
+import pendenzenliste.achievements.boundary.out.AchievementUnlockedResponse;
+import pendenzenliste.achievements.boundary.out.SubscribeAchievementsOutputBoundary;
 import pendenzenliste.achievements.model.AchievementUnlockedEvent;
-import pendenzenliste.boundary.in.SubscribeAchievementsInputBoundary;
-import pendenzenliste.boundary.in.SubscribeAchievementsRequest;
-import pendenzenliste.boundary.out.AchievementUnlockedResponse;
-import pendenzenliste.boundary.out.SubscribeAchievementsOutputBoundary;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.messaging.Subscriber;
 

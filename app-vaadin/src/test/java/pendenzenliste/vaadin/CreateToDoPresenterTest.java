@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-import pendenzenliste.boundary.out.ToDoCreatedResponse;
-import pendenzenliste.boundary.out.ToDoCreationFailedResponse;
+import pendenzenliste.todos.boundary.out.ToDoCreatedResponse;
+import pendenzenliste.todos.boundary.out.ToDoCreationFailedResponse;
 
 class CreateToDoPresenterTest
 {

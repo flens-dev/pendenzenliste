@@ -7,8 +7,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
-import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
-import pendenzenliste.boundary.out.ToDoUpdatedResponse;
+import pendenzenliste.todos.boundary.out.ToDoUpdateFailedResponse;
+import pendenzenliste.todos.boundary.out.ToDoUpdatedResponse;
 
 class UpdateToDoPresenterTest
 {

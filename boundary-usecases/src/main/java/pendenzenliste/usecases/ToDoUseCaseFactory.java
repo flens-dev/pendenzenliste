@@ -2,17 +2,17 @@ package pendenzenliste.usecases;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.in.CompleteToDoInputBoundary;
-import pendenzenliste.boundary.in.CreateToDoInputBoundary;
-import pendenzenliste.boundary.in.DeleteToDoInputBoundary;
-import pendenzenliste.boundary.in.FetchToDoInputBoundary;
-import pendenzenliste.boundary.in.FetchToDoListInputBoundary;
-import pendenzenliste.boundary.in.ReopenToDoInputBoundary;
-import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
-import pendenzenliste.boundary.in.UpdateToDoInputBoundary;
-import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.boundary.in.CompleteToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.CreateToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.DeleteToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.FetchToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.FetchToDoListInputBoundary;
+import pendenzenliste.todos.boundary.in.ReopenToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.SubscribeToDoListInputBoundary;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.todos.boundary.in.UpdateToDoInputBoundary;
+import pendenzenliste.todos.boundary.out.ToDoOutputBoundaryFactory;
 import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 /**

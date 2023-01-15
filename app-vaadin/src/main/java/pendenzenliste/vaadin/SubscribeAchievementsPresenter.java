@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.out.SubscribeAchievementsOutputBoundary;
+import pendenzenliste.achievements.boundary.out.SubscribeAchievementsOutputBoundary;
 
 /**
  * A presenter that can be used to display the subscribed achievements.

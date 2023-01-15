@@ -6,12 +6,12 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 import static pendenzenliste.usecases.ResponseModelMappingUtils.mapToResponseModel;
 
-import pendenzenliste.boundary.in.SubscribeToDoListInputBoundary;
-import pendenzenliste.boundary.in.SubscribeToDoListRequest;
-import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
-import pendenzenliste.boundary.out.FetchedToDoListResponse;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.messaging.Subscriber;
+import pendenzenliste.todos.boundary.in.SubscribeToDoListInputBoundary;
+import pendenzenliste.todos.boundary.in.SubscribeToDoListRequest;
+import pendenzenliste.todos.boundary.out.FetchToDoListOutputBoundary;
+import pendenzenliste.todos.boundary.out.FetchedToDoListResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.ToDoEvent;
 

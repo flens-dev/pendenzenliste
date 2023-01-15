@@ -2,9 +2,10 @@ package pendenzenliste.usecases;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.in.AchievementInputBoundaryFactory;
-import pendenzenliste.boundary.in.SubscribeAchievementsInputBoundary;
-import pendenzenliste.boundary.out.AchievementOutputBoundaryFactory;
+import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactory;
+
+import pendenzenliste.achievements.boundary.in.SubscribeAchievementsInputBoundary;
+import pendenzenliste.achievements.boundary.out.AchievementOutputBoundaryFactory;
 import pendenzenliste.messaging.EventBus;
 
 /**

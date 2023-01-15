@@ -5,13 +5,13 @@ import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.in.DeleteToDoInputBoundary;
-import pendenzenliste.boundary.in.DeleteToDoRequest;
-import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
-import pendenzenliste.boundary.out.ToDoUpdatedResponse;
-import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
-import pendenzenliste.boundary.out.UpdateToDoResponse;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.boundary.in.DeleteToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.DeleteToDoRequest;
+import pendenzenliste.todos.boundary.out.ToDoUpdateFailedResponse;
+import pendenzenliste.todos.boundary.out.ToDoUpdatedResponse;
+import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoDeletedEvent;

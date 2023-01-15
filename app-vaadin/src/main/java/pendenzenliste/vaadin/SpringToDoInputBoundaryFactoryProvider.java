@@ -1,9 +1,9 @@
 package pendenzenliste.vaadin;
 
 import org.springframework.stereotype.Component;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
-import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.todos.boundary.out.ToDoOutputBoundaryFactory;
 
 /**
  * A spring specific todo input boundary factory provider.

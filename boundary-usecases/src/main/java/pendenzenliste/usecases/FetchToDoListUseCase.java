@@ -3,11 +3,11 @@ package pendenzenliste.usecases;
 import static java.util.Objects.requireNonNull;
 import static pendenzenliste.usecases.ResponseModelMappingUtils.mapToResponseModel;
 
-import pendenzenliste.boundary.in.FetchToDoListInputBoundary;
-import pendenzenliste.boundary.in.FetchTodoListRequest;
-import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
-import pendenzenliste.boundary.out.FetchToDoListResponse;
-import pendenzenliste.boundary.out.FetchedToDoListResponse;
+import pendenzenliste.todos.boundary.in.FetchToDoListInputBoundary;
+import pendenzenliste.todos.boundary.in.FetchTodoListRequest;
+import pendenzenliste.todos.boundary.out.FetchToDoListOutputBoundary;
+import pendenzenliste.todos.boundary.out.FetchToDoListResponse;
+import pendenzenliste.todos.boundary.out.FetchedToDoListResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
 
 /**

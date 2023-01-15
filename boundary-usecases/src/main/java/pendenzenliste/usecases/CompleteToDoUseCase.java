@@ -2,12 +2,12 @@ package pendenzenliste.usecases;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.in.CompleteToDoInputBoundary;
-import pendenzenliste.boundary.in.CompleteToDoRequest;
-import pendenzenliste.boundary.out.ToDoUpdateFailedResponse;
-import pendenzenliste.boundary.out.ToDoUpdatedResponse;
-import pendenzenliste.boundary.out.UpdateToDoOutputBoundary;
-import pendenzenliste.boundary.out.UpdateToDoResponse;
+import pendenzenliste.todos.boundary.in.CompleteToDoInputBoundary;
+import pendenzenliste.todos.boundary.in.CompleteToDoRequest;
+import pendenzenliste.todos.boundary.out.ToDoUpdateFailedResponse;
+import pendenzenliste.todos.boundary.out.ToDoUpdatedResponse;
+import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoCapabilityValueObject;

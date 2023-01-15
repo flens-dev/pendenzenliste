@@ -2,7 +2,7 @@ package pendenzenliste.vaadin;
 
 import java.util.function.Function;
 
-import pendenzenliste.boundary.out.ToDoListResponseModel;
+import pendenzenliste.todos.boundary.out.ToDoListResponseModel;
 
 /**
  * A utility class that can be used to map view models.

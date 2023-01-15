@@ -2,9 +2,9 @@ package pendenzenliste.vaadin;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.out.CreateToDoOutputBoundary;
-import pendenzenliste.boundary.out.ToDoCreatedResponse;
-import pendenzenliste.boundary.out.ToDoCreationFailedResponse;
+import pendenzenliste.todos.boundary.out.CreateToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.ToDoCreatedResponse;
+import pendenzenliste.todos.boundary.out.ToDoCreationFailedResponse;
 
 /**
  * A presenter that can be used to handle the results of a create todo request.

@@ -5,12 +5,12 @@ import static java.util.Objects.requireNonNull;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
-import pendenzenliste.boundary.in.CompleteToDoRequest;
-import pendenzenliste.boundary.in.DeleteToDoRequest;
-import pendenzenliste.boundary.in.FetchToDoRequest;
-import pendenzenliste.boundary.in.FetchTodoListRequest;
-import pendenzenliste.boundary.in.ResetToDoRequest;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.todos.boundary.in.CompleteToDoRequest;
+import pendenzenliste.todos.boundary.in.DeleteToDoRequest;
+import pendenzenliste.todos.boundary.in.FetchToDoRequest;
+import pendenzenliste.todos.boundary.in.FetchTodoListRequest;
+import pendenzenliste.todos.boundary.in.ResetToDoRequest;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;
 
 public class ToDoController
 {

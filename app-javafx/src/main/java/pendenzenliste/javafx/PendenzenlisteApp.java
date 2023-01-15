@@ -3,7 +3,7 @@ package pendenzenliste.javafx;
 import io.reactivex.rxjava3.disposables.Disposable;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactoryProvider;
 
 /**
  * An application that runs the pendenzenliste app.

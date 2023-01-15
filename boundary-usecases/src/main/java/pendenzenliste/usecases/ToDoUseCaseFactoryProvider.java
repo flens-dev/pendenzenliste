@@ -1,9 +1,9 @@
 package pendenzenliste.usecases;
 
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
-import pendenzenliste.boundary.out.ToDoOutputBoundaryFactory;
 import pendenzenliste.messaging.EventBus;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.todos.boundary.out.ToDoOutputBoundaryFactory;
 import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 /**

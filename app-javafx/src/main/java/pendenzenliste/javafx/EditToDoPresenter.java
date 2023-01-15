@@ -2,9 +2,9 @@ package pendenzenliste.javafx;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.out.FetchToDoFailedResponse;
-import pendenzenliste.boundary.out.FetchToDoOutputBoundary;
-import pendenzenliste.boundary.out.ToDoFetchedResponse;
+import pendenzenliste.todos.boundary.out.FetchToDoFailedResponse;
+import pendenzenliste.todos.boundary.out.FetchToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.ToDoFetchedResponse;
 
 /**
  * A presenter that can be used to edit a todo.

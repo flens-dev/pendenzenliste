@@ -3,7 +3,7 @@ package pendenzenliste.usecases;
 import java.util.Optional;
 import java.util.function.Function;
 
-import pendenzenliste.boundary.out.ToDoListResponseModel;
+import pendenzenliste.todos.boundary.out.ToDoListResponseModel;
 import pendenzenliste.todos.model.CompletedTimestampValueObject;
 import pendenzenliste.todos.model.ToDoAggregate;
 

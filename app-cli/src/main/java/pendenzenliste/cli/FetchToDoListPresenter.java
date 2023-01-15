@@ -1,9 +1,9 @@
 package pendenzenliste.cli;
 
-import pendenzenliste.boundary.out.FetchToDoListFailedResponse;
-import pendenzenliste.boundary.out.FetchToDoListOutputBoundary;
-import pendenzenliste.boundary.out.FetchedToDoListResponse;
-import pendenzenliste.boundary.out.ToDoListResponseModel;
+import pendenzenliste.todos.boundary.out.FetchToDoListFailedResponse;
+import pendenzenliste.todos.boundary.out.FetchToDoListOutputBoundary;
+import pendenzenliste.todos.boundary.out.FetchedToDoListResponse;
+import pendenzenliste.todos.boundary.out.ToDoListResponseModel;
 
 /**
  * A presenter that can be used to handle the results of a fetch todo list request.

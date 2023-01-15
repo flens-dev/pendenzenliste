@@ -2,16 +2,17 @@ package pendenzenliste.vaadin;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.boundary.in.AchievementInputBoundaryFactory;
-import pendenzenliste.boundary.in.CompleteToDoRequest;
-import pendenzenliste.boundary.in.CreateToDoRequest;
-import pendenzenliste.boundary.in.DeleteToDoRequest;
-import pendenzenliste.boundary.in.FetchToDoRequest;
-import pendenzenliste.boundary.in.ResetToDoRequest;
-import pendenzenliste.boundary.in.SubscribeAchievementsRequest;
-import pendenzenliste.boundary.in.SubscribeToDoListRequest;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactory;
-import pendenzenliste.boundary.in.UpdateToDoRequest;
+import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactory;
+import pendenzenliste.achievements.boundary.in.SubscribeAchievementsRequest;
+import pendenzenliste.todos.boundary.in.CompleteToDoRequest;
+import pendenzenliste.todos.boundary.in.CreateToDoRequest;
+import pendenzenliste.todos.boundary.in.DeleteToDoRequest;
+import pendenzenliste.todos.boundary.in.FetchToDoRequest;
+import pendenzenliste.todos.boundary.in.ResetToDoRequest;
+import pendenzenliste.todos.boundary.in.SubscribeToDoListRequest;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.todos.boundary.in.UpdateToDoRequest;
+
 
 /**
  * A controller that can be used in the context the application.

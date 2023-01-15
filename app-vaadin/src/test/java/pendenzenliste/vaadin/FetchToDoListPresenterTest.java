@@ -6,9 +6,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import pendenzenliste.boundary.out.FetchToDoListFailedResponse;
-import pendenzenliste.boundary.out.FetchedToDoListResponse;
-import pendenzenliste.boundary.out.ToDoListResponseModel;
+import pendenzenliste.todos.boundary.out.FetchToDoListFailedResponse;
+import pendenzenliste.todos.boundary.out.FetchedToDoListResponse;
+import pendenzenliste.todos.boundary.out.ToDoListResponseModel;
 
 class FetchToDoListPresenterTest
 {

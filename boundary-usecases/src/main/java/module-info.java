@@ -1,5 +1,5 @@
-import pendenzenliste.boundary.in.AchievementInputBoundaryFactoryProvider;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactoryProvider;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactoryProvider;
 import pendenzenliste.usecases.AchievementUseCaseFactoryProvider;
 import pendenzenliste.usecases.ToDoUseCaseFactoryProvider;
 

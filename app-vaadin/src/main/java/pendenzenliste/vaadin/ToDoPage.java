@@ -7,8 +7,8 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-import pendenzenliste.boundary.in.AchievementInputBoundaryFactoryProvider;
-import pendenzenliste.boundary.in.ToDoInputBoundaryFactoryProvider;
+import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactoryProvider;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactoryProvider;
 
 /**
  * A page in the app that renders a list of todos and allows the user to modify the todos.

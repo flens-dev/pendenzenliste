@@ -18,6 +18,7 @@ project(':supporting-domain-achievements').projectDir = file('domain/supporting-
 include 'messaging'
 
 include 'gateway'
+include 'gateway-acceptance-test'
 include 'gateway-filesystem'
 include 'gateway-inmemory'
 include 'gateway-redis'

@@ -18,15 +18,24 @@ dependencies {
 
     implementation "redis.clients:jedis:${jedisVersion}"
 
+    integrationTestImplementation project(':gateway-redis')
+    integrationTestImplementation project(':gateway-inmemory')
+    integrationTestImplementation project(':gateway-filesystem')
+
     integrationTestImplementation project(':gateway-acceptance-test')
 
     integrationTestImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
     integrationTestRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
     integrationTestImplementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"
     integrationTestImplementation "org.junit.platform:junit-platform-suite:${junitPlatformVersion}"
+    integrationTestImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
+    integrationTestImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 
     integrationTestImplementation "org.assertj:assertj-core:${assertJVersion}"
     integrationTestImplementation "org.mockito:mockito-core:${mockitoVersion}"
+
+    integrationTestImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    integrationTestImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
 
     integrationTestImplementation "org.testcontainers:testcontainers:${testContainersVersion}"
 }

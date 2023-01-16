@@ -1,5 +1,6 @@
+import pendenzenliste.achievements.gateway.AchievementEventTrackingSubscriber;
 import pendenzenliste.achievements.gateway.AchievementGatewayProvider;
-import pendenzenliste.achievements.gateway.ToDoAchievementTrackingSubscriber;
+import pendenzenliste.achievements.gateway.ToDoEventAchievementTrackingSubscriber;
 import pendenzenliste.messaging.Subscriber;
 import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
@@ -15,5 +16,6 @@ module pendenzenliste.gateway.main {
   uses AchievementGatewayProvider;
   uses ToDoGatewayProvider;
 
-  provides Subscriber with ToDoAchievementTrackingSubscriber;
+  provides Subscriber
+      with ToDoEventAchievementTrackingSubscriber, AchievementEventTrackingSubscriber;
 }

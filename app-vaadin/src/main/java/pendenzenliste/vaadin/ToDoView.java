@@ -19,7 +19,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Pre;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -38,8 +37,6 @@ public class ToDoView extends Component implements HasSize, HasComponents
   private final ToDoEditorWidget editor = new ToDoEditorWidget();
 
   private final ToDoListWidget todoList = new ToDoListWidget();
-
-  private final Pre achievements = new Pre();
 
   private final Collection<Runnable> updateAchievementsListener = new ArrayList<>();
 
@@ -65,9 +62,8 @@ public class ToDoView extends Component implements HasSize, HasComponents
 
     editor.getElement().setProperty("slot", "editor");
     todoList.getElement().setProperty("slot", "list");
-    achievements.getElement().setProperty("slot", "achievements");
 
-    add(todoList, editor, achievements);
+    add(todoList, editor);
 
     setHeightFull();
   }
@@ -79,14 +75,22 @@ public class ToDoView extends Component implements HasSize, HasComponents
    */
   private void showAchievements(final Collection<AchievementViewModel> achievements)
   {
-    final var builder = new StringBuilder();
+    for (final Component achievement : getChildren()
+        .filter(component -> "achievements".equals(component.getElement().getProperty("slot")))
+        .toList())
+    {
+      remove(achievement);
+    }
+
 
     for (final AchievementViewModel achievement : achievements)
     {
-      builder.append(achievement.title.get()).append('\n');
-    }
+      final var widget = new AchievementItemWidget(achievement);
 
-    this.achievements.setText(builder.toString());
+      widget.getElement().setProperty("slot", "achievements");
+
+      add(widget);
+    }
   }
 
   /**

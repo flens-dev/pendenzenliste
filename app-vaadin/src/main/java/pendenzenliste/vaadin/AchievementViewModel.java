@@ -12,4 +12,6 @@ public class AchievementViewModel
   public final StringBindingProperty description = new StringBindingProperty();
 
   public final BindingProperty<LocalDateTime> unlocked = new BindingProperty<>();
+
+  public final StringBindingProperty state = new StringBindingProperty();
 }

@@ -36,6 +36,11 @@ const styles = css`
   .editor {
     height: 100%;
   }
+
+  .achievements {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
 `
 
 @customElement("todo-view")

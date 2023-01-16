@@ -74,10 +74,11 @@ public class FetchAchievementListPresenter implements FetchAchievementListOutput
       } else
       {
         viewModel.title.set("Hidden");
-        viewModel.description.set("Hidden");
+        viewModel.description.set("This achievement is hidden");
       }
 
       viewModel.unlocked.set(achievement.unlocked());
+      viewModel.state.set(achievement.state());
 
       return viewModel;
     };

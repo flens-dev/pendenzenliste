@@ -1,4 +1,4 @@
-package pendenzenliste;
+package pendenzenliste.boundary.cucumber;
 
 import java.time.LocalDateTime;
 import java.util.List;

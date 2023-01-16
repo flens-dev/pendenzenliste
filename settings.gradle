@@ -5,6 +5,7 @@ include 'app-javafx'
 include 'app-vaadin'
 
 include 'boundary'
+include 'boundary-acceptance-test'
 include 'boundary-usecases'
 
 include 'domain'

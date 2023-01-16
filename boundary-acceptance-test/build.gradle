@@ -1,0 +1,53 @@
+sourceSets {
+    integrationTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom implementation
+    integrationTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+dependencies {
+    integrationTestImplementation project(':domain')
+    integrationTestImplementation project(':gateway')
+    integrationTestImplementation project(':messaging')
+    integrationTestImplementation project(':util-serialization')
+
+    integrationTestImplementation project(':gateway-redis')
+    integrationTestImplementation project(':gateway-inmemory')
+    integrationTestImplementation project(':gateway-filesystem')
+
+    integrationTestImplementation project(':boundary')
+    integrationTestImplementation project(':boundary-usecases')
+
+    integrationTestImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
+    integrationTestRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
+    integrationTestImplementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"
+    integrationTestImplementation "org.junit.platform:junit-platform-suite:${junitPlatformVersion}"
+    integrationTestImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
+    integrationTestImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+
+    integrationTestImplementation "org.assertj:assertj-core:${assertJVersion}"
+    integrationTestImplementation "org.mockito:mockito-core:${mockitoVersion}"
+
+    integrationTestImplementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    integrationTestImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
+
+    integrationTestImplementation "org.testcontainers:testcontainers:${testContainersVersion}"
+}
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter test
+
+    useJUnitPlatform()
+}
+
+check.dependsOn integrationTest

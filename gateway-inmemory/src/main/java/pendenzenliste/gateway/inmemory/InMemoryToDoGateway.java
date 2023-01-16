@@ -1,5 +1,6 @@
 package pendenzenliste.gateway.inmemory;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -13,6 +14,7 @@ import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoAggregate;
+import pendenzenliste.todos.model.ToDoDeletedEvent;
 import pendenzenliste.todos.model.ToDoEvent;
 
 /**
@@ -51,6 +53,7 @@ public final class InMemoryToDoGateway implements ToDoGateway
     if (STORE.containsKey(id))
     {
       STORE.remove(id);
+      eventBus.publish(new ToDoDeletedEvent(LocalDateTime.now(), id));
       return true;
     }
 

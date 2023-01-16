@@ -94,8 +94,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory
   @Override
   public DeleteToDoInputBoundary delete()
   {
-    return new DeleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update(),
-        eventBus);
+    return new DeleteToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
   }
 
   /**

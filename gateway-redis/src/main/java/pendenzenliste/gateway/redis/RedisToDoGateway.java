@@ -19,6 +19,7 @@ import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoAggregate;
+import pendenzenliste.todos.model.ToDoDeletedEvent;
 import pendenzenliste.todos.model.ToDoEvent;
 import pendenzenliste.todos.model.ToDoEventEntity;
 import redis.clients.jedis.Jedis;
@@ -76,6 +77,7 @@ public class RedisToDoGateway implements ToDoGateway
     if (hasBeenRemoved)
     {
       flush();
+      eventBus.publish(new ToDoDeletedEvent(LocalDateTime.now(), id));
     }
 
     return hasBeenRemoved;

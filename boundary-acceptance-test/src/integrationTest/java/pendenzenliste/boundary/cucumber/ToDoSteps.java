@@ -454,7 +454,7 @@ public class ToDoSteps
           Files.createTempDirectory("todoAcceptanceTest").toAbsolutePath();
 
       return new FilesystemToDoGateway(storagePath.toString().concat("/todoData"),
-          EventBus.defaultEventBus());
+          eventPublisher);
     } catch (final IOException e)
     {
       throw new RuntimeException(e);
@@ -468,7 +468,7 @@ public class ToDoSteps
    */
   private ToDoGateway createInMemoryGateway()
   {
-    return new InMemoryToDoGateway(EventBus.defaultEventBus());
+    return new InMemoryToDoGateway(eventPublisher);
   }
 
   /**
@@ -485,6 +485,6 @@ public class ToDoSteps
 
     final var connection = new Jedis(redis.getHost(), redis.getMappedPort(6379));
 
-    return new RedisToDoGateway(connection, EventBus.defaultEventBus());
+    return new RedisToDoGateway(connection, eventPublisher);
   }
 }

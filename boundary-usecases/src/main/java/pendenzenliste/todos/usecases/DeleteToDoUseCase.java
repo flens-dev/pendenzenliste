@@ -1,11 +1,9 @@
 package pendenzenliste.todos.usecases;
 
-import java.time.LocalDateTime;
 import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
-import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.boundary.in.DeleteToDoInputBoundary;
 import pendenzenliste.todos.boundary.in.DeleteToDoRequest;
 import pendenzenliste.todos.boundary.out.ToDoUpdateFailedResponse;
@@ -15,7 +13,6 @@ import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoCapabilityValueObject;
-import pendenzenliste.todos.model.ToDoDeletedEvent;
 
 /**
  * A use case that can be used to delete an existing ToDo.
@@ -24,22 +21,18 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary
 {
   private final ToDoGateway gateway;
   private final UpdateToDoOutputBoundary outputBoundary;
-  private final EventBus eventPublisher;
 
   /**
    * Creates a new instance.
    *
    * @param gateway        The gateway that should be used by this instance.
    * @param outputBoundary The output boundary that should be used by this instance.
-   * @param eventPublisher The event publisher that should be used by this instance.
    */
   public DeleteToDoUseCase(final ToDoGateway gateway,
-                           final UpdateToDoOutputBoundary outputBoundary,
-                           final EventBus eventPublisher)
+                           final UpdateToDoOutputBoundary outputBoundary)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
     this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");
-    this.eventPublisher = requireNonNull(eventPublisher, "The event publisher may not be null");
   }
 
   /**
@@ -80,9 +73,6 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary
 
       if (deleted)
       {
-        //TODO: Find out a proper way to achieve this? Maybe the gateway should publish it?
-        eventPublisher.publish(new ToDoDeletedEvent(LocalDateTime.now(), identity));
-
         return new ToDoUpdatedResponse();
       } else
       {

@@ -12,14 +12,14 @@ import pendenzenliste.todos.model.ToDoEvent;
 /**
  * A subscriber that subscribes to todo events in order to track the achievements.
  */
-public class AchievementTrackingSubscriber implements Subscriber<ToDoEvent>
+public class ToDoAchievementTrackingSubscriber implements Subscriber<ToDoEvent>
 {
   private final AchievementGateway gateway;
 
   /**
    * Creates a new instance.
    */
-  public AchievementTrackingSubscriber()
+  public ToDoAchievementTrackingSubscriber()
   {
     this(AchievementGatewayProvider.defaultProvider().getInstance());
   }
@@ -29,7 +29,7 @@ public class AchievementTrackingSubscriber implements Subscriber<ToDoEvent>
    *
    * @param gateway The gateway.
    */
-  public AchievementTrackingSubscriber(final AchievementGateway gateway)
+  public ToDoAchievementTrackingSubscriber(final AchievementGateway gateway)
   {
     this.gateway = requireNonNull(gateway, "The gateway may not be null");
   }

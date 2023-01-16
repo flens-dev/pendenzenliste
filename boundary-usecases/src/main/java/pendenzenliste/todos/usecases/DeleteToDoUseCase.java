@@ -70,8 +70,6 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary
       {
         return new ToDoUpdateFailedResponse("The ToDo does not exist");
       }
-      
-      System.out.println(todo.get().aggregateRoot());
 
       if (todo.get().doesNotHave(ToDoCapabilityValueObject.DELETE))
       {

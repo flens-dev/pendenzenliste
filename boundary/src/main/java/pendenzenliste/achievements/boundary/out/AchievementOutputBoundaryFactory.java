@@ -11,4 +11,11 @@ public interface AchievementOutputBoundaryFactory
    * @return The output boundary.
    */
   SubscribeAchievementsOutputBoundary subscribe();
+
+  /**
+   * The output boundary used to list the achievements.
+   *
+   * @return The output boundary.
+   */
+  FetchAchievementListOutputBoundary list();
 }

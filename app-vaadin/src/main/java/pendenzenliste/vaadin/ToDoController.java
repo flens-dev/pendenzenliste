@@ -3,6 +3,7 @@ package pendenzenliste.vaadin;
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactory;
+import pendenzenliste.achievements.boundary.in.FetchAchievementListRequest;
 import pendenzenliste.achievements.boundary.in.SubscribeAchievementsRequest;
 import pendenzenliste.todos.boundary.in.CompleteToDoRequest;
 import pendenzenliste.todos.boundary.in.CreateToDoRequest;
@@ -145,5 +146,15 @@ public class ToDoController
     final var request = new SubscribeAchievementsRequest();
 
     achievementFactory.subscribe().execute(request);
+  }
+
+  /**
+   * Fetches a list of achievements.
+   */
+  public void fetchAchievementList()
+  {
+    final var request = new FetchAchievementListRequest();
+
+    achievementFactory.list().execute(request);
   }
 }

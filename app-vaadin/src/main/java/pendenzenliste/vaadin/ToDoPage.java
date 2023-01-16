@@ -47,9 +47,11 @@ public class ToDoPage extends Composite<Div>
     view.addCompleteListener(todo -> controller.complete(todo.identity.get()));
     view.addDeleteListener(todo -> controller.delete(todo.identity.get()));
     view.addResetListener(todo -> controller.reset(todo.identity.get()));
+    view.addUpdateAchievementsListener(controller::fetchAchievementList);
 
     controller.subscribeToDoList();
     controller.subscribeAchievements();
+    controller.fetchAchievementList();
 
     getContent().add(view);
   }

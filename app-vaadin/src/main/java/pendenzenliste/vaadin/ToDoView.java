@@ -1,5 +1,7 @@
 package pendenzenliste.vaadin;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.function.Consumer;
 
 import static java.util.Objects.requireNonNull;
@@ -17,6 +19,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Pre;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -36,6 +39,10 @@ public class ToDoView extends Component implements HasSize, HasComponents
 
   private final ToDoListWidget todoList = new ToDoListWidget();
 
+  private final Pre achievements = new Pre();
+
+  private final Collection<Runnable> updateAchievementsListener = new ArrayList<>();
+
   private final UI ui = UI.getCurrent();
 
   /**
@@ -54,13 +61,32 @@ public class ToDoView extends Component implements HasSize, HasComponents
     this.viewModel.description.bindTwoWay(editor.getDescriptionField());
     this.viewModel.errorMessage.bind(this::showGenericErrorMessage);
     this.viewModel.unlockedAchievement.bind(this::showUnlockedAchievement);
+    this.viewModel.achievements.bind(this::showAchievements);
 
     editor.getElement().setProperty("slot", "editor");
     todoList.getElement().setProperty("slot", "list");
+    achievements.getElement().setProperty("slot", "achievements");
 
-    add(todoList, editor);
+    add(todoList, editor, achievements);
 
     setHeightFull();
+  }
+
+  /**
+   * Shows the given achievements.
+   *
+   * @param achievements The achievements that should be shown.
+   */
+  private void showAchievements(final Collection<AchievementViewModel> achievements)
+  {
+    final var builder = new StringBuilder();
+
+    for (final AchievementViewModel achievement : achievements)
+    {
+      builder.append(achievement.title.get()).append('\n');
+    }
+
+    this.achievements.setText(builder.toString());
   }
 
   /**
@@ -89,6 +115,7 @@ public class ToDoView extends Component implements HasSize, HasComponents
       ui.accessSynchronously(() -> {
         createAchievementUnlockedNotification(achievement).open();
         viewModel.unlockedAchievement.set(null);
+        updateAchievementsListener.forEach(Runnable::run);
       });
     }
   }
@@ -184,13 +211,12 @@ public class ToDoView extends Component implements HasSize, HasComponents
     icon.setColor("var(--lumo-success-color)");
 
     final var uploadSuccessful = new Div(new Text(achievement.title()));
-    uploadSuccessful.getStyle().set("font-weight", "600").set("color",
-        "var(--lumo-success-text-color)");
+    uploadSuccessful.getStyle().set("font-weight", "600")
+        .set("color", "var(--lumo-success-text-color)");
 
-    final var info = new Div(uploadSuccessful,
-        new Div(new Text(achievement.description())));
-    info.getStyle().set("font-size", "var(--lumo-font-size-s)").set("color",
-        "var(--lumo-secondary-text-color)");
+    final var info = new Div(uploadSuccessful, new Div(new Text(achievement.description())));
+    info.getStyle().set("font-size", "var(--lumo-font-size-s)")
+        .set("color", "var(--lumo-secondary-text-color)");
 
     HorizontalLayout layout = new HorizontalLayout(icon, info);
     layout.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -199,5 +225,15 @@ public class ToDoView extends Component implements HasSize, HasComponents
     notification.setDuration(10000);
 
     return notification;
+  }
+
+  /**
+   * Adds an update achievement listener.
+   *
+   * @param listener The listener.
+   */
+  public void addUpdateAchievementsListener(final Runnable listener)
+  {
+    updateAchievementsListener.add(listener);
   }
 }

@@ -24,6 +24,9 @@ public class ToDoListViewModel
   public final BindingProperty<UnlockedAchievementDTO> unlockedAchievement =
       new BindingProperty<>();
 
+  public final BindingProperty<Collection<AchievementViewModel>> achievements =
+      new BindingProperty<>(new ArrayList<>());
+
   /**
    * Clears the editor input values.
    */

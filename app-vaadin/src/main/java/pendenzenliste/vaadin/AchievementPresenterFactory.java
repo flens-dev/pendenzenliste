@@ -3,6 +3,7 @@ package pendenzenliste.vaadin;
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.achievements.boundary.out.AchievementOutputBoundaryFactory;
+import pendenzenliste.achievements.boundary.out.FetchAchievementListOutputBoundary;
 import pendenzenliste.achievements.boundary.out.SubscribeAchievementsOutputBoundary;
 
 /**
@@ -19,7 +20,6 @@ public class AchievementPresenterFactory implements AchievementOutputBoundaryFac
    */
   public AchievementPresenterFactory(final ToDoListViewModel viewModel)
   {
-
     this.viewModel = requireNonNull(viewModel, "The view model may not be null");
   }
 
@@ -30,5 +30,14 @@ public class AchievementPresenterFactory implements AchievementOutputBoundaryFac
   public SubscribeAchievementsOutputBoundary subscribe()
   {
     return new SubscribeAchievementsPresenter(viewModel);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public FetchAchievementListOutputBoundary list()
+  {
+    return new FetchAchievementListPresenter(viewModel);
   }
 }

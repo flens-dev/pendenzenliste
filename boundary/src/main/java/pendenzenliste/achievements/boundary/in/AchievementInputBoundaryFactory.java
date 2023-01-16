@@ -6,6 +6,13 @@ package pendenzenliste.achievements.boundary.in;
 public interface AchievementInputBoundaryFactory
 {
   /**
+   * An input boundary that can be used to fetch a list of achievements.
+   *
+   * @return The input boundary.
+   */
+  FetchAchievementListInputBoundary list();
+
+  /**
    * An input boundary that can be used to subscribe to the achievements.
    *
    * @return The input boundary.

@@ -3,6 +3,7 @@ package pendenzenliste.achievements.usecases;
 import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactory;
 import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactoryProvider;
 import pendenzenliste.achievements.boundary.out.AchievementOutputBoundaryFactory;
+import pendenzenliste.achievements.gateway.AchievementGatewayProvider;
 import pendenzenliste.messaging.EventBus;
 
 /**
@@ -16,6 +17,8 @@ public class AchievementUseCaseFactoryProvider implements AchievementInputBounda
   @Override
   public AchievementInputBoundaryFactory getInstance(final AchievementOutputBoundaryFactory factory)
   {
-    return new AchievementUseCaseFactory(factory, EventBus.defaultEventBus());
+    return new AchievementUseCaseFactory(factory,
+        EventBus.defaultEventBus(),
+        AchievementGatewayProvider.defaultProvider().getInstance());
   }
 }

@@ -1,5 +1,7 @@
 package pendenzenliste.boundary.cucumber;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -12,13 +14,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.assertj.core.api.SoftAssertions;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.utility.DockerImageName;
+import pendenzenliste.gateway.inmemory.InMemoryToDoGateway;
+import pendenzenliste.gateway.redis.RedisToDoGateway;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.boundary.in.CompleteToDoRequest;
 import pendenzenliste.todos.boundary.in.CreateToDoRequest;
@@ -42,7 +47,7 @@ import pendenzenliste.todos.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
-import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.gateway.filesystem.FilesystemToDoGateway;
 import pendenzenliste.todos.model.ToDoAggregate;
 import pendenzenliste.todos.model.ToDoCompletedEvent;
 import pendenzenliste.todos.model.ToDoCreatedEvent;
@@ -52,13 +57,14 @@ import pendenzenliste.todos.model.ToDoReopenedEvent;
 import pendenzenliste.todos.model.ToDoStateValueObject;
 import pendenzenliste.todos.model.ToDoUpdatedEvent;
 import pendenzenliste.todos.usecases.ToDoUseCaseFactory;
+import redis.clients.jedis.Jedis;
 
 /**
  * The steps used to execute the ToDo acceptance tests.
  */
 public class ToDoSteps
 {
-  private final ToDoGateway gateway = mock(ToDoGateway.class);
+  private ToDoGateway gateway;
 
   private final ToDoOutputBoundaryFactory outputBoundaryFactory =
       new ToDoOutputBoundaryFactory()
@@ -160,7 +166,7 @@ public class ToDoSteps
   @Given("that the ToDo does not exist")
   public void givenThatTheToDoDoesNotExist()
   {
-    when(gateway.findById(new IdentityValueObject(id))).thenReturn(Optional.empty());
+    gateway.fetchAll().forEach(todo -> gateway.delete(todo.aggregateRoot().identity()));
   }
 
 
@@ -169,22 +175,18 @@ public class ToDoSteps
   {
     for (final Map<String, String> row : data.asMaps())
     {
-      var identity = new IdentityValueObject(row.get("identity"));
-
-      when(gateway.findById(identity)).thenReturn(Optional.of(parseToDoFrom(row)));
+      gateway.store(parseToDoFrom(row));
     }
   }
 
   @Given("that deleting the ToDo fails")
   public void givenThatDeletingTheToDoFails()
   {
-    when(gateway.delete(new IdentityValueObject(id))).thenReturn(false);
   }
 
   @Given("that deleting the ToDo succeeds")
   public void givenThatDeletingTheToDoSucceeds()
   {
-    when(gateway.delete(new IdentityValueObject(id))).thenReturn(true);
   }
 
   @Given("that I enter the headline {string}")
@@ -425,5 +427,64 @@ public class ToDoSteps
         fail(response.reason());
       }
     });
+  }
+
+  @Given("that I configure the application to use the {string} todo gateway")
+  public void thatIConfigureTheApplicationToUseTheBackendTodoGateway(final String backend)
+  {
+    switch (backend)
+    {
+      case "redis" -> this.gateway = createRedisGateway();
+      case "inmemory" -> this.gateway = createInMemoryGateway();
+      case "filesystem" -> this.gateway = createFilesystemGateway();
+      default -> throw new IllegalStateException("Unknown backend " + backend);
+    }
+  }
+
+  /**
+   * Creates the filesystem gateway.
+   *
+   * @return The filesystem gateway.
+   */
+  private ToDoGateway createFilesystemGateway()
+  {
+    try
+    {
+      final var storagePath =
+          Files.createTempDirectory("todoAcceptanceTest").toAbsolutePath();
+
+      return new FilesystemToDoGateway(storagePath.toString().concat("/todoData"),
+          EventBus.defaultEventBus());
+    } catch (final IOException e)
+    {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Creates an in-memory gateway.
+   *
+   * @return The in-memory gateway.
+   */
+  private ToDoGateway createInMemoryGateway()
+  {
+    return new InMemoryToDoGateway(EventBus.defaultEventBus());
+  }
+
+  /**
+   * Creates a redis gateway.
+   *
+   * @return The redis gateway.
+   */
+  private ToDoGateway createRedisGateway()
+  {
+    final var redis =
+        new GenericContainer<>(DockerImageName.parse("redis:7.0.7-alpine")).withExposedPorts(6379);
+
+    redis.start();
+
+    final var connection = new Jedis(redis.getHost(), redis.getMappedPort(6379));
+
+    return new RedisToDoGateway(connection, EventBus.defaultEventBus());
   }
 }

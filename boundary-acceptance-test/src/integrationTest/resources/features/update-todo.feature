@@ -4,7 +4,9 @@ Feature: Update ToDo
   I should be able to update an open ToDo
   In order to update the details of the ToDo.
 
-  Scenario: No ID supplied
+  Scenario Outline: No ID supplied - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I do not enter an ID
 
@@ -12,7 +14,24 @@ Feature: Update ToDo
 
     Then the todo update should have failed with the message: 'The value may not be null'
 
-  Scenario: ToDo does not exist
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: ToDo does not exist - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that I enter the headline 'Cool Headline'
@@ -23,7 +42,24 @@ Feature: Update ToDo
 
     Then the todo update should have failed with the message: 'The ToDo does not exist'
 
-  Scenario: ToDo has already been closed
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: ToDo has already been closed - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that I enter the headline 'Cool Headline'
@@ -36,7 +72,24 @@ Feature: Update ToDo
 
     Then the todo update should have failed with the message: 'The ToDo cannot be updated in its current state'
 
-  Scenario: Successful update
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: Successful update - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that I enter the headline 'Cool Headline'
@@ -48,3 +101,18 @@ Feature: Update ToDo
     When I try to update the ToDo
 
     Then the todo update should have been successful
+
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |

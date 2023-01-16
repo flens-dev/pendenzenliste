@@ -4,7 +4,9 @@ Feature: Fetch ToDo
   I should be able to fetch a ToDo
   In order to retrieve the previously stored ToDos.
 
-  Scenario: No ID specified
+  Scenario Outline: No ID specified - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I do not enter an ID
 
@@ -12,7 +14,24 @@ Feature: Fetch ToDo
 
     Then fetching the ToDo should have failed with the message: 'The value may not be null'
 
-  Scenario: Empty ID
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: Empty ID - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID ''
 
@@ -20,7 +39,24 @@ Feature: Fetch ToDo
 
     Then fetching the ToDo should have failed with the message: 'The value may not be empty'
 
-  Scenario: ToDo does not exist
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: ToDo does not exist - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that the ToDo does not exist
@@ -29,7 +65,24 @@ Feature: Fetch ToDo
 
     Then fetching the ToDo should have failed with the message: 'The ToDo does not exist'
 
-  Scenario: ToDo exists
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: ToDo exists - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that the following ToDo exists:
@@ -41,3 +94,18 @@ Feature: Fetch ToDo
     Then the fetched Todo should have the following values:
       | identity | headline | description | created             | last modified       | state |
       | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | OPEN  |
+
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |

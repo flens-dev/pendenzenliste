@@ -4,24 +4,57 @@ Feature: Complete ToDo
   I should be able to complete a ToDo
   In order to remove it from my open ToDos.
 
-  Scenario: No ID specified
+  Scenario Outline: No ID specified - <backend>
 
+    Given that I configure the application to use the '<backend>' todo gateway
     Given that I do not enter an ID
 
     When I try to complete the ToDo
 
     Then the todo update should have failed with the message: 'The value may not be null'
 
-  Scenario: Empty ID
+    @redis
+    Examples:
+      | backend |
+      | redis   |
 
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: Empty ID - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
     Given that I enter the ID ''
 
     When I try to complete the ToDo
 
     Then the todo update should have failed with the message: 'The value may not be empty'
 
-  Scenario: ToDo does not exist
+    @redis
+    Examples:
+      | backend |
+      | redis   |
 
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: ToDo does not exist - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
     Given that I enter the ID '42'
     And that the ToDo does not exist
 
@@ -29,7 +62,24 @@ Feature: Complete ToDo
 
     Then the todo update should have failed with the message: 'The ToDo does not exist'
 
-  Scenario: ToDo is already completed
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: ToDo is already completed - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that the following ToDo exists:
@@ -40,7 +90,24 @@ Feature: Complete ToDo
 
     Then the todo update should have failed with the message: 'The ToDo cannot be completed in its current state'
 
-  Scenario: Successful update
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: Successful update - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that the following ToDo exists:
@@ -50,3 +117,18 @@ Feature: Complete ToDo
     When I try to complete the ToDo
 
     Then the todo update should have been successful
+
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |

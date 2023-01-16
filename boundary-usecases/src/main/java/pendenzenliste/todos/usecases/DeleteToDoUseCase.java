@@ -14,6 +14,7 @@ import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.model.ToDoCapabilityValueObject;
 import pendenzenliste.todos.model.ToDoDeletedEvent;
 
 /**
@@ -62,14 +63,33 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary
     {
       final var identity = new IdentityValueObject(request.identity());
 
-      final var response = gateway.findById(identity).map(todo -> gateway.delete(identity))
-          .map(mapDeletedFlagToResponse())
-          .orElse(new ToDoUpdateFailedResponse("The ToDo does not exist"));
+      final var todo = gateway.findById(identity);
 
-      //TODO: Find out a proper way to achieve this? Maybe the gateway should publish it?
-      eventPublisher.publish(new ToDoDeletedEvent(LocalDateTime.now(), identity));
 
-      return response;
+      if (todo.isEmpty())
+      {
+        return new ToDoUpdateFailedResponse("The ToDo does not exist");
+      }
+      
+      System.out.println(todo.get().aggregateRoot());
+
+      if (todo.get().doesNotHave(ToDoCapabilityValueObject.DELETE))
+      {
+        return new ToDoUpdateFailedResponse("The ToDo cannot be deleted in its current state");
+      }
+
+      final var deleted = gateway.delete(todo.get().aggregateRoot().identity());
+
+      if (deleted)
+      {
+        //TODO: Find out a proper way to achieve this? Maybe the gateway should publish it?
+        eventPublisher.publish(new ToDoDeletedEvent(LocalDateTime.now(), identity));
+
+        return new ToDoUpdatedResponse();
+      } else
+      {
+        return new ToDoUpdateFailedResponse("Deleting the todo failed");
+      }
     } catch (final IllegalArgumentException e)
     {
       return new ToDoUpdateFailedResponse(e.getMessage());

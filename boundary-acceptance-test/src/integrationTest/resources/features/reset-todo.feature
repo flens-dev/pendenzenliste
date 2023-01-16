@@ -4,7 +4,9 @@ Feature: Reset ToDo
   I should be able to reset a completed ToDo
   In order to make it open again.
 
-  Scenario: No ID specified
+  Scenario Outline: No ID specified - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I do not enter an ID
 
@@ -12,7 +14,24 @@ Feature: Reset ToDo
 
     Then the todo update should have failed with the message: 'The value may not be null'
 
-  Scenario: Empty ID
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: Empty ID - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID ''
 
@@ -20,7 +39,24 @@ Feature: Reset ToDo
 
     Then the todo update should have failed with the message: 'The value may not be empty'
 
-  Scenario: ToDo does not exist
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: ToDo does not exist - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that the ToDo does not exist
@@ -29,7 +65,24 @@ Feature: Reset ToDo
 
     Then the todo update should have failed with the message: 'The ToDo does not exist'
 
-  Scenario: ToDo is open
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: ToDo is open - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that the following ToDo exists:
@@ -40,7 +93,24 @@ Feature: Reset ToDo
 
     Then the todo update should have failed with the message: 'The ToDo cannot be reset in its current state'
 
-  Scenario: Reset ToDo
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |
+
+  Scenario Outline: Reset ToDo - <backend>
+
+    Given that I configure the application to use the '<backend>' todo gateway
 
     Given that I enter the ID '42'
     And that the following ToDo exists:
@@ -50,3 +120,18 @@ Feature: Reset ToDo
     When I try to reset the ToDo
 
     Then the todo update should have been successful
+
+    @redis
+    Examples:
+      | backend |
+      | redis   |
+
+    @inmemory
+    Examples:
+      | backend  |
+      | inmemory |
+
+    @filesystem
+    Examples:
+      | backend    |
+      | filesystem |

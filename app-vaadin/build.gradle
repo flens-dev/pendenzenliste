@@ -32,6 +32,8 @@ dependencies {
     // We need to use tomcat version 9.x because vaadin only supports servlet-api 4.x
     implementation "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}"
     implementation "javax.servlet:javax.servlet-api:${servletApiVersion}"
+
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
 }
 
 vaadinPrepareFrontend.dependsOn(pnpmInstall)

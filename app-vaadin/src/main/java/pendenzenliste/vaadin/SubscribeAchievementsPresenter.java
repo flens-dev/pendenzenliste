@@ -31,6 +31,9 @@ public class SubscribeAchievementsPresenter implements SubscribeAchievementsOutp
 
     TITLES.put("THIRD_TIMES_THE_CHARM", "Third time's the charm");
     DESCRIPTION.put("THIRD_TIMES_THE_CHARM", "Reopen a todo for the third time");
+
+    TITLES.put("ACHIEVEMENT_HUNTER", "Achievement hunter");
+    DESCRIPTION.put("ACHIEVEMENT_HUNTER", "Collect three achievements");
   }
 
   private final ToDoListViewModel viewModel;

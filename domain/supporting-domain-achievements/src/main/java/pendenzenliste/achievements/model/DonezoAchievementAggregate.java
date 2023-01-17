@@ -1,10 +1,8 @@
 package pendenzenliste.achievements.model;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import pendenzenliste.todos.model.ToDoCompletedEvent;
-import pendenzenliste.todos.model.ToDoEvent;
 
 /**
  * An achievement aggregate that can be used to represent the 'Donezo!' achievement.
@@ -31,37 +29,12 @@ public class DonezoAchievementAggregate extends AbstractAchievementAggregate
    * {@inheritDoc}
    */
   @Override
-  public void trackProgress(final ToDoEvent event)
-  {
-    if (progressItems().isEmpty())
-    {
-      addProgressItem(new ProgressItemEntity(new IdentityValueObject("*"), 0, 1));
-    }
-
-    event.visit(this);
-
-    unlockIfCompleted();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void trackProgress(final AchievementEvent event)
-  {
-
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public void visit(final ToDoCompletedEvent event)
   {
-    final Optional<ProgressItemEntity> progressItem = progressItems().stream().findFirst();
+    final ProgressItemEntity progressItem = progressItems().stream().findFirst()
+        .orElse(new ProgressItemEntity(new IdentityValueObject("*"), 0, 1));
 
-    progressItem.ifPresent(
-        progressItemEntity -> replaceProgressItem(progressItemEntity, progressItemEntity.inc()));
+    addProgressItem(progressItem.inc());
   }
 
   /**

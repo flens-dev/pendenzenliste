@@ -1,5 +1,7 @@
 package pendenzenliste.achievements.gateway.filesystem;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,6 +11,7 @@ import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.achievements.gateway.AchievementGateway;
 import pendenzenliste.achievements.model.AchievementAggregate;
+import pendenzenliste.achievements.model.AchievementEvent;
 import pendenzenliste.achievements.model.AchievementEventEntity;
 import pendenzenliste.achievements.model.IdentityValueObject;
 import pendenzenliste.filesystem.util.FileStorage;
@@ -61,6 +64,9 @@ public class FilesystemAchievementGateway implements AchievementGateway
   @Override
   public void store(final AchievementAggregate achievement)
   {
+    final Collection<AchievementEvent> unpublishedEvents =
+        new ArrayList<>();
+
     for (final AchievementEventEntity event :
         achievement.events()
             .stream()
@@ -71,7 +77,7 @@ public class FilesystemAchievementGateway implements AchievementGateway
           event.withIdentity(IdentityValueObject.random());
 
       achievement.replaceEvent(event, unpublishedEvent);
-      eventBus.publish(unpublishedEvent.event());
+      unpublishedEvents.add(unpublishedEvent.event());
     }
 
     final Map<IdentityValueObject, AchievementAggregate> cache =
@@ -79,5 +85,7 @@ public class FilesystemAchievementGateway implements AchievementGateway
 
     cache.put(achievement.aggregateRoot().identity(), achievement);
     storage.flushToDisk(cache);
+
+    unpublishedEvents.forEach(eventBus::publish);
   }
 }

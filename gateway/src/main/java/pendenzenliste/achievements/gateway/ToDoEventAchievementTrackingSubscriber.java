@@ -41,8 +41,7 @@ public class ToDoEventAchievementTrackingSubscriber implements Subscriber<ToDoEv
   public void onEvent(final ToDoEvent event)
   {
     gateway.fetchAll()
-        .filter(aggregate ->
-            StateValueType.LOCKED.equals(aggregate.aggregateRoot().state()))
+        .filter(achievement -> StateValueType.LOCKED.equals(achievement.aggregateRoot().state()))
         .forEach(achievement -> {
           achievement.trackProgress(event);
           gateway.store(achievement);

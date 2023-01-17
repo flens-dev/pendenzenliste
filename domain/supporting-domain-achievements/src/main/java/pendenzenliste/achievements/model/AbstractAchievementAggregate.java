@@ -10,6 +10,7 @@ import static java.util.Objects.requireNonNull;
 import pendenzenliste.todos.model.ToDoCompletedEvent;
 import pendenzenliste.todos.model.ToDoCreatedEvent;
 import pendenzenliste.todos.model.ToDoDeletedEvent;
+import pendenzenliste.todos.model.ToDoEvent;
 import pendenzenliste.todos.model.ToDoEventVisitor;
 import pendenzenliste.todos.model.ToDoReopenedEvent;
 import pendenzenliste.todos.model.ToDoUpdatedEvent;
@@ -18,7 +19,7 @@ import pendenzenliste.todos.model.ToDoUpdatedEvent;
  * An abstract base class that can be used to represent an achievement aggregate.
  */
 public abstract class AbstractAchievementAggregate
-    implements AchievementAggregate, ToDoEventVisitor
+    implements AchievementAggregate, ToDoEventVisitor, AchievementEventVisitor
 {
   protected AchievementEntity achievement;
   private final List<AchievementEventEntity> events;
@@ -91,6 +92,29 @@ public abstract class AbstractAchievementAggregate
    * {@inheritDoc}
    */
   @Override
+  public final void trackProgress(final ToDoEvent event)
+  {
+    event.visit(this);
+
+    unlockIfCompleted();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public final void trackProgress(final AchievementEvent event)
+  {
+    event.visit(this);
+
+    unlockIfCompleted();
+  }
+
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void visit(final ToDoCompletedEvent event)
   {
 
@@ -130,6 +154,14 @@ public abstract class AbstractAchievementAggregate
   public void visit(final ToDoUpdatedEvent event)
   {
 
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void visit(final AchievementUnlockedEvent event)
+  {
   }
 
   /**

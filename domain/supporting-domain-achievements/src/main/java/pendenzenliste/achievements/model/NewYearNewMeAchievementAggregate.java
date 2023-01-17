@@ -2,10 +2,8 @@ package pendenzenliste.achievements.model;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Optional;
 
 import pendenzenliste.todos.model.ToDoCreatedEvent;
-import pendenzenliste.todos.model.ToDoEvent;
 
 /**
  * An achievement aggregate that can be used to represent the 'New Year, New Me!' achievement
@@ -28,31 +26,6 @@ public class NewYearNewMeAchievementAggregate extends AbstractAchievementAggrega
     super(achievement, events, progressItems);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void trackProgress(final ToDoEvent event)
-  {
-    if (progressItems().isEmpty())
-    {
-      addProgressItem(new ProgressItemEntity(new IdentityValueObject("*"), 0, 1));
-    }
-
-    event.visit(this);
-
-    unlockIfCompleted();
-  }
-
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void trackProgress(final AchievementEvent event)
-  {
-
-  }
 
   /**
    * {@inheritDoc}
@@ -62,10 +35,11 @@ public class NewYearNewMeAchievementAggregate extends AbstractAchievementAggrega
   {
     if (isNewYear(event.timestamp()))
     {
-      final Optional<ProgressItemEntity> progressItem = progressItems().stream().findFirst();
+      final ProgressItemEntity progressItem = progressItems().stream()
+          .findFirst()
+          .orElse(new ProgressItemEntity(new IdentityValueObject("*"), 0, 1));
 
-      progressItem.ifPresent(
-          progressItemEntity -> replaceProgressItem(progressItemEntity, progressItemEntity.inc()));
+      addProgressItem(progressItem.inc());
     }
   }
 

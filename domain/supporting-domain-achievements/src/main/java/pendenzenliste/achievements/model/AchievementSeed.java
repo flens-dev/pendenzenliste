@@ -30,6 +30,9 @@ public class AchievementSeed
             .build(),
         ThirdTimesTheCharmAchievementAggregate.builder().state(StateValueType.LOCKED)
             .randomIdentity()
+            .build(),
+        AchievementHunterAchievementAggregate.builder().state(StateValueType.LOCKED)
+            .randomIdentity()
             .build()
     );
   }

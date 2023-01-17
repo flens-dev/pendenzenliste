@@ -14,4 +14,11 @@ public interface AchievementEvent extends Serializable
    * @return The timestamp.
    */
   LocalDateTime timestamp();
+
+  /**
+   * Visits the given visitor.
+   *
+   * @param visitor The visitor.
+   */
+  void visit(AchievementEventVisitor visitor);
 }

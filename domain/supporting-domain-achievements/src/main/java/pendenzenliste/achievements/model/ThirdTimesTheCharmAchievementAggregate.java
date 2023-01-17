@@ -2,7 +2,6 @@ package pendenzenliste.achievements.model;
 
 import java.util.Collection;
 
-import pendenzenliste.todos.model.ToDoEvent;
 import pendenzenliste.todos.model.ToDoReopenedEvent;
 
 /**
@@ -25,26 +24,6 @@ public class ThirdTimesTheCharmAchievementAggregate extends AbstractAchievementA
                                                 final Collection<ProgressItemEntity> progressItems)
   {
     super(achievement, events, progressItems);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void trackProgress(final ToDoEvent event)
-  {
-    event.visit(this);
-
-    unlockIfCompleted();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void trackProgress(final AchievementEvent event)
-  {
-
   }
 
   /**

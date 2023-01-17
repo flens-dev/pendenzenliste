@@ -1,10 +1,8 @@
 package pendenzenliste.achievements.model;
 
 import java.util.Collection;
-import java.util.Optional;
 
 import pendenzenliste.todos.model.ToDoCreatedEvent;
-import pendenzenliste.todos.model.ToDoEvent;
 
 /**
  * An achievement aggregate that can be used to track the 'The journey of a thousand miles
@@ -32,37 +30,13 @@ public class JourneyBeginsAchievementAggregate extends AbstractAchievementAggreg
    * {@inheritDoc}
    */
   @Override
-  public void trackProgress(final ToDoEvent event)
-  {
-    if (progressItems().isEmpty())
-    {
-      addProgressItem(new ProgressItemEntity(new IdentityValueObject("*"), 0, 1));
-    }
-
-    event.visit(this);
-
-    unlockIfCompleted();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void trackProgress(final AchievementEvent event)
-  {
-
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
   public void visit(final ToDoCreatedEvent event)
   {
-    final Optional<ProgressItemEntity> progressItem = progressItems().stream().findFirst();
+    final ProgressItemEntity progressItem = progressItems().stream()
+        .findFirst()
+        .orElse(new ProgressItemEntity(new IdentityValueObject("*"), 0, 1));
 
-    progressItem.ifPresent(
-        progressItemEntity -> replaceProgressItem(progressItemEntity, progressItemEntity.inc()));
+    addProgressItem(progressItem.inc());
   }
 
   /**

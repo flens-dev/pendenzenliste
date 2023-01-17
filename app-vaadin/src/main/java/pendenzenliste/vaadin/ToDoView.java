@@ -8,6 +8,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.ClientCallable;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.DetachEvent;
@@ -75,22 +76,23 @@ public class ToDoView extends Component implements HasSize, HasComponents
    */
   private void showAchievements(final Collection<AchievementViewModel> achievements)
   {
-    for (final Component achievement : getChildren()
-        .filter(component -> "achievements".equals(component.getElement().getProperty("slot")))
-        .toList())
-    {
-      remove(achievement);
-    }
+    ui.access(() -> {
+      for (final Component achievement : getChildren()
+          .filter(component -> "achievements".equals(component.getElement().getProperty("slot")))
+          .toList())
+      {
+        remove(achievement);
+      }
 
+      for (final AchievementViewModel achievement : achievements)
+      {
+        final var widget = new AchievementItemWidget(achievement);
 
-    for (final AchievementViewModel achievement : achievements)
-    {
-      final var widget = new AchievementItemWidget(achievement);
+        widget.getElement().setProperty("slot", "achievements");
 
-      widget.getElement().setProperty("slot", "achievements");
-
-      add(widget);
-    }
+        add(widget);
+      }
+    });
   }
 
   /**
@@ -116,11 +118,11 @@ public class ToDoView extends Component implements HasSize, HasComponents
   {
     if (achievement != null)
     {
-      ui.accessSynchronously(() -> {
+      ui.access(() -> {
         createAchievementUnlockedNotification(achievement).open();
         viewModel.unlockedAchievement.set(null);
-        updateAchievementsListener.forEach(Runnable::run);
       });
+
     }
   }
 
@@ -239,5 +241,14 @@ public class ToDoView extends Component implements HasSize, HasComponents
   public void addUpdateAchievementsListener(final Runnable listener)
   {
     updateAchievementsListener.add(listener);
+  }
+
+  /**
+   * Refreshes the displayed achievements
+   */
+  @ClientCallable
+  public void refreshAchievements()
+  {
+    updateAchievementsListener.forEach(Runnable::run);
   }
 }

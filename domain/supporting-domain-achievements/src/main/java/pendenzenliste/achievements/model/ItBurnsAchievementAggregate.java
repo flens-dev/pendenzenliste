@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoCompletedEvent;
-import pendenzenliste.todos.model.ToDoEvent;
 
 /**
  * An achievement aggregate that can be used to track the 'It burns' achievement.
@@ -39,26 +38,6 @@ public class ItBurnsAchievementAggregate extends AbstractAchievementAggregate
                                      final Collection<ProgressItemEntity> progressItems)
   {
     super(achievement, events, progressItems);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void trackProgress(final ToDoEvent event)
-  {
-    event.visit(this);
-
-    unlockIfCompleted();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void trackProgress(final AchievementEvent event)
-  {
-
   }
 
   /**

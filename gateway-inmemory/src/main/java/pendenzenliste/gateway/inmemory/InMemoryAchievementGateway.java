@@ -1,5 +1,7 @@
 package pendenzenliste.gateway.inmemory;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,6 +11,7 @@ import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.achievements.gateway.AchievementGateway;
 import pendenzenliste.achievements.model.AchievementAggregate;
+import pendenzenliste.achievements.model.AchievementEvent;
 import pendenzenliste.achievements.model.AchievementEventEntity;
 import pendenzenliste.achievements.model.IdentityValueObject;
 import pendenzenliste.messaging.EventBus;
@@ -56,6 +59,8 @@ public class InMemoryAchievementGateway implements AchievementGateway
   @Override
   public void store(final AchievementAggregate achievement)
   {
+    final Collection<AchievementEvent> unpublishedEvents = new ArrayList<>();
+
     for (final AchievementEventEntity event :
         achievement.events().stream()
             .filter(event -> event.identity() == null)
@@ -65,9 +70,12 @@ public class InMemoryAchievementGateway implements AchievementGateway
           event.withIdentity(IdentityValueObject.random());
 
       achievement.replaceEvent(event, unpublishedEvent);
-      eventBus.publish(unpublishedEvent.event());
+
+      unpublishedEvents.add(unpublishedEvent.event());
     }
 
     STORE.put(achievement.aggregateRoot().identity(), achievement);
+
+    unpublishedEvents.forEach(eventBus::publish);
   }
 }

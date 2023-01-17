@@ -11,4 +11,12 @@ import java.time.LocalDateTime;
 public record AchievementUnlockedEvent(LocalDateTime timestamp,
                                        AchievementValueType name) implements AchievementEvent
 {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void visit(final AchievementEventVisitor visitor)
+  {
+    visitor.visit(this);
+  }
 }

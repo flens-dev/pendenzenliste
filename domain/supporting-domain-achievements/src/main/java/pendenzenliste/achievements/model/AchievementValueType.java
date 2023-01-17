@@ -13,5 +13,7 @@ public enum AchievementValueType
 
   IT_BURNS,
 
+  ACHIEVEMENT_HUNTER,
+
   THIRD_TIMES_THE_CHARM
 }

@@ -30,10 +30,7 @@ class NewYearNewMeAchievementAggregateTest
         .isEqualTo(new pendenzenliste.achievements.model.IdentityValueObject("42"));
     assertions.assertThat(achievement.aggregateRoot().unlocked()).isNull();
     assertions.assertThat(achievement.aggregateRoot().state()).isEqualTo(StateValueType.LOCKED);
-    assertions.assertThat(achievement.progressItems())
-        .containsExactly(
-            new ProgressItemEntity(new pendenzenliste.achievements.model.IdentityValueObject(
-                "*"), 0, 1));
+    assertions.assertThat(achievement.progressItems()).isEmpty();
     assertions.assertThat(achievement.events()).isEmpty();
 
     assertions.assertAll();

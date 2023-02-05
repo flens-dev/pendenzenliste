@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:5.0.13"
+    }
+}
+
 configure(subprojects.findAll()) {
     group 'pendenzenliste'
     version '1.0-SNAPSHOT'
@@ -8,6 +19,7 @@ configure(subprojects.findAll()) {
 
     apply plugin: 'jacoco'
     apply plugin: 'pmd'
+    apply plugin: 'com.github.spotbugs'
 
     repositories {
         mavenCentral()
@@ -26,6 +38,8 @@ configure(subprojects.findAll()) {
         testImplementation "org.mockito:mockito-core:${mockitoVersion}"
 
         testImplementation "com.tngtech.archunit:archunit-junit5:${archUnitVersion}"
+
+        spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.12.0'
     }
 
     test {
@@ -61,5 +75,23 @@ configure(subprojects.findAll()) {
 
         //TODO: Set this flag to false as soon as the issues are fixed
         ignoreFailures = true
+    }
+
+    project.spotbugs {
+        toolVersion = '4.7.3'
+
+        //TODO: Set this flag to false as soon as the issues are fixed
+        ignoreFailures = true
+    }
+
+    tasks.matching { it.name.startsWith("spotbugs") }.each {
+        if (it.name.contains("test")) {
+            it.enabled = false
+        }
+
+        it.reports {
+            xml.enabled = false
+            html.enabled = true
+        }
     }
 }

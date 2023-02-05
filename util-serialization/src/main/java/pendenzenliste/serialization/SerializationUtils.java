@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * This class defines various utilities used to serialize/deserialize java objects.
@@ -49,6 +52,10 @@ public final class SerializationUtils
    * @param <T>  The type of the deserialized object.
    * @return The deserialized object
    */
+  @SuppressFBWarnings(
+      value = "SECOBDES",
+      justification = "We need serialization as of now"
+  )
   public static <T> T deserializeObject(final byte[] data, final Class<T> type)
   {
     if (data != null)
@@ -75,6 +82,10 @@ public final class SerializationUtils
    * @param <V>       The value type.
    * @return The deserialized map.
    */
+  @SuppressFBWarnings(
+      value = "SECOBDES",
+      justification = "We need serialization as of now"
+  )
   public static <K, V> Map<K, V> deserializeMap(final byte[] data, final Class<K> keyType,
                                                 final Class<V> valueType)
   {
@@ -89,6 +100,6 @@ public final class SerializationUtils
       }
     }
 
-    return null;
+    return new ConcurrentHashMap<>();
   }
 }

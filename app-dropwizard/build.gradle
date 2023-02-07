@@ -1,0 +1,15 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+mainClassName = 'pendenzenliste.dropwizard.PendenzenlisteApp'
+
+dependencies {
+    implementation "io.dropwizard:dropwizard-core:${dropwizardVersion}"
+
+    implementation project(':boundary')
+
+    runtimeOnly project(':boundary-usecases')
+    runtimeOnly project(':gateway-filesystem')
+}

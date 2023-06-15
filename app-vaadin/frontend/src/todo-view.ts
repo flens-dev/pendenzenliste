@@ -1,8 +1,8 @@
 import {css, customElement, html, LitElement} from "lit-element";
 import "@vaadin/tabsheet";
-import "@vaadin/vaadin-tabs";
-import "@vaadin/vaadin-icon";
-import "@vaadin/vaadin-app-layout";
+import "@vaadin/tabs";
+import "@vaadin/icon";
+import "@vaadin/app-layout";
 import {TabsSelectedChangedEvent} from "@vaadin/tabs";
 
 const styles = css`

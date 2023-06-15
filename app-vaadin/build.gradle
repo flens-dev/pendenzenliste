@@ -36,7 +36,8 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:1.7.25'
 }
 
-vaadinPrepareFrontend.dependsOn(pnpmInstall)
+// Not entirely sure, why this line leads to an exception...
+//vaadinPrepareFrontend.dependsOn(pnpmInstall)
 
 configurations {
     all {

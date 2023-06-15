@@ -1,5 +1,5 @@
 import {css, customElement, html, LitElement, property} from "lit-element";
-import "@vaadin/vaadin-icon"
+import "@vaadin/icon"
 
 type achievementState = "LOCKED" | "UNLOCKED";
 

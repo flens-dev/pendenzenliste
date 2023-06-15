@@ -3,17 +3,18 @@ package pendenzenliste.achievements.model;
 /**
  * A value type that can be used to represent the various names of the achievements.
  */
-public enum AchievementValueType
-{
-  JOURNEY_BEGINS,
+public enum AchievementValueType {
+    JOURNEY_BEGINS,
 
-  DONEZO,
+    DONEZO,
 
-  NEW_YEAR_NEW_ME,
+    NEW_YEAR_NEW_ME,
 
-  IT_BURNS,
+    IT_BURNS,
 
-  ACHIEVEMENT_HUNTER,
+    ACHIEVEMENT_HUNTER,
 
-  THIRD_TIMES_THE_CHARM
+    THIRD_TIMES_THE_CHARM,
+
+    ALL_DONE
 }

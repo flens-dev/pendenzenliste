@@ -1,7 +1,5 @@
 package pendenzenliste.vaadin;
 
-import java.util.Optional;
-
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.PageTitle;
@@ -10,49 +8,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactoryProvider;
 import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactoryProvider;
 
+import java.util.Optional;
+
 /**
  * A page in the app that renders a list of todos and allows the user to modify the todos.
  */
 @PageTitle("Pendenzenliste")
 @Route("")
-public class ToDoPage extends Composite<Div>
-{
-  private final ToDoListViewModel viewModel = new ToDoListViewModel();
+public class ToDoPage extends Composite<Div> {
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * Creates a new instance.
-   */
-  public ToDoPage(@Autowired final ToDoInputBoundaryFactoryProvider todoFactory,
-                  @Autowired final AchievementInputBoundaryFactoryProvider achievementFactory)
-  {
-    super();
+    private final ToDoListViewModel viewModel = new ToDoListViewModel();
 
-    getContent().setHeightFull();
-    getContent().setWidthFull();
+    /**
+     * Creates a new instance.
+     */
+    public ToDoPage(@Autowired final ToDoInputBoundaryFactoryProvider todoFactory,
+                    @Autowired final AchievementInputBoundaryFactoryProvider achievementFactory) {
+        super();
 
-    final var view = new ToDoView(viewModel);
-    final var todoPresenter = new ToDoPresenterFactory(viewModel);
-    final var achievementPresenter = new AchievementPresenterFactory(viewModel);
-    final var controller = new ToDoController(
-        todoFactory.getInstance(todoPresenter),
-        achievementFactory.getInstance(achievementPresenter));
+        getContent().setHeightFull();
+        getContent().setWidthFull();
 
-    view.addSaveListener(l -> controller.save(
-        viewModel.identity.get(), viewModel.headline.get(), viewModel.description.get()));
-    view.addClearListener(l -> viewModel.clearEditor());
+        final var view = new ToDoView(viewModel);
+        final var todoPresenter = new ToDoPresenterFactory(viewModel);
+        final var achievementPresenter = new AchievementPresenterFactory(viewModel);
+        final var controller = new ToDoController(
+                todoFactory.getInstance(todoPresenter),
+                achievementFactory.getInstance(achievementPresenter));
 
-    view.addEditListener(todo -> Optional.ofNullable(todo).map(t -> t.identity.get())
-        .ifPresent(controller::loadForEdit));
+        view.addSaveListener(l -> controller.save(
+                viewModel.identity.get(), viewModel.headline.get(), viewModel.description.get()));
+        view.addClearListener(l -> viewModel.clearEditor());
 
-    view.addCompleteListener(todo -> controller.complete(todo.identity.get()));
-    view.addDeleteListener(todo -> controller.delete(todo.identity.get()));
-    view.addResetListener(todo -> controller.reset(todo.identity.get()));
-    view.addUpdateAchievementsListener(controller::fetchAchievementList);
+        view.addEditListener(todo -> Optional.ofNullable(todo).map(t -> t.identity.get())
+                .ifPresent(controller::loadForEdit));
 
-    controller.subscribeToDoList();
-    controller.subscribeAchievements();
-    controller.fetchAchievementList();
+        view.addCompleteListener(todo -> controller.complete(todo.identity.get()));
+        view.addDeleteListener(todo -> controller.delete(todo.identity.get()));
+        view.addResetListener(todo -> controller.reset(todo.identity.get()));
+        view.addUpdateAchievementsListener(controller::fetchAchievementList);
 
-    getContent().add(view);
-  }
+        controller.subscribeToDoList();
+        controller.subscribeAchievements();
+        controller.fetchAchievementList();
+
+        getContent().add(view);
+    }
 }

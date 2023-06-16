@@ -23,6 +23,9 @@ import static java.util.Objects.requireNonNull;
 @JsModule("./src/todo-view.ts")
 @Tag("todo-view")
 public class ToDoView extends Component implements HasSize, HasComponents, HasSlot {
+
+    private static final long serialVersionUID = 1L;
+
     private final ToDoListViewModel viewModel;
 
     private final ToDoEditorWidget editor = new ToDoEditorWidget();

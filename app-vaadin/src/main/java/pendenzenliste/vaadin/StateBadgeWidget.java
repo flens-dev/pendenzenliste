@@ -9,17 +9,17 @@ import com.vaadin.flow.component.dependency.JsModule;
  */
 @JsModule("./src/state-badge.ts")
 @Tag("state-badge")
-public class StateBadgeWidget extends Component
-{
-  /**
-   * Creates a new instance.
-   *
-   * @param status The status.
-   */
-  public StateBadgeWidget(final String status)
-  {
-    super();
+public class StateBadgeWidget extends Component {
+    private static final long serialVersionUID = 1L;
 
-    getElement().setProperty("state", status);
-  }
+    /**
+     * Creates a new instance.
+     *
+     * @param status The status.
+     */
+    public StateBadgeWidget(final String status) {
+        super();
+
+        getElement().setProperty("state", status);
+    }
 }

@@ -11,6 +11,6 @@ import com.vaadin.flow.theme.Theme;
 @Push
 @Theme(value = "pendenzenliste")
 @PWA(name = "Pendenzenliste", shortName = "Pendenzenliste")
-public class AppShell implements AppShellConfigurator
-{
+public class AppShell implements AppShellConfigurator {
+    private static final long serialVersionUID = 1L;
 }

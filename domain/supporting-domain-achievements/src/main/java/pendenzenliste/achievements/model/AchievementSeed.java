@@ -41,6 +41,10 @@ public class AchievementSeed {
                 AllDoneAchievementAggregate.builder()
                         .state(StateValueType.LOCKED)
                         .randomIdentity()
+                        .build(),
+                LazyDogAchievementAggregate.builder()
+                        .state(StateValueType.LOCKED)
+                        .randomIdentity()
                         .build()
         );
     }

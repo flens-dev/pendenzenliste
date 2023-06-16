@@ -16,5 +16,7 @@ public enum AchievementValueType {
 
     THIRD_TIMES_THE_CHARM,
 
-    ALL_DONE
+    ALL_DONE,
+
+    LAZY_DOG
 }

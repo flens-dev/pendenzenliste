@@ -1,0 +1,12 @@
+{
+  "name": "delete-todo",
+  "description": "Deletes an existing todo",
+  "options": [
+    {
+      "name": "id",
+      "description": "The ID of the todo",
+      "type": 3,
+      "required": true
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+//application.mainModule = "pendenzenliste.app.cli.main"
+mainClassName = 'pendenzenliste.discord4j.DiscordBot'
+
+dependencies {
+    implementation("com.discord4j:discord4j-core:${discord4JVersion}")
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
+
+    implementation project(':boundary')
+
+    runtimeOnly project(':boundary-usecases')
+    runtimeOnly project(':gateway-filesystem')
+}

@@ -1,59 +1,45 @@
 package pendenzenliste.cli;
 
-import static java.util.Objects.requireNonNull;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
-import pendenzenliste.todos.boundary.in.CompleteToDoRequest;
-import pendenzenliste.todos.boundary.in.DeleteToDoRequest;
-import pendenzenliste.todos.boundary.in.FetchToDoRequest;
-import pendenzenliste.todos.boundary.in.FetchTodoListRequest;
-import pendenzenliste.todos.boundary.in.ResetToDoRequest;
-import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.todos.boundary.in.*;
 
-public class ToDoController
-{
-  private final ToDoInputBoundaryFactory factory;
+import static java.util.Objects.requireNonNull;
 
-  /**
-   * Creates a new instance.
-   *
-   * @param factory The factory that should be used by this instance.
-   */
-  public ToDoController(final ToDoInputBoundaryFactory factory)
-  {
-    this.factory = requireNonNull(factory, "The factory may not be null");
-  }
+public class ToDoController {
+    private final ToDoInputBoundaryFactory factory;
 
-  /**
-   * Handles the given command.
-   *
-   * @param cmd     The command.
-   * @param options The options.
-   */
-  public void handle(final CommandLine cmd, final Options options)
-  {
-    if (cmd.hasOption("list"))
-    {
-      factory.list().execute(new FetchTodoListRequest());
-    } else if (cmd.hasOption("fetch"))
-    {
-      factory.fetch().execute(new FetchToDoRequest(cmd.getOptionValue("fetch")));
-    } else if (cmd.hasOption("reset"))
-    {
-      factory.reopen().execute(new ResetToDoRequest(cmd.getOptionValue("reset")));
-    } else if (cmd.hasOption("complete"))
-    {
-      factory.complete().execute(new CompleteToDoRequest(cmd.getOptionValue("complete")));
-    } else if (cmd.hasOption("delete"))
-    {
-      factory.delete().execute(new DeleteToDoRequest(cmd.getOptionValue("delete")));
-    } else
-    {
-      final var formatter = new HelpFormatter();
-
-      formatter.printHelp("app-cli", options);
+    /**
+     * Creates a new instance.
+     *
+     * @param factory The factory that should be used by this instance.
+     */
+    public ToDoController(final ToDoInputBoundaryFactory factory) {
+        this.factory = requireNonNull(factory, "The factory may not be null");
     }
-  }
+
+    /**
+     * Handles the given command.
+     *
+     * @param cmd     The command.
+     * @param options The options.
+     */
+    public void handle(final CommandLine cmd, final Options options) {
+        if (cmd.hasOption("list")) {
+            factory.list().execute(new FetchTodoListRequest());
+        } else if (cmd.hasOption("fetch")) {
+            factory.fetch().execute(new FetchToDoRequest(cmd.getOptionValue("fetch")));
+        } else if (cmd.hasOption("reset")) {
+            factory.reopen().execute(new ReopenToDoRequest(cmd.getOptionValue("reset")));
+        } else if (cmd.hasOption("complete")) {
+            factory.complete().execute(new CompleteToDoRequest(cmd.getOptionValue("complete")));
+        } else if (cmd.hasOption("delete")) {
+            factory.delete().execute(new DeleteToDoRequest(cmd.getOptionValue("delete")));
+        } else {
+            final var formatter = new HelpFormatter();
+
+            formatter.printHelp("app-cli", options);
+        }
+    }
 }

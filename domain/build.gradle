@@ -1,5 +1,5 @@
 dependencies {
-    api project(':core-domain-todos')
-    api project(':supporting-domain-achievements')
-    api project(':supporting-domain-statistics')
+    api project(':domain-todos')
+    api project(':domain-achievements')
+    api project(':domain-statistics')
 }

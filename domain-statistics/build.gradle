@@ -1,4 +1,4 @@
 dependencies {
-    implementation project(':core-domain-todos')
+    implementation project(':domain-todos')
     implementation project(':messaging')
 }

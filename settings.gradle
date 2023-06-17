@@ -11,17 +11,9 @@ include 'boundary-acceptance-test'
 include 'boundary-usecases'
 
 include 'domain'
-
-include 'core-domain-todos'
-project(':core-domain-todos').projectDir = file('domain/core-domain-todos')
-
-include 'supporting-domain-achievements'
-project(':supporting-domain-achievements').projectDir = file('domain/supporting-domain-achievements')
-
-include 'supporting-domain-statistics'
-project(':supporting-domain-statistics').projectDir = file('domain/supporting-domain-statistics')
-
-include 'messaging'
+include 'domain-achievements'
+include 'domain-statistics'
+include 'domain-todos'
 
 include 'gateway'
 include 'gateway-acceptance-test'
@@ -29,4 +21,5 @@ include 'gateway-filesystem'
 include 'gateway-inmemory'
 include 'gateway-redis'
 
+include 'messaging'
 include 'util-serialization'

@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GlobalCommandRegistrar {
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalCommandRegistrar.class);
 
     private final RestClient restClient;
 

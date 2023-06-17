@@ -44,6 +44,7 @@ If the user desires it the user should be able to synchronize the data between m
 | [O-10](https://github.com/flens-dev/pendenzenliste/issues/16) | statistics                | Users should be able to view statistics of their usage                                                                                  | No          |
 | [O-11](https://github.com/flens-dev/pendenzenliste/issues/17) | android app               | The pendenzenliste should be bundled into an android app                                                                                | No          |
 | [M-10](https://github.com/flens-dev/pendenzenliste/issues/18) | subscribe todo list       | The user should be able to subscribe to a list of todos to update the displayed todos when another app or user updates the stored todos | Yes         |
+| [O-12](https://github.com/flens-dev/pendenzenliste/issues/35) | Discord Bot               | The pendenzenliste should be accessible by interacting with a discord bot                                                               | Yes         |
 
 Legend:
 
@@ -109,15 +110,17 @@ Contained Building Blocks
 | Component          | Description                                                                                           |
 |--------------------|-------------------------------------------------------------------------------------------------------|
 | app-cli            | Provides the end user access to the pendenzenliste through a cli                                      |
+| app-discord-bot    | Provides the end user access to the pendenzenliste through a discord bot                              |
+| app-dropwizard     | Provides the end user access to the pendenzenliste through a RESTful API                              |                                                     
 | app-javafx         | Provides the end user access to the pendenzenliste through a desktop javafx application               |
 | app-vaadin         | Provides the end user access to the pendenzenliste through a web based vaadin application             | 
-| boundary           | Defines the input and output boundaries that are used to provide access to the applications use cases | 
+| boundary           | Defines the input and output boundaries that are used to provide access to the applications use cases |
+| boundary-usecases  | An implementation of the apps input boundaries that represent the actual use cases of the application |
 | domain             | Defines the core domain logic of the pendenzenliste                                                   |
 | gateway            | Defines the public API of the gateways that are used to store the todos                               |
 | gateway-filesystem | An implementation of the gateway API that stores the todos in a filesystem                            |
 | gateway-inmemory   | An implementation of the gateway API that stores the todos in an in-memory storage                    |
 | gateway-redis      | An implementation of the gateway API that stores the todos in a redis instance                        |
-| boundary-usecases  | An implementation of the apps input boundaries that represent the actual use cases of the application |
 
 Important Interfaces
 

@@ -13,6 +13,8 @@ import java.util.Collection;
  */
 public final class AllDoneAchievementAggregate extends AbstractAchievementAggregate {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * Creates a new instance.
      *

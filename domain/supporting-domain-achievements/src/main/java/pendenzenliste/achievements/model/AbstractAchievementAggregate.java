@@ -12,6 +12,8 @@ import static java.util.Objects.requireNonNull;
  */
 public abstract class AbstractAchievementAggregate
         implements AchievementAggregate, ToDoEventVisitor, AchievementEventVisitor {
+    private static final long serialVersionUID = 1L;
+
     protected AchievementEntity achievement;
     private final List<AchievementEventEntity> events;
     private final List<ProgressItemEntity> progressItems;

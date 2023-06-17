@@ -20,6 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LazyDogAchievementAggregate extends AbstractAchievementAggregate {
 
+    private static final long serialVersionUID = 1L;
+
     private final Map<IdentityValueObject, LocalDateTime> timestamps = new ConcurrentHashMap<>();
 
     /**

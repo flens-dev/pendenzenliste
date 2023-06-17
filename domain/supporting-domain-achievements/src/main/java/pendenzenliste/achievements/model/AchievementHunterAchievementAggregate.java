@@ -9,6 +9,8 @@ import java.util.Collection;
  */
 public class AchievementHunterAchievementAggregate extends AbstractAchievementAggregate
 {
+  private static final long serialVersionUID = 1L;
+
   /**
    * Creates a new instance.
    *

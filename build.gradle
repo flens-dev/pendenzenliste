@@ -71,7 +71,7 @@ configure(subprojects.findAll()) {
     pmd {
         consoleOutput = false
         sourceSets = [project.sourceSets.main]
-        toolVersion = "6.54.0"
+        toolVersion = "6.55.0"
         incrementalAnalysis = true
 
         //TODO: Set this flag to false as soon as the issues are fixed

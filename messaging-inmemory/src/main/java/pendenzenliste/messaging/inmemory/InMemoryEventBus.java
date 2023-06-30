@@ -1,4 +1,7 @@
-package pendenzenliste.messaging;
+package pendenzenliste.messaging.inmemory;
+
+import pendenzenliste.messaging.EventBus;
+import pendenzenliste.messaging.Subscriber;
 
 import java.util.ArrayList;
 import java.util.Collection;

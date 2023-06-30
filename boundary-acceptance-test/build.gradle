@@ -19,6 +19,7 @@ dependencies {
     integrationTestImplementation project(':gateway-redis')
     integrationTestImplementation project(':gateway-inmemory')
     integrationTestImplementation project(':gateway-filesystem')
+    integrationTestImplementation project(':messaging-inmemory')
 
     integrationTestImplementation "redis.clients:jedis:${jedisVersion}"
 

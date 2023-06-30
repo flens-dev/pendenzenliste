@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(':messaging')
+}
+
+pmd {
+    ignoreFailures = false
+}
+
+spotbugs {
+    ignoreFailures = false
+}

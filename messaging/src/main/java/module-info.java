@@ -1,5 +1,4 @@
 import pendenzenliste.messaging.EventBus;
-import pendenzenliste.messaging.InMemoryEventBus;
 import pendenzenliste.messaging.Subscriber;
 
 module pendenzenliste.messaging.main {
@@ -7,6 +6,4 @@ module pendenzenliste.messaging.main {
 
   uses EventBus;
   uses Subscriber;
-
-  provides EventBus with InMemoryEventBus;
 }

@@ -22,4 +22,6 @@ include 'gateway-inmemory'
 include 'gateway-redis'
 
 include 'messaging'
+include 'messaging-inmemory'
+
 include 'util-serialization'

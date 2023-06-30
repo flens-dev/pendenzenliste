@@ -17,6 +17,7 @@ dependencies {
 
     runtimeOnly project(':boundary-usecases')
     runtimeOnly project(':gateway-filesystem')
+    runtimeOnly project(':messaging-inmemory')
 
     implementation "io.reactivex.rxjava3:rxjava:${rxJavaVersion}"
 }

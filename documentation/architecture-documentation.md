@@ -106,15 +106,16 @@ protocols of the technical context._
 
 # Building Block View
 
+The following section describes the decomposition of the system into its atomic building blocks.
+The chapters will allow you to zoom into different levels of detail as you explore the architecture.
+
 ## Whitebox Overall System
+
+The following diagram describes the global modules and their dependencies on each other:
 
 ![Whitebox System](diagrams/whitebox-system.drawio.png)
 
-Motivation
-
-:   *\<text explanation\>*
-
-Contained Building Blocks
+The following table describes the global modules and their purpose:
 
 | Component          | Description                                                                                           |
 |--------------------|-------------------------------------------------------------------------------------------------------|
@@ -131,23 +132,11 @@ Contained Building Blocks
 | gateway-inmemory   | An implementation of the gateway API that stores the todos in an in-memory storage                    |
 | gateway-redis      | An implementation of the gateway API that stores the todos in a redis instance                        |
 
-Important Interfaces
+### app-cli
 
-:   *\<Description of important interfaces\>*
+Provides the end user access to the pendenzenliste through a cli.
 
-### \<Name black box 1\>
-
-*\<Purpose/Responsibility\>*
-
-*\<Interface(s)\>*
-
-*\<(Optional) Quality/Performance Characteristics\>*
-
-*\<(Optional) Directory/File Location\>*
-
-*\<(Optional) Fulfilled Requirements\>*
-
-*\<(optional) Open Issues/Problems/Risks\>*
+![app-cli Level 1](diagrams/app-cli-level1.drawio.png)
 
 ### \<Name black box 2\>
 

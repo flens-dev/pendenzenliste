@@ -1,0 +1,118 @@
+<mxfile host="app.diagrams.net" modified="2023-09-12T19:25:21.304Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" etag="uUvVferU8a2Nz0qZh-Zu" version="21.7.4" type="device">
+  <diagram name="Page-1" id="u4E01NMnj6ylaXm396d2">
+    <mxGraphModel dx="1434" dy="822" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-35" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="320" y="40" width="460" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-1" value="app-cli" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="248" width="680" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-2" value="boundary" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="638" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-3" value="gateway" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="638" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.25;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="tnMO-i1YYcPEUxeZSh5r-35" target="tnMO-i1YYcPEUxeZSh5r-14">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="440" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-29" value="enters CLI command" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tnMO-i1YYcPEUxeZSh5r-28">
+          <mxGeometry x="0.3953" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="tnMO-i1YYcPEUxeZSh5r-35" target="tnMO-i1YYcPEUxeZSh5r-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="670" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-32" value="reads results from" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tnMO-i1YYcPEUxeZSh5r-31">
+          <mxGeometry x="0.4385" y="1" relative="1" as="geometry">
+            <mxPoint x="-1" y="3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-6" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="535" y="70" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.006;entryY=0.483;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="tnMO-i1YYcPEUxeZSh5r-7" target="tnMO-i1YYcPEUxeZSh5r-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-13" value="invokes input boundary" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tnMO-i1YYcPEUxeZSh5r-12">
+          <mxGeometry x="-0.1654" y="-1" relative="1" as="geometry">
+            <mxPoint x="-9" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-7" value="ToDoController" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="450" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="tnMO-i1YYcPEUxeZSh5r-8" target="tnMO-i1YYcPEUxeZSh5r-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-11" value="implements output boundary" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tnMO-i1YYcPEUxeZSh5r-9">
+          <mxGeometry x="0.3034" y="4" relative="1" as="geometry">
+            <mxPoint x="-4" y="-26" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="tnMO-i1YYcPEUxeZSh5r-8" target="tnMO-i1YYcPEUxeZSh5r-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-19" value="writes result to" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tnMO-i1YYcPEUxeZSh5r-18">
+          <mxGeometry x="-0.0095" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-8" value="Presenter" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="450" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-14" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="420" y="238" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-15" value="system.in" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="340" y="248" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-16" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="650" y="238" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-17" value="system.out" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="710" y="248" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="tnMO-i1YYcPEUxeZSh5r-21" target="tnMO-i1YYcPEUxeZSh5r-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-23" value="invokes command on" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tnMO-i1YYcPEUxeZSh5r-22">
+          <mxGeometry x="-0.1667" y="2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="tnMO-i1YYcPEUxeZSh5r-21" target="tnMO-i1YYcPEUxeZSh5r-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-25" value="reads command from" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tnMO-i1YYcPEUxeZSh5r-24">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="tnMO-i1YYcPEUxeZSh5r-21" target="tnMO-i1YYcPEUxeZSh5r-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-34" value="&lt;div&gt;loads gateway&amp;nbsp;&lt;/div&gt;&lt;div&gt;implementation&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="tnMO-i1YYcPEUxeZSh5r-33">
+          <mxGeometry x="-0.226" relative="1" as="geometry">
+            <mxPoint y="11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="tnMO-i1YYcPEUxeZSh5r-21" value="PendenzenListeApp" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="318" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

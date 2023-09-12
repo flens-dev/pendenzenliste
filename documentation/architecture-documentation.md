@@ -106,11 +106,15 @@ protocols of the technical context._
 
 # Building Block View
 
-## Modules
+## Whitebox Overall System
 
-The following diagram describes the global modules of the pendenzenliste and their dependencies on each other.
+![Whitebox System](diagrams/whitebox-system.drawio.png)
 
-![Modules](diagrams/modules.png)
+Motivation
+
+:   *\<text explanation\>*
+
+Contained Building Blocks
 
 | Component          | Description                                                                                           |
 |--------------------|-------------------------------------------------------------------------------------------------------|
@@ -126,8 +130,6 @@ The following diagram describes the global modules of the pendenzenliste and the
 | gateway-filesystem | An implementation of the gateway API that stores the todos in a filesystem                            |
 | gateway-inmemory   | An implementation of the gateway API that stores the todos in an in-memory storage                    |
 | gateway-redis      | An implementation of the gateway API that stores the todos in a redis instance                        |
-
-## Whitebox Overall System
 
 Important Interfaces
 

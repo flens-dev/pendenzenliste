@@ -85,6 +85,8 @@ O = Optional requirement
 
 ## Technical Context
 
+![Technical context](diagrams/technical-context.drawio.png)
+
 **\<Diagram or Table\>**
 
 **\<optionally: Explanation of technical interfaces\>**

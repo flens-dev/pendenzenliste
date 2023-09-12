@@ -138,19 +138,73 @@ Provides the end user access to the pendenzenliste through a cli.
 
 ![app-cli Level 1](diagrams/app-cli-level1.drawio.png)
 
-### \<Name black box 2\>
+### app-discord-bot
 
 *\<black box template\>*
 
-### \<Name black box n\>
+### app-dropwizard
 
 *\<black box template\>*
 
-### \<Name interface 1\>
+### app-javafx
 
-...
+*\<black box template\>*
 
-### \<Name interface m\>
+### app-vaadin
+
+*\<black box template\>*
+
+### boundary
+
+*\<black box template\>*
+
+### boundary-usecases
+
+*\<black box template\>*
+
+### domain
+
+*\<black box template\>*
+
+### domain-achievements
+
+*\<black box template\>*
+
+### domain-statistics
+
+*\<black box template\>*
+
+### domain-todos
+
+*\<black box template\>*
+
+### gateway
+
+*\<black box template\>*
+
+### gateway-filesystem
+
+*\<black box template\>*
+
+### gateway-inmemory
+
+*\<black box template\>*
+
+### gateway-redis
+
+*\<black box template\>*
+
+### messaging
+
+*\<black box template\>*
+
+### messaging-inmemory
+
+*\<black box template\>*
+
+### util-serialization
+
+*\<black box template\>*
 
 ## Level 2
 

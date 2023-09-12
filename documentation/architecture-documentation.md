@@ -16,7 +16,7 @@ Pendenzenliste is a highly over-engineered application that can be used to manag
 The main goal of the project is to exercise designing a non-trivial application in a CLEAN-Architecture.
 
 The users of the application define for themselves how they want to run the application.
-This may mean that the app is run in a web application, a CLI or an android app.
+This may mean that the app can be run in e.g. a web, CLI or android app.
 If the user desires it the user should be able to synchronize the data between multiple of his personal devices.
 
 ## Requirements Overview
@@ -76,14 +76,12 @@ O = Optional requirement
 
 ## Business Context
 
+![Business context](diagrams/business-context.drawio.png)
+
 | Neighbour              | Description                                                              |
 |------------------------|--------------------------------------------------------------------------|
 | user                   | Manages his todos via the applications                                   |
 | gateway implementation | Is accessed by the application to store and retrieve the users todo data |
-
-**\<Diagram or Table\>**
-
-**\<optionally: Explanation of external domain interfaces\>**
 
 ## Technical Context
 

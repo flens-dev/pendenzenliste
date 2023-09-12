@@ -1,0 +1,35 @@
+<mxfile host="app.diagrams.net" modified="2023-09-12T18:22:49.747Z" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" etag="vXmbNIXlx7XDKSXPvdf5" version="21.7.4" type="device">
+  <diagram name="Page-1" id="aNXadXtu13s1087BJGiW">
+    <mxGraphModel dx="1434" dy="778" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="HjGDP1_qllHF0G1-5pYq-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="HjGDP1_qllHF0G1-5pYq-1" target="HjGDP1_qllHF0G1-5pYq-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HjGDP1_qllHF0G1-5pYq-8" value="stores data" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="HjGDP1_qllHF0G1-5pYq-7" vertex="1" connectable="0">
+          <mxGeometry x="-0.2397" y="-2" relative="1" as="geometry">
+            <mxPoint x="2" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HjGDP1_qllHF0G1-5pYq-1" value="pendenzenliste" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="480" y="310" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="HjGDP1_qllHF0G1-5pYq-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="HjGDP1_qllHF0G1-5pYq-2" target="HjGDP1_qllHF0G1-5pYq-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="HjGDP1_qllHF0G1-5pYq-4" value="manages todos" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="HjGDP1_qllHF0G1-5pYq-3" vertex="1" connectable="0">
+          <mxGeometry x="-0.2545" relative="1" as="geometry">
+            <mxPoint y="19" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HjGDP1_qllHF0G1-5pYq-2" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="560" y="140" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="HjGDP1_qllHF0G1-5pYq-6" value="gateway" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" parent="1" vertex="1">
+          <mxGeometry x="530" y="510" width="90" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

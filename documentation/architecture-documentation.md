@@ -138,6 +138,8 @@ Provides the end user access to the pendenzenliste through a cli.
 
 ![app-cli Level 1](diagrams/app-cli-level1.drawio.png)
 
+The application is based on the Apache [commons-cli](https://commons.apache.org/proper/commons-cli/) module.
+
 ### app-discord-bot
 
 *\<black box template\>*
@@ -390,7 +392,13 @@ Both the `Presenter` and `View` may update the properties to store the displayed
 
 # Glossary
 
-| Term         | Definition         |
-|--------------|--------------------|
-| *\<Term-1\>* | *\<definition-1\>* |
-| *\<Term-2\>* | *\<definition-2\>* |
+The following section describes the terms and abbreviations used to describe the software.
+
+| Term        | Definition                                              |
+|-------------|---------------------------------------------------------|
+| achievement | The user can earn achievements by working with todos    |
+| api         | Advanced programming interface                          |
+| cli         | Command line interface                                  |
+| event       | An domain specific event that occurred in the past      |
+| todo        | A task that the user wants to complete                  |
+| vaadin      | Vaadin is a modern web framework for the java ecosystem |

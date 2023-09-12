@@ -87,11 +87,20 @@ O = Optional requirement
 
 ![Technical context](diagrams/technical-context.drawio.png)
 
-**\<Diagram or Table\>**
+The system is used by interactive users through different kinds of apps.
+These may e.g. be desktop, mobile or cli apps.
+Each app is implemented in its own separate module.
 
-**\<optionally: Explanation of technical interfaces\>**
+Applications may use the input boundaries provided by the boundary module to invoke the desired use cases.
 
-**\<Mapping Input/Output to Channels\>**
+The use cases will respond to the executed requests by calling the output boundaries with the appropriate responses to
+the request. These responses can be used to update the views of the calling app.
+
+The applications may be configured to use a variety of different gateway implementations.
+These include filesystem, inmemory or redis storages for the data managed by the pendenzenliste.
+
+_As the system is intended to be highly configurable we cannot make any assumptions on the supported or unsupported
+protocols of the technical context._
 
 # Solution Strategy
 

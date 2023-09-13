@@ -62,7 +62,14 @@ O = Optional requirement
 
 # System Scope and Context
 
+This section describes the systems internal scope and differentiates it from the users and systems that are
+connected to it.
+
 ## Business Context
+
+The business context describes the high-level context of the system.
+It contains all of the systems users and connected systems, but does not go into technical details.
+Its goal is to describe the systems context to non-technical stakeholders.
 
 ![Business context](diagrams/business-context.drawio.png)
 
@@ -72,6 +79,10 @@ O = Optional requirement
 | gateway implementation | Is accessed by the application to store and retrieve the users todo data |
 
 ## Technical Context
+
+The technical context goes into more detail than the business context.
+It contains the internal interfaces used to interact with the system and the external interfaces used to instrument
+the connected systems.
 
 ![Technical context](diagrams/technical-context.drawio.png)
 
@@ -91,6 +102,8 @@ _As the system is intended to be highly configurable we cannot make any assumpti
 protocols of the technical context._
 
 # Solution Strategy
+
+The following section describes the approach to implement the function and non-function requirements of the system.
 
 # Building Block View
 
@@ -277,14 +290,24 @@ Mapping of Building Blocks to Infrastructure
 
 # Cross-cutting Concepts
 
-## Controller
+The following section describes important cross-cutting concerns that should be consistent across building block
+boundaries.
+
+Being familiar with those concepts should make implementing new features easier, but they may also have drawbacks, that
+we haven't properly taken into consideration yet.
+
+## Design Patterns
+
+The following section describes the design patterns, that are used within the code base.
+
+### Controller
 
 A `Controller` creates a `Request` and invokes the appropriate `InputBoundary` with it.
 
 The `Controller` is not accessed directly, but rather listens to events from the application and acts as it seems fit to
 those events.
 
-## Entity
+### Entity
 
 An `Entity` is some kind of persistent object that belongs to the domain.
 
@@ -292,7 +315,7 @@ It may contain other `ValueObject`s.
 
 Each `Entity` is accessed through an appropriate `Gateway`.
 
-## Event
+### Event
 
 An `Event` describes some kind of meaningful state change within the application or domain that happened in the past.
 
@@ -300,69 +323,69 @@ An `Event` describes some kind of meaningful state change within the application
 
 A gateway provides access to some kind of external system such as a database or a REST API.
 
-## InputBoundary
+### InputBoundary
 
 An `InputBoundary` defines a public interface for objects that handle the `UseCase` specific inputs of the application.
 It receives a `Request` and an `OutputBoundary` and produces a `Response`.
 The `Response` will then be used to update the `OutputBoundary`.
 
-## OutputBoundary
+### OutputBoundary
 
 An `OutputBoundary` defines a public interface for objects that handle the responses of the applications `UseCase`s.
 
-## Page
+### Page
 
 A `Page` is an application specific wrapper for a view that is used to register handlers and do some general wiring for
 the view.
 This pattern can be used in the context of a framework that has no other means to register those resources, but should
 only allow sane dependencies.
 
-## Presenter
+### Presenter
 
 A `Presenter` is an application specific implementation of an `OutputBoundary`.
 The `Presenter` modifies the `ViewModel`, which is bound to a `View`, so the `Presenter` indirectly modifies the data
 displayed by the `View`.
 
-## Request
+### Request
 
 A `Request` encapsulates the data used to invoke an `InputBoundary` in a technology-agnostic format.
 The `Request` may only contain native datatypes, such as strings, integers, etc., or `RequestModel`s.
 
-## RequestModel
+### RequestModel
 
 A `RequestModel` encapsulates complex data structures that may be a member of a `Request`, but cannot be represented in
 a primitive datatype.
 
 An example for this would be a list of key value pairs that need to be passed to the `InputBoundary`.
 
-## Response
+### Response
 
 A `Response` encapsulates the data used to invoke an `OutputBoundary` in a technology-agnostic format.
 
 The `Response` may only contain native datatypes, such as strings, integers, etc., or `ResponseModel`s.
 
-## ResponseModel
+### ResponseModel
 
 A `ResponseModel` is a technology-agnostic model that may be contained in a `Response`.
 
 The `ResponseModel` may represent some kind of `Entity` without exposing the actual data types of the domain module.
 
-## UseCase
+### UseCase
 
 A `UseCase` implements an `InputBoundary` and encapsulates the interactions required to fulfill some kind of goal within
 the application.
 
-## ValueObject
+### ValueObject
 
 A `ValueObject` represents some kind of domain-specific data type.
 
-## View
+### View
 
 A `View` provides a user the means to look at and enter new data into the application.
 
 It binds to a `ViewModel`, which stores all the data used to display the data for the end user.
 
-## ViewModel
+### ViewModel
 
 A `ViewModel` is an application-specific model of the data displayed by a `View`.
 The `ViewModel` provides means for a `View` to bind to its properties.
@@ -370,7 +393,13 @@ Both the `Presenter` and `View` may update the properties to store the displayed
 
 # Architecture Decisions
 
+This section describes the most important architecture decisions that were made for the project.
+
 # Quality Requirements
+
+This section describes the quality requirements for the system.
+The quality requirements are specified through quality goals.
+In order to gather measurable feedback for the quality goals, they are explicitly specified with quality scenarios.
 
 ## Quality Tree
 
@@ -405,6 +434,11 @@ This is ok, as long as the application is not run in a distributed style, but th
 
 This also means, that there is currently no guarantee that the subscribers are only notified once for each of the
 events.
+
+## Flaky Github builds
+
+Due to the integration tests the builds on Github fail from time to time, even though they run perfectly on your
+machine.
 
 # Glossary
 

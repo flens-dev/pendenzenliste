@@ -43,16 +43,17 @@ O = Optional requirement
 
 ## Quality Goals
 
-| ID  | Priority | Quality goal  | Description                                                                                                                 |
-|-----|----------|---------------|-----------------------------------------------------------------------------------------------------------------------------|
-| Q-1 | 1        | Extendability | The application should be easily extended by adding new frontend applications or gateways to support different technologies |
-| Q-2 | 2        | Learnability  | The application should be self explanatory to the end users                                                                 | 
+| ID  | Priority | Quality goal    | Description                                                                                                                 |
+|-----|----------|-----------------|-----------------------------------------------------------------------------------------------------------------------------|
+| Q-1 | 1        | Extendability   | The application should be easily extended by adding new frontend applications or gateways to support different technologies |
+| Q-2 | 2        | Learnability    | The application should be self explanatory to the end users                                                                 |
+| Q-3 | 1        | Configurability | The application should be configurable by end users to match their specific requirements and desires                        |
 
 ## Stakeholders
 
-| Role/Name | Goal                                                               | Expectations |
-|-----------|--------------------------------------------------------------------|--------------|
-| User      | Wants to configure the app to his needs and it to manage his todos |              |
+| Role/Name | Goal                                                            | Expectations |
+|-----------|-----------------------------------------------------------------|--------------|
+| User      | Wants to configure the app to his needs and to manage his todos |              |
 
 # Architecture Constraints
 
@@ -103,7 +104,7 @@ protocols of the technical context._
 
 # Solution Strategy
 
-The following section describes the approach to implement the function and non-function requirements of the system.
+The following section describes the approach to implement the functional and non-functional requirements of the system.
 
 # Building Block View
 
@@ -118,20 +119,25 @@ The following diagram describes the global modules and their dependencies on eac
 
 The following table describes the global modules and their purpose:
 
-| Component          | Description                                                                                           |
-|--------------------|-------------------------------------------------------------------------------------------------------|
-| app-cli            | Provides the end user access to the pendenzenliste through a cli                                      |
-| app-discord-bot    | Provides the end user access to the pendenzenliste through a discord bot                              |
-| app-dropwizard     | Provides the end user access to the pendenzenliste through a RESTful API                              |                                                     
-| app-javafx         | Provides the end user access to the pendenzenliste through a desktop javafx application               |
-| app-vaadin         | Provides the end user access to the pendenzenliste through a web based vaadin application             | 
-| boundary           | Defines the input and output boundaries that are used to provide access to the applications use cases |
-| boundary-usecases  | An implementation of the apps input boundaries that represent the actual use cases of the application |
-| domain             | Defines the core domain logic of the pendenzenliste                                                   |
-| gateway            | Defines the public API of the gateways that are used to store the todos                               |
-| gateway-filesystem | An implementation of the gateway API that stores the todos in a filesystem                            |
-| gateway-inmemory   | An implementation of the gateway API that stores the todos in an in-memory storage                    |
-| gateway-redis      | An implementation of the gateway API that stores the todos in a redis instance                        |
+| Component           | Description                                                                                           |
+|---------------------|-------------------------------------------------------------------------------------------------------|
+| app-cli             | Provides the end user access to the pendenzenliste through a cli                                      |
+| app-discord-bot     | Provides the end user access to the pendenzenliste through a discord bot                              |
+| app-dropwizard      | Provides the end user access to the pendenzenliste through a RESTful API                              |                                                     
+| app-javafx          | Provides the end user access to the pendenzenliste through a desktop javafx application               |
+| app-vaadin          | Provides the end user access to the pendenzenliste through a web based vaadin application             | 
+| boundary            | Defines the input and output boundaries that are used to provide access to the applications use cases |
+| boundary-usecases   | An implementation of the apps input boundaries that represent the actual use cases of the application |
+| domain              | Defines a bundle of the domains of the pendenzenliste                                                 |
+| domain-achievements | Implements the achievement domain of the pendenzenliste                                               |
+| domain-statistics   | Implements the statistics domain of the pendenzenliste                                                |
+| domain-todos        | Implements the todo domain of the pendenzenliste                                                      |
+| gateway             | Defines the public API of the gateways that are used to store the todos                               |
+| gateway-filesystem  | An implementation of the gateway API that stores the todos in a filesystem                            |
+| gateway-inmemory    | An implementation of the gateway API that stores the todos in an in-memory storage                    |
+| gateway-redis       | An implementation of the gateway API that stores the todos in a redis instance                        |
+| messaging           | Defines the APIs used to send messages through an event bus                                           |
+| messaging-inmemory  | Implements the event bus interfaces defined in the messaging module for in-memory communication       |
 
 ### app-cli
 
@@ -296,6 +302,26 @@ boundaries.
 Being familiar with those concepts should make implementing new features easier, but they may also have drawbacks, that
 we haven't properly taken into consideration yet.
 
+## Build Tools
+
+### Gradle
+
+The project uses gradle as the central build tool.
+
+In order to make using the gradle builds a bit easier there is a Makefile present in the root module.
+Make provides the means to autocomplete build targets in the CLI process.
+
+### Gradle Submodules
+
+The submodules `build.gradle` files are thinned out as much as possible.
+To achieve this the `build.gradle` file in the root module configure the included subprojects with reasonable defaults.
+This includes adding dependencies for frameworks used for testing, static analysis, etc.
+Each submodule should then define their own dependencies, but not much else.
+
+### CI Builds
+
+The project uses [github actions](https://github.com/flens-dev/pendenzenliste/actions) for the automated CI builds.
+
 ## Design Patterns
 
 The following section describes the design patterns, that are used within the code base.
@@ -405,7 +431,7 @@ In order to gather measurable feedback for the quality goals, they are explicitl
 
 ## Quality Scenarios
 
-# Risks and Technical Debts
+# Risks and Technical Debt
 
 This section describes the risks and technical debt that has accrued in the project.
 
@@ -424,8 +450,10 @@ This is due to the project not having a custom PMD ruleset yet.
 The gateways currently make use of the standard java serialization features.
 This means that they are dependent on the versions that wrote the entities and the versions that read the entities.
 
-In case that the entities are written with an older version and are afterwards read by a newer version, then reading may
-fail in case that they are not compatible with each other.
+In case that the entities are written with an older version and are read by a newer version at a later point in time,
+then reading may fail in case that they are not compatible with each other anymore.
+
+This may happen whenever enum or domain types are extended in the domain modules.
 
 ## In-memory Event Bus
 
@@ -439,6 +467,29 @@ events.
 
 Due to the integration tests the builds on Github fail from time to time, even though they run perfectly on your
 machine.
+
+## Versioning
+
+As of now the project is not properly versioned, as there are no artefacts published yet.
+This must be addressed, as soon as publishing artefacts becomes necessary.
+
+## Explicit runtime dependencies
+
+The app modules currently define runtime dependencies on the desired modules explicitly.
+This has been convenient for local testing purposes, but must be addressed to actually enable users to configure their
+desired deployment or extend the system by themselves.
+
+## Configurability
+
+The system is currently not configurable, as the only external service connected currently is the redis gateway.
+All the parameters are either hardcoded or default values.
+This must be addressed to enable users to configure their system as they please.
+
+## Running the apps from IntelliJ IDEA
+
+The apps may not be executable from the gradle integration in the IntelliJ IDEA.
+This is due to an existing bug in the IDE.
+Further details can be found [here](https://github.com/flens-dev/pendenzenliste/issues/6).
 
 # Glossary
 

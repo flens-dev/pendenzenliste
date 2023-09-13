@@ -378,6 +378,34 @@ Both the `Presenter` and `View` may update the properties to store the displayed
 
 # Risks and Technical Debts
 
+This section describes the risks and technical debt that has accrued in the project.
+
+## Multi tenancy
+
+As of now the application only supports unauthenticated access to the application.
+In case that the application should ever need to support multi tenancy some major changes need to be introduced.
+
+## PMD warnings
+
+As of now the code contains some PMD warnings that will be recorded on each build.
+This is due to the project not having a custom PMD ruleset yet.
+
+## Use of java serialization
+
+The gateways currently make use of the standard java serialization features.
+This means that they are dependent on the versions that wrote the entities and the versions that read the entities.
+
+In case that the entities are written with an older version and are afterwards read by a newer version, then reading may
+fail in case that they are not compatible with each other.
+
+## In-memory Event Bus
+
+The application currently uses an in-memory event bus to notify interested parties about events that occurred.
+This is ok, as long as the application is not run in a distributed style, but that may change in the future.
+
+This also means, that there is currently no guarantee that the subscribers are only notified once for each of the
+events.
+
 # Glossary
 
 The following section describes the terms and abbreviations used to describe the software.

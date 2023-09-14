@@ -29,6 +29,11 @@ Feature: Reset ToDo
       | backend    |
       | filesystem |
 
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
+
   Scenario Outline: Empty ID - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -53,6 +58,11 @@ Feature: Reset ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
 
   Scenario Outline: ToDo does not exist - <backend>
 
@@ -79,6 +89,11 @@ Feature: Reset ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
 
   Scenario Outline: ToDo is open - <backend>
 
@@ -108,6 +123,11 @@ Feature: Reset ToDo
       | backend    |
       | filesystem |
 
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
+
   Scenario Outline: Reset ToDo - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -135,3 +155,8 @@ Feature: Reset ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |

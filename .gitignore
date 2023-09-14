@@ -3,3 +3,4 @@ pendenzenliste.iml
 **/.idea/
 **/.gradle/
 **/out/
+**/src/main/generated/

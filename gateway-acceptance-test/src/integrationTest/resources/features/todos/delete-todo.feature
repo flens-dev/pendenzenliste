@@ -19,6 +19,7 @@ Feature: Delete todo
       | redis      |
       | inmemory   |
       | filesystem |
+      | postgresql |
 
   Scenario Outline: Delete existing todo - <backend>
 
@@ -37,3 +38,4 @@ Feature: Delete todo
       | redis      |
       | inmemory   |
       | filesystem |
+      | postgresql |

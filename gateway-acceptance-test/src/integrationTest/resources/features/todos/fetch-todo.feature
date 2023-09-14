@@ -19,6 +19,7 @@ Feature: Fetch todo
       | inmemory   |
       | filesystem |
       | redis      |
+      | postgresql |
 
   Scenario Outline: Todo exists - <backend>
 
@@ -40,3 +41,4 @@ Feature: Fetch todo
       | inmemory   |
       | filesystem |
       | redis      |
+      | postgresql |

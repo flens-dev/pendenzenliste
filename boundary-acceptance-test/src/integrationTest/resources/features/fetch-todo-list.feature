@@ -29,6 +29,11 @@ Feature: Fetch todo list
       | backend    |
       | filesystem |
 
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
+
   Scenario Outline: Some ToDos exist - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -57,3 +62,8 @@ Feature: Fetch todo list
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |

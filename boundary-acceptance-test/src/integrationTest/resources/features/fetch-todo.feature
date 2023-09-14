@@ -29,6 +29,11 @@ Feature: Fetch ToDo
       | backend    |
       | filesystem |
 
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
+
   Scenario Outline: Empty ID - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -53,6 +58,11 @@ Feature: Fetch ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
 
   Scenario Outline: ToDo does not exist - <backend>
 
@@ -79,6 +89,11 @@ Feature: Fetch ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
 
   Scenario Outline: ToDo exists - <backend>
 
@@ -109,3 +124,8 @@ Feature: Fetch ToDo
     Examples:
       | backend    |
       | filesystem |
+    
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |

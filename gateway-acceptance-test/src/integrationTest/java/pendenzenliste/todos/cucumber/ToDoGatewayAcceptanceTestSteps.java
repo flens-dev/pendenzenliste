@@ -4,9 +4,13 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.flywaydb.core.Flyway;
+import org.jooq.impl.DSL;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 import pendenzenliste.gateway.inmemory.InMemoryToDoGateway;
+import pendenzenliste.gateway.postgresql.PostgreSQLToDoGateway;
 import pendenzenliste.gateway.redis.RedisToDoGateway;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.gateway.ToDoGateway;
@@ -56,6 +60,7 @@ public class ToDoGatewayAcceptanceTestSteps {
             case "redis" -> this.gateway = createRedisGateway();
             case "inmemory" -> this.gateway = createInMemoryGateway();
             case "filesystem" -> this.gateway = createFilesystemGateway();
+            case "postgresql" -> this.gateway = createPostgreSQLGateway();
 
             default -> throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -64,15 +69,7 @@ public class ToDoGatewayAcceptanceTestSteps {
     @Given("that the following todos exist:")
     public void givenThatTheFollowingTodosExist(final DataTable data) {
         for (final Map<String, String> row : data.asMaps()) {
-            final var todo = ToDoAggregate.builder()
-                    .identity(row.get("identity"))
-                    .headline(row.get("headline"))
-                    .description(Optional.ofNullable(row.get("description")).orElse(""))
-                    .created(mapDate(row.get("created")))
-                    .lastModified(mapDate(row.get("last modified")))
-                    .completed(mapDate(row.get("completed")))
-                    .state(ToDoStateValueObject.valueOf(row.get("state")))
-                    .build();
+            final var todo = ToDoAggregate.builder().identity(row.get("identity")).headline(row.get("headline")).description(Optional.ofNullable(row.get("description")).orElse("")).created(mapDate(row.get("created"))).lastModified(mapDate(row.get("last modified"))).completed(mapDate(row.get("completed"))).state(ToDoStateValueObject.valueOf(row.get("state"))).build();
 
             gateway.store(todo);
         }
@@ -85,23 +82,13 @@ public class ToDoGatewayAcceptanceTestSteps {
 
     @Then("the todo should have the following data:")
     public void thenTheTodoShouldHaveTheFollowingData(final DataTable data) {
-        final var expectedTodo = ToDoAggregate.builder()
-                .identity(data.row(1).get(0))
-                .headline(data.row(1).get(1))
-                .description(Optional.ofNullable(data.row(1).get(2)).orElse(""))
-                .created(mapDate(data.row(1).get(3)))
-                .lastModified(mapDate(data.row(1).get(4)))
-                .completed(mapDate(data.row(1).get(5)))
-                .state(ToDoStateValueObject.valueOf(data.row(1).get(6)))
-                .build();
+        final var expectedTodo = ToDoAggregate.builder().identity(data.row(1).get(0)).headline(data.row(1).get(1)).description(Optional.ofNullable(data.row(1).get(2)).orElse("")).created(mapDate(data.row(1).get(3))).lastModified(mapDate(data.row(1).get(4))).completed(mapDate(data.row(1).get(5))).state(ToDoStateValueObject.valueOf(data.row(1).get(6))).build();
 
         assertThat(todo).map(ToDoAggregate::aggregateRoot).hasValue(expectedTodo.aggregateRoot());
     }
 
     private LocalDateTime mapDate(final String value) {
-        return Optional.ofNullable(value).filter(v -> !v.isEmpty())
-                .map(v -> LocalDateTime.parse(value))
-                .orElse(null);
+        return Optional.ofNullable(value).filter(v -> !v.isEmpty()).map(v -> LocalDateTime.parse(value)).orElse(null);
     }
 
     /**
@@ -111,11 +98,9 @@ public class ToDoGatewayAcceptanceTestSteps {
      */
     private ToDoGateway createFilesystemGateway() {
         try {
-            final var storagePath =
-                    Files.createTempDirectory("todoAcceptanceTest").toAbsolutePath();
+            final var storagePath = Files.createTempDirectory("todoAcceptanceTest").toAbsolutePath();
 
-            return new FilesystemToDoGateway(storagePath.toString().concat("/todoData"),
-                    EventBus.defaultEventBus());
+            return new FilesystemToDoGateway(storagePath.toString().concat("/todoData"), EventBus.defaultEventBus());
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
@@ -136,14 +121,35 @@ public class ToDoGatewayAcceptanceTestSteps {
      * @return The redis gateway.
      */
     private ToDoGateway createRedisGateway() {
-        final var redis =
-                new GenericContainer<>(DockerImageName.parse("redis:7.0.11-alpine")).withExposedPorts(6379);
+        final var redis = new GenericContainer<>(DockerImageName.parse("redis:7.0.11-alpine")).withExposedPorts(6379);
 
         redis.start();
 
         final var connection = new Jedis(redis.getHost(), redis.getMappedPort(6379));
 
         return new RedisToDoGateway(connection, EventBus.defaultEventBus());
+    }
+
+
+    /**
+     * Creates a new PostgreSQL based gateway.
+     *
+     * @return The PostgreSQL gateway.
+     */
+    private ToDoGateway createPostgreSQLGateway() {
+        final var postgresql = new PostgreSQLContainer<>("postgres:15.4-alpine3.18")
+                .withDatabaseName("pendenzenliste");
+
+        postgresql.start();
+
+        Flyway.configure()
+                .dataSource(postgresql.getJdbcUrl(),
+                        postgresql.getUsername(),
+                        postgresql.getPassword())
+                .load()
+                .migrate();
+
+        return new PostgreSQLToDoGateway(DSL.using(postgresql.getJdbcUrl(), postgresql.getUsername(), postgresql.getPassword()), EventBus.defaultEventBus());
     }
 
     @When("I try to delete the todo")

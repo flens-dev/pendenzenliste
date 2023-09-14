@@ -17,10 +17,14 @@ dependencies {
     implementation project(':util-serialization')
 
     implementation "redis.clients:jedis:${jedisVersion}"
+    implementation "org.jooq:jooq:${jooqVersion}"
+    implementation "org.flywaydb:flyway-core:${flywayVersion}"
 
-    integrationTestImplementation project(':gateway-redis')
-    integrationTestImplementation project(':gateway-inmemory')
     integrationTestImplementation project(':gateway-filesystem')
+    integrationTestImplementation project(':gateway-inmemory')
+    integrationTestImplementation project(':gateway-postgresql')
+    integrationTestImplementation project(':gateway-redis')
+
     integrationTestImplementation project(':messaging-inmemory')
 
     integrationTestImplementation project(':gateway-acceptance-test')
@@ -39,6 +43,7 @@ dependencies {
     integrationTestImplementation "io.cucumber:cucumber-junit-platform-engine:${cucumberVersion}"
 
     integrationTestImplementation "org.testcontainers:testcontainers:${testContainersVersion}"
+    integrationTestImplementation "org.testcontainers:postgresql:${testContainersVersion}"
 }
 
 tasks.register('integrationTest', Test) {

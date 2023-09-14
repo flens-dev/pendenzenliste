@@ -1,8 +1,12 @@
 package pendenzenliste.boundary.cucumber;
 
+import org.flywaydb.core.Flyway;
+import org.jooq.impl.DSL;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 import pendenzenliste.gateway.inmemory.InMemoryToDoGateway;
+import pendenzenliste.gateway.postgresql.PostgreSQLToDoGateway;
 import pendenzenliste.gateway.redis.RedisToDoGateway;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.gateway.ToDoGateway;
@@ -51,9 +55,34 @@ public class ToDoGatewayFactory {
             case "filesystem":
                 return createFilesystemGateway();
 
+            case "postgresql":
+                return createPostgreSQLGateway();
+
             default:
                 throw new IllegalStateException("Unknown backend " + type);
         }
+    }
+
+    /**
+     * Creates the PostgreSQL gateway.
+     *
+     * @return The PostgreSQL gateway.
+     */
+    private ToDoGateway createPostgreSQLGateway() {
+        final var postgresql = new PostgreSQLContainer<>("postgres:15.4-alpine3.18")
+                .withDatabaseName("pendenzenliste");
+
+        postgresql.start();
+        runningContainers.add(postgresql);
+
+        Flyway.configure()
+                .dataSource(postgresql.getJdbcUrl(),
+                        postgresql.getUsername(),
+                        postgresql.getPassword())
+                .load()
+                .migrate();
+
+        return new PostgreSQLToDoGateway(DSL.using(postgresql.getJdbcUrl(), postgresql.getUsername(), postgresql.getPassword()), eventBus);
     }
 
     /**

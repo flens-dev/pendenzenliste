@@ -29,6 +29,11 @@ Feature: Delete ToDo
       | backend    |
       | filesystem |
 
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
+
   Scenario Outline: Empty ID - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -53,6 +58,11 @@ Feature: Delete ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
 
   Scenario Outline: ToDo does not exist - <backend>
 
@@ -79,6 +89,11 @@ Feature: Delete ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
 
   Scenario Outline: Deleting the ToDo succeeds - <backend>
 
@@ -113,3 +128,8 @@ Feature: Delete ToDo
     Examples:
       | backend    |
       | filesystem |
+    
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |

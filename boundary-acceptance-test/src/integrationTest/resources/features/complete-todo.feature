@@ -28,6 +28,11 @@ Feature: Complete ToDo
       | backend    |
       | filesystem |
 
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
+
   Scenario Outline: Empty ID - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -51,6 +56,11 @@ Feature: Complete ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
 
   Scenario Outline: ToDo does not exist - <backend>
 
@@ -76,6 +86,11 @@ Feature: Complete ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
 
   Scenario Outline: ToDo is already completed - <backend>
 
@@ -105,6 +120,11 @@ Feature: Complete ToDo
       | backend    |
       | filesystem |
 
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
+
   Scenario Outline: Successful update - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -132,3 +152,8 @@ Feature: Complete ToDo
     Examples:
       | backend    |
       | filesystem |
+    
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |

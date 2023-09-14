@@ -29,6 +29,11 @@ Feature: Update ToDo
       | backend    |
       | filesystem |
 
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
+
   Scenario Outline: ToDo does not exist - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -56,6 +61,11 @@ Feature: Update ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
 
   Scenario Outline: ToDo has already been closed - <backend>
 
@@ -87,6 +97,11 @@ Feature: Update ToDo
       | backend    |
       | filesystem |
 
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |
+
   Scenario Outline: Successful update - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -116,3 +131,8 @@ Feature: Update ToDo
     Examples:
       | backend    |
       | filesystem |
+
+    @postgresql
+    Examples:
+      | backend    |
+      | postgresql |

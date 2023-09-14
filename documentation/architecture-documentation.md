@@ -97,7 +97,7 @@ The use cases will respond to the executed requests by calling the output bounda
 the request. These responses can be used to update the views of the calling app.
 
 The applications may be configured to use a variety of different gateway implementations.
-These include filesystem, inmemory or redis storages for the data managed by the pendenzenliste.
+These include filesystem, in-memory or redis storages for the data managed by the pendenzenliste.
 
 _As the system is intended to be highly configurable we cannot make any assumptions on the supported or unsupported
 protocols of the technical context._
@@ -153,6 +153,8 @@ The application is based on the Apache [commons-cli](https://commons.apache.org/
 
 ### app-dropwizard
 
+![app-dropwizard Level 1](diagrams/app-dropwizard-level1.drawio.png)
+
 *\<black box template\>*
 
 ### app-javafx
@@ -173,7 +175,10 @@ The application is based on the Apache [commons-cli](https://commons.apache.org/
 
 ### domain
 
-*\<black box template\>*
+The domain module bundles the concrete domain modules, so that other parts of the system may include the domain module
+instead of implementing each of the domain modules separately.
+
+![domain Level 1](diagrams/domain-level1.drawio.png)
 
 ### domain-achievements
 
@@ -205,7 +210,12 @@ The application is based on the Apache [commons-cli](https://commons.apache.org/
 
 ### messaging
 
-*\<black box template\>*
+The messaging module provides the abstractions used for asynchronous messaging within the system.
+These are mostly used to synchronize domain specific events between different domain modules.
+
+The abstractions can be implemented by different modules, e.g. in order to make use of some specific messaging solution.
+
+![messaging Level 1](diagrams/messaging-level1.drawio.png)
 
 ### messaging-inmemory
 

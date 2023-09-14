@@ -88,12 +88,16 @@ Feature: Delete ToDo
     And that the following ToDo exists:
       | identity | headline | description | created             | last modified       | state |
       | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | OPEN  |
-    And that deleting the ToDo succeeds
 
     When I try to delete the ToDo
 
     Then the todo update should have been successful
     And a 'ToDoDeletedEvent' should have been published
+
+    Given that I enter the ID '42'
+    When I try to fetch the ToDo
+
+    Then fetching the ToDo should have failed with the message: 'The ToDo does not exist'
 
     @redis
     Examples:

@@ -1,6 +1,7 @@
 package pendenzenliste.boundary.cucumber;
 
 import io.cucumber.spring.CucumberContextConfiguration;
+import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Suite
 @SelectClasspathResource("features")
 @CucumberContextConfiguration
+@IncludeEngines("cucumber")
 @SpringBootTest(classes = TestConfig.class)
-public class ToDoAcceptanceTests
-{
+public class ToDoAcceptanceTests {
 }

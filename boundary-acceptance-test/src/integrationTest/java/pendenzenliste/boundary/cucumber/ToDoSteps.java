@@ -1,12 +1,14 @@
 package pendenzenliste.boundary.cucumber;
 
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.assertj.core.api.SoftAssertions;
 import pendenzenliste.messaging.EventBus;
-import pendenzenliste.todos.boundary.in.*;
+import pendenzenliste.todos.boundary.in.FetchTodoListRequest;
+import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;
 import pendenzenliste.todos.boundary.out.*;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.*;
@@ -15,6 +17,7 @@ import pendenzenliste.todos.usecases.ToDoUseCaseFactory;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,75 +32,21 @@ import static org.mockito.Mockito.*;
 public class ToDoSteps {
     private ToDoGateway gateway;
 
-    private final ToDoOutputBoundaryFactory outputBoundaryFactory =
-            new ToDoOutputBoundaryFactory() {
-                @Override
-                public CreateToDoOutputBoundary create() {
-                    return new CreateToDoOutputBoundary() {
-                        @Override
-                        public void handleSuccessfulResponse(final ToDoCreatedResponse response) {
-                            createResponse = response;
-                        }
-
-                        @Override
-                        public void handleFailedResponse(final ToDoCreationFailedResponse response) {
-                            createResponse = response;
-                        }
-                    };
-                }
-
-                @Override
-                public FetchToDoListOutputBoundary list() {
-                    return mock(FetchToDoListOutputBoundary.class);
-                }
-
-                @Override
-                public FetchToDoOutputBoundary fetch() {
-                    return new FetchToDoOutputBoundary() {
-                        @Override
-                        public void handleFailedResponse(final FetchToDoFailedResponse response) {
-                            fetchResponse = response;
-                        }
-
-                        @Override
-                        public void handleSuccessfulResponse(final ToDoFetchedResponse response) {
-                            fetchResponse = response;
-                        }
-                    };
-                }
-
-                @Override
-                public UpdateToDoOutputBoundary update() {
-                    return new UpdateToDoOutputBoundary() {
-                        @Override
-                        public void handleSuccessfulResponse(final ToDoUpdatedResponse response) {
-                            updateResponse = response;
-                        }
-
-                        @Override
-                        public void handleFailedResponse(final ToDoUpdateFailedResponse response) {
-                            updateResponse = response;
-                        }
-                    };
-                }
-            };
+    private final CapturingOutputBoundaryFactory outputBoundaryFactory = new CapturingOutputBoundaryFactory();
 
     private final EventBus eventPublisher = mock(EventBus.class);
 
-    private final ToDoInputBoundaryFactory factory = new ToDoUseCaseFactory(() -> gateway,
-            outputBoundaryFactory, eventPublisher);
+    private final ToDoGatewayFactory gatewayFactory = new ToDoGatewayFactory(eventPublisher);
 
-    private String id;
+    private final ToDoInputBoundaryFactory factory = new ToDoUseCaseFactory(() -> gateway, outputBoundaryFactory, eventPublisher);
 
-    private String headline;
+    private final ToDoRequestBuilder builder = new ToDoRequestBuilder();
 
-    private String description;
 
-    private FetchToDoResponse fetchResponse;
-
-    private UpdateToDoResponse updateResponse;
-
-    private CreateToDoResponse createResponse;
+    @After
+    public void tearDown() {
+        gatewayFactory.tearDown();
+    }
 
     @Given("that I do not enter an ID")
     public void givenThatIDoNotEnterAnID() {
@@ -106,7 +55,7 @@ public class ToDoSteps {
 
     @Given("that I enter the ID {string}")
     public void givenThatIEnterTheID(String id) {
-        this.id = id;
+        builder.id(id);
     }
 
 
@@ -118,69 +67,49 @@ public class ToDoSteps {
 
     @Given("that the following ToDo exists:")
     public void givenThatTheFollowingToDoExists(DataTable data) {
-        for (final Map<String, String> row : data.asMaps()) {
-            gateway.store(parseToDoFrom(row));
-        }
-    }
-
-    @Given("that deleting the ToDo fails")
-    public void givenThatDeletingTheToDoFails() {
-    }
-
-    @Given("that deleting the ToDo succeeds")
-    public void givenThatDeletingTheToDoSucceeds() {
+        data.asMaps().stream().map(ToDoSteps::parseToDoFrom).forEach(gateway::store);
     }
 
     @Given("that I enter the headline {string}")
     public void givenThatIEnterTheHeadline(String headline) {
-        this.headline = headline;
+        builder.headline(headline);
     }
 
     @Given("that I enter the description {string}")
     public void givenThatIEnterTheDescription(String description) {
-        this.description = description;
+        builder.description(description);
     }
 
     @When("I try to fetch the ToDo")
     public void whenITryToFetchTheToDo() {
-        final var request = new FetchToDoRequest(id);
-
-        factory.fetch().execute(request);
+        factory.fetch().execute(builder.fetchToDoRequest());
     }
 
 
     @When("I try to delete the ToDo")
     public void whenITryToDeleteTheToDo() {
-        final var request = new DeleteToDoRequest(id);
-
-        factory.delete().execute(request);
+        factory.delete().execute(builder.buildDeleteRequest());
     }
 
     @When("I try to complete the ToDo")
     public void whenITryToCompleteTheToDo() {
-        final var request = new CompleteToDoRequest(id);
-
-        factory.complete().execute(request);
+        factory.complete().execute(builder.buildCompleteRequest());
     }
 
 
     @When("I try to reset the ToDo")
     public void whenITryToResetTheToDo() {
-        final var request = new ReopenToDoRequest(id);
-
-        factory.reopen().execute(request);
+        factory.reopen().execute(builder.buildReopenRequest());
     }
 
     @When("I try to update the ToDo")
     public void whenITryToUpdateTheToDo() {
-        final var request = new UpdateToDoRequest(id, headline, description);
-
-        factory.update().execute(request);
+        factory.update().execute(builder.buildUpdateRequest());
     }
 
     @Then("fetching the ToDo should have failed with the message: {string}")
     public void thenFetchingTheToDoShouldHaveFailedWithTheMessage(final String expectedMessage) {
-        fetchResponse.applyTo(new FetchToDoOutputBoundary() {
+        outputBoundaryFactory.fetchResponse.applyTo(new FetchToDoOutputBoundary() {
             @Override
             public void handleFailedResponse(final FetchToDoFailedResponse response) {
                 assertThat(response.reason()).isEqualTo(expectedMessage);
@@ -195,7 +124,7 @@ public class ToDoSteps {
 
     @Then("the fetched Todo should have the following values:")
     public void thenTheFetchedTodoShouldHaveTheFollowingValues(final DataTable data) {
-        fetchResponse.applyTo(new FetchToDoOutputBoundary() {
+        outputBoundaryFactory.fetchResponse.applyTo(new FetchToDoOutputBoundary() {
             @Override
             public void handleFailedResponse(final FetchToDoFailedResponse response) {
                 fail(response.reason());
@@ -207,15 +136,11 @@ public class ToDoSteps {
 
                 final SoftAssertions assertions = new SoftAssertions();
 
-                assertions.assertThat(response.identity())
-                        .isEqualTo(todo.aggregateRoot().identity().value());
-                assertions.assertThat(response.headline())
-                        .isEqualTo(todo.aggregateRoot().headline().value());
-                assertions.assertThat(response.description())
-                        .isEqualTo(todo.aggregateRoot().description().value());
+                assertions.assertThat(response.identity()).isEqualTo(todo.aggregateRoot().identity().value());
+                assertions.assertThat(response.headline()).isEqualTo(todo.aggregateRoot().headline().value());
+                assertions.assertThat(response.description()).isEqualTo(todo.aggregateRoot().description().value());
                 assertions.assertThat(response.created()).isEqualTo(todo.aggregateRoot().created().value());
-                assertions.assertThat(response.lastModified())
-                        .isEqualTo(todo.aggregateRoot().lastModified().value());
+                assertions.assertThat(response.lastModified()).isEqualTo(todo.aggregateRoot().lastModified().value());
                 assertions.assertThat(response.state()).isEqualTo(todo.aggregateRoot().state().name());
 
                 assertions.assertAll();
@@ -225,7 +150,7 @@ public class ToDoSteps {
 
     @Then("the todo update should have failed with the message: {string}")
     public void thenTheTodoUpdateShouldHaveFailedWithTheMessage(String expectedMessage) {
-        updateResponse.applyTo(new UpdateToDoOutputBoundary() {
+        outputBoundaryFactory.updateResponse.applyTo(new UpdateToDoOutputBoundary() {
             @Override
             public void handleSuccessfulResponse(ToDoUpdatedResponse response) {
                 fail("The request should have failed");
@@ -240,7 +165,7 @@ public class ToDoSteps {
 
     @Then("the todo update should have been successful")
     public void theTodoUpdateShouldHaveBeenSuccessful() {
-        updateResponse.applyTo(new UpdateToDoOutputBoundary() {
+        outputBoundaryFactory.updateResponse.applyTo(new UpdateToDoOutputBoundary() {
             @Override
             public void handleSuccessfulResponse(final ToDoUpdatedResponse response) {
                 assertThat(response).isNotNull();
@@ -261,29 +186,12 @@ public class ToDoSteps {
      * @return The parsed entity.
      */
     private static ToDoAggregate parseToDoFrom(final Map<String, String> row) {
-        return ToDoAggregate.builder()
-                .identity(row.get("identity"))
-                .headline(row.get("headline"))
-                .description(row.get("description"))
-                .created(LocalDateTime.parse(row.get("created")))
-                .lastModified(LocalDateTime.parse(row.get("last modified")))
-                .completed(
-                        Optional.ofNullable(row.getOrDefault("completed", null)).map(LocalDateTime::parse)
-                                .orElse(null))
-                .state(ToDoStateValueObject.valueOf(row.get("state")))
-                .build();
+        return ToDoAggregate.builder().identity(row.get("identity")).headline(row.get("headline")).description(row.get("description")).created(LocalDateTime.parse(row.get("created"))).lastModified(LocalDateTime.parse(row.get("last modified"))).completed(Optional.ofNullable(row.getOrDefault("completed", null)).map(LocalDateTime::parse).orElse(null)).state(ToDoStateValueObject.valueOf(row.get("state"))).build();
     }
 
     @Then("a {string} should have been published")
     public void thenAnEventEventShouldHaveBeenPublished(final String type) {
-        final Map<String, ? extends Class<? extends ToDoEvent>> typeMap =
-                List.of(ToDoCompletedEvent.class,
-                                ToDoCreatedEvent.class,
-                                ToDoDeletedEvent.class,
-                                ToDoReopenedEvent.class,
-                                ToDoUpdatedEvent.class)
-                        .stream()
-                        .collect(Collectors.toMap(Class::getSimpleName, clazz -> clazz));
+        final Map<String, ? extends Class<? extends ToDoEvent>> typeMap = List.of(ToDoCompletedEvent.class, ToDoCreatedEvent.class, ToDoDeletedEvent.class, ToDoReopenedEvent.class, ToDoUpdatedEvent.class).stream().collect(Collectors.toMap(Class::getSimpleName, clazz -> clazz));
 
         final Class<? extends ToDoEvent> expectedEventType = typeMap.get(type);
 
@@ -300,14 +208,12 @@ public class ToDoSteps {
 
     @When("I try to create the todo")
     public void whenITryToCreateTheTodo() {
-        var request = new CreateToDoRequest(headline, description);
-
-        factory.create().execute(request);
+        factory.create().execute(builder.buildCreateRequest());
     }
 
     @Then("creating the todo should have failed with the message {string}")
     public void creatingTheTodoShouldHaveFailedWithTheMessage(final String expectedMessage) {
-        createResponse.applyTo(new CreateToDoOutputBoundary() {
+        outputBoundaryFactory.createResponse.applyTo(new CreateToDoOutputBoundary() {
             @Override
             public void handleSuccessfulResponse(ToDoCreatedResponse response) {
                 fail("The request should have failed");
@@ -322,7 +228,7 @@ public class ToDoSteps {
 
     @Then("creating the todo should have succeeded")
     public void creatingTheTodoShouldHaveSucceeded() {
-        createResponse.applyTo(new CreateToDoOutputBoundary() {
+        outputBoundaryFactory.createResponse.applyTo(new CreateToDoOutputBoundary() {
             @Override
             public void handleSuccessfulResponse(ToDoCreatedResponse response) {
                 assertThat(response).isNotNull();
@@ -337,6 +243,76 @@ public class ToDoSteps {
 
     @Given("that I configure the application to use the {string} todo gateway")
     public void thatIConfigureTheApplicationToUseTheBackendTodoGateway(final String backend) {
-        this.gateway = new ToDoGatewayFactory(eventPublisher).create(backend);
+        this.gateway = gatewayFactory.create(backend);
+    }
+
+    @Given("that no ToDos exist")
+    public void thatNoToDosExist() {
+    }
+
+    @When("I try to fetch the ToDo list")
+    public void iTryToFetchTheToDoList() {
+        final var request = new FetchTodoListRequest();
+
+        factory.list().execute(request);
+    }
+
+    @Then("the ToDo list should be empty")
+    public void theToDoListShouldBeEmpty() {
+        outputBoundaryFactory.fetchListResponse.applyTo(new FetchToDoListOutputBoundary() {
+            @Override
+            public void handleFailedResponse(FetchToDoListFailedResponse response) {
+                fail(response.reason());
+            }
+
+            @Override
+            public void handleSuccessfulResponse(FetchedToDoListResponse response) {
+                assertThat(response.todos()).isEmpty();
+            }
+
+            @Override
+            public boolean isDetached() {
+                return false;
+            }
+        });
+    }
+
+    @Then("the ToDo list should contain the following ToDos")
+    public void theToDoListShouldContainTheFollowingToDos(final DataTable data) {
+        outputBoundaryFactory.fetchListResponse.applyTo(new FetchToDoListOutputBoundary() {
+            @Override
+            public void handleFailedResponse(FetchToDoListFailedResponse response) {
+                fail(response.reason());
+            }
+
+            @Override
+            public void handleSuccessfulResponse(FetchedToDoListResponse response) {
+                final var expectedToDos = data.asMaps().stream().map(ToDoSteps::parseToDoFrom).toList();
+
+                final SoftAssertions assertions = new SoftAssertions();
+
+                for (final ToDoAggregate expected : expectedToDos) {
+                    final var actual = response.todos().stream().filter(model -> Objects.equals(model.identity(), expected.aggregateRoot().identity().value())).findFirst();
+
+                    if (actual.isEmpty()) {
+                        assertions.fail("Missing item with ID" + expected.aggregateRoot().identity().value());
+                    } else {
+                        assertions.assertThat(actual.get().identity()).isEqualTo(expected.aggregateRoot().identity().value());
+                        assertions.assertThat(actual.get().headline()).isEqualTo(expected.aggregateRoot().headline().value());
+                        assertions.assertThat(actual.get().description()).isEqualTo(expected.aggregateRoot().description().value());
+                        assertions.assertThat(actual.get().created()).isEqualTo(expected.aggregateRoot().created().value());
+                        assertions.assertThat(actual.get().lastModified()).isEqualTo(expected.aggregateRoot().lastModified().value());
+                        assertions.assertThat(actual.get().state()).isEqualTo(expected.aggregateRoot().state().name());
+                    }
+                }
+
+                assertions.assertAll();
+            }
+
+            @Override
+            public boolean isDetached() {
+                return false;
+            }
+        });
     }
 }

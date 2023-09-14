@@ -50,6 +50,10 @@ tasks.register('integrationTest', Test) {
     classpath = sourceSets.integrationTest.runtimeClasspath
     shouldRunAfter test
 
+    systemProperty("cucumber.execution.parallel.enabled", false)
+    systemProperty("cucumber.junit-platform.naming-strategy", "long")
+    systemProperty("cucumber.plugin", "message:build/reports/cucumber.ndjson, timeline:build/reports/timeline, html:build/reports/cucumber.html")
+
     useJUnitPlatform()
 }
 

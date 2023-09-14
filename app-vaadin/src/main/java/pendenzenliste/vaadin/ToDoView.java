@@ -3,17 +3,14 @@ package pendenzenliste.vaadin;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import static java.util.Objects.requireNonNull;
 
@@ -66,10 +63,7 @@ public class ToDoView extends Component implements HasSize, HasComponents, HasSl
      */
     private void showAchievements(final Collection<AchievementViewModel> achievements) {
         ui.access(() -> {
-            for (final Component achievement : getChildren()
-                    .filter(component ->
-                            Objects.equals("achievements", component.getElement().getProperty("slot")))
-                    .toList()) {
+            for (final Component achievement : getChildren().filter(assignedToAchievementsSlot()).toList()) {
                 remove(achievement);
             }
 
@@ -77,6 +71,15 @@ public class ToDoView extends Component implements HasSize, HasComponents, HasSl
                 addToSlot("achievements", new AchievementItemWidget(achievement));
             }
         });
+    }
+
+    /**
+     * Builds a predicate that checks whether the component has been assigned to the achievements slot.
+     *
+     * @return The predicate.
+     */
+    private static Predicate<Component> assignedToAchievementsSlot() {
+        return component -> Objects.equals("achievements", component.getElement().getProperty("slot"));
     }
 
     /**
@@ -99,7 +102,7 @@ public class ToDoView extends Component implements HasSize, HasComponents, HasSl
     public void showUnlockedAchievement(final UnlockedAchievementDTO achievement) {
         if (achievement != null) {
             ui.access(() -> {
-                createAchievementUnlockedNotification(achievement).open();
+                new AchievementUnlockedNotificationWidget(achievement).open();
                 viewModel.unlockedAchievement.set(null);
             });
 
@@ -178,30 +181,6 @@ public class ToDoView extends Component implements HasSize, HasComponents, HasSl
         super.onDetach(detachEvent);
 
         viewModel.detached.set(Boolean.TRUE);
-    }
-
-    public static Notification createAchievementUnlockedNotification(
-            final UnlockedAchievementDTO achievement) {
-        final var notification = new Notification();
-
-        final var icon = VaadinIcon.CHECK_CIRCLE.create();
-        icon.setColor("var(--lumo-success-color)");
-
-        final var uploadSuccessful = new Div(new Text(achievement.title()));
-        uploadSuccessful.getStyle().set("font-weight", "600")
-                .set("color", "var(--lumo-success-text-color)");
-
-        final var info = new Div(uploadSuccessful, new Div(new Text(achievement.description())));
-        info.getStyle().set("font-size", "var(--lumo-font-size-s)")
-                .set("color", "var(--lumo-secondary-text-color)");
-
-        HorizontalLayout layout = new HorizontalLayout(icon, info);
-        layout.setAlignItems(FlexComponent.Alignment.CENTER);
-
-        notification.add(layout);
-        notification.setDuration(10000);
-
-        return notification;
     }
 
     /**

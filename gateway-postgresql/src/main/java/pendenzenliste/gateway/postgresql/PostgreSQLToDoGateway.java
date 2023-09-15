@@ -78,12 +78,12 @@ public final class PostgreSQLToDoGateway implements ToDoGateway {
         }
 
         sql.transaction(t -> {
-            final var sql = DSL.using(t);
+            final var transaction = DSL.using(t);
 
-            final var existingTodos = sql.selectFrom(Tables.TODOS).where(Tables.TODOS.ID.eq(todo.aggregateRoot().identity().value())).fetch();
+            final var existingTodos = transaction.selectFrom(Tables.TODOS).where(Tables.TODOS.ID.eq(todo.aggregateRoot().identity().value())).fetch();
 
             if (existingTodos.isEmpty()) {
-                sql.insertInto(Tables.TODOS)
+                transaction.insertInto(Tables.TODOS)
                         .set(Tables.TODOS.ID, todo.aggregateRoot().identity().value())
                         .set(Tables.TODOS.COMPLETED,
                                 Optional.ofNullable(todo.aggregateRoot().completed()).map(CompletedTimestampValueObject::value).orElse(null))
@@ -94,7 +94,7 @@ public final class PostgreSQLToDoGateway implements ToDoGateway {
                         .set(Tables.TODOS.STATE, todo.aggregateRoot().state().name())
                         .execute();
             } else {
-                sql.update(Tables.TODOS)
+                transaction.update(Tables.TODOS)
                         .set(Tables.TODOS.COMPLETED,
                                 Optional.ofNullable(todo.aggregateRoot().completed()).map(CompletedTimestampValueObject::value).orElse(null))
                         .set(Tables.TODOS.CREATED, todo.aggregateRoot().created().value())
@@ -105,6 +105,8 @@ public final class PostgreSQLToDoGateway implements ToDoGateway {
                         .where(Tables.TODOS.ID.eq(todo.aggregateRoot().identity().value()))
                         .execute();
             }
+
+            //TODO: Persist the events
         });
 
         eventQueue.forEach(eventBus::publish);

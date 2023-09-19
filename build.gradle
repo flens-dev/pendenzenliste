@@ -26,6 +26,8 @@ configure(subprojects.findAll()) {
     }
 
     dependencies {
+        implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
+
         testImplementation "org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}"
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}"
         testImplementation "org.junit.jupiter:junit-jupiter:${junitJupiterVersion}"

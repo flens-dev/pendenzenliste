@@ -4,25 +4,26 @@ import java.util.ServiceLoader;
 
 /**
  * A provider that can be used to access an instance of a {@link ToDoGateway}
+ *
+ * @deprecated Use a proper dependency injection framework instead.
  */
-public interface ToDoGatewayProvider
-{
-  /**
-   * Retrieves an instance of the provider.
-   *
-   * @return The instance.
-   */
-  ToDoGateway getInstance();
+@Deprecated(forRemoval = true)
+public interface ToDoGatewayProvider {
+    /**
+     * Retrieves an instance of the provider.
+     *
+     * @return The instance.
+     */
+    ToDoGateway getInstance();
 
-  /**
-   * Retrieves the default provider.
-   *
-   * @return The default provider.
-   */
-  static ToDoGatewayProvider defaultProvider()
-  {
-    return ServiceLoader.load(ToDoGatewayProvider.class)
-        .findFirst()
-        .orElseThrow(() -> new IllegalStateException("No default provider registered"));
-  }
+    /**
+     * Retrieves the default provider.
+     *
+     * @return The default provider.
+     */
+    static ToDoGatewayProvider defaultProvider() {
+        return ServiceLoader.load(ToDoGatewayProvider.class)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No default provider registered"));
+    }
 }

@@ -8,17 +8,18 @@ import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 /**
  * A {@link ToDoInputBoundaryFactoryProvider} that provides access to a {@link ToDoUseCaseFactory}
+ *
+ * @deprecated Use a proper dependency injection framework instead.
  */
-public class ToDoUseCaseFactoryProvider implements ToDoInputBoundaryFactoryProvider
-{
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public ToDoInputBoundaryFactory getInstance(final ToDoOutputBoundaryFactory outputBoundaryFactory)
-  {
-    return new ToDoUseCaseFactory(ToDoGatewayProvider.defaultProvider(),
-        outputBoundaryFactory,
-        EventBus.defaultEventBus());
-  }
+@Deprecated(forRemoval = true)
+public class ToDoUseCaseFactoryProvider implements ToDoInputBoundaryFactoryProvider {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ToDoInputBoundaryFactory getInstance(final ToDoOutputBoundaryFactory outputBoundaryFactory) {
+        return new ToDoUseCaseFactory(ToDoGatewayProvider.defaultProvider(),
+                outputBoundaryFactory,
+                EventBus.defaultEventBus());
+    }
 }

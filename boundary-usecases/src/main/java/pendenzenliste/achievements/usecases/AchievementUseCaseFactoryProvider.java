@@ -8,17 +8,18 @@ import pendenzenliste.messaging.EventBus;
 
 /**
  * A provider that can be used to access a {@link AchievementUseCaseFactory}.
+ *
+ * @deprecated Use a proper dependency injection framework instead.
  */
-public class AchievementUseCaseFactoryProvider implements AchievementInputBoundaryFactoryProvider
-{
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public AchievementInputBoundaryFactory getInstance(final AchievementOutputBoundaryFactory factory)
-  {
-    return new AchievementUseCaseFactory(factory,
-        EventBus.defaultEventBus(),
-        AchievementGatewayProvider.defaultProvider().getInstance());
-  }
+@Deprecated(forRemoval = true)
+public class AchievementUseCaseFactoryProvider implements AchievementInputBoundaryFactoryProvider {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AchievementInputBoundaryFactory getInstance(final AchievementOutputBoundaryFactory factory) {
+        return new AchievementUseCaseFactory(factory,
+                EventBus.defaultEventBus(),
+                AchievementGatewayProvider.defaultProvider().getInstance());
+    }
 }

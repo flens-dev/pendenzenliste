@@ -6,23 +6,23 @@ import pendenzenliste.todos.gateway.ToDoGatewayProvider;
 
 /**
  * A provider for a {@link FilesystemToDoGateway}.
+ *
+ * @deprecated Use a proper dependency injection framework instead.
  */
-public class FilesystemToDoGatewayProvider implements ToDoGatewayProvider
-{
-  private ToDoGateway instance = null;
+@Deprecated(forRemoval = true)
+public class FilesystemToDoGatewayProvider implements ToDoGatewayProvider {
+    private ToDoGateway instance = null;
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public ToDoGateway getInstance()
-  {
-    if (instance == null)
-    {
-      // TODO: Make the path to the storage configurable
-      instance = new FilesystemToDoGateway("/tmp/todoData", EventBus.defaultEventBus());
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ToDoGateway getInstance() {
+        if (instance == null) {
+            // TODO: Make the path to the storage configurable
+            instance = new FilesystemToDoGateway("/tmp/todoData", EventBus.defaultEventBus());
+        }
+
+        return instance;
     }
-
-    return instance;
-  }
 }

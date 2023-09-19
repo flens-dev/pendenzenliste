@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
 
+import jakarta.inject.Inject;
 import pendenzenliste.achievements.boundary.in.FetchAchievementListInputBoundary;
 import pendenzenliste.achievements.boundary.in.FetchAchievementListRequest;
 import pendenzenliste.achievements.boundary.out.AchievementResponseModel;
@@ -28,6 +29,7 @@ public class FetchAchievementListUseCase implements FetchAchievementListInputBou
    * @param outputBoundary The output boundary that should be used by this instance.
    * @param gateway        The gateway that should be used by this instance.
    */
+  @Inject
   public FetchAchievementListUseCase(final FetchAchievementListOutputBoundary outputBoundary,
                                      final AchievementGateway gateway)
   {

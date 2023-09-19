@@ -1,4 +1,4 @@
-package pendenzenliste.vaadin;
+package pendenzenliste.vaadin.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

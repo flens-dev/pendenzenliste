@@ -1,5 +1,6 @@
 package pendenzenliste.todos.usecases;
 
+import jakarta.inject.Inject;
 import pendenzenliste.todos.boundary.in.ReopenToDoInputBoundary;
 import pendenzenliste.todos.boundary.in.ReopenToDoRequest;
 import pendenzenliste.todos.boundary.out.ToDoUpdateFailedResponse;
@@ -26,6 +27,7 @@ public class ReopenToDoUseCase implements ReopenToDoInputBoundary {
      * @param gateway        The gateway that should be used by this instance.
      * @param outputBoundary The output boundary that should be used by this instance.
      */
+    @Inject
     public ReopenToDoUseCase(final ToDoGateway gateway, final UpdateToDoOutputBoundary outputBoundary) {
         this.gateway = requireNonNull(gateway, "The gateway may not be null");
         this.outputBoundary = requireNonNull(outputBoundary, "The output boundary may not be null");

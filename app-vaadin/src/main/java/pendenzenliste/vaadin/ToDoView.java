@@ -5,6 +5,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
+import pendenzenliste.vaadin.mixin.HasSlot;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -99,7 +100,7 @@ public class ToDoView extends Component implements HasSize, HasComponents, HasSl
      *
      * @param achievement The achievement.
      */
-    public void showUnlockedAchievement(final UnlockedAchievementDTO achievement) {
+    public void showUnlockedAchievement(final UnlockedAchievementViewModel achievement) {
         if (achievement != null) {
             ui.access(() -> {
                 new AchievementUnlockedNotificationWidget(achievement).open();

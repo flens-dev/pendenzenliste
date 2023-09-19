@@ -1,4 +1,4 @@
-package pendenzenliste.vaadin;
+package pendenzenliste.vaadin.mixin;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;

@@ -13,6 +13,8 @@ module pendenzenliste.usecases.main {
     requires pendenzenliste.messaging.main;
     requires pendenzenliste.supporting.domain.achievements.main;
 
+    requires jakarta.inject;
+
     provides AchievementInputBoundaryFactoryProvider
             with AchievementUseCaseFactoryProvider;
 

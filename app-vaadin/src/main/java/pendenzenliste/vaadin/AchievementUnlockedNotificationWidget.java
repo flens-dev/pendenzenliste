@@ -17,14 +17,14 @@ public class AchievementUnlockedNotificationWidget extends Notification {
      *
      * @param achievement The data of the achievement.
      */
-    public AchievementUnlockedNotificationWidget(final UnlockedAchievementDTO achievement) {
+    public AchievementUnlockedNotificationWidget(final UnlockedAchievementViewModel achievement) {
         final var icon = VaadinIcon.CHECK_CIRCLE.create();
         icon.setColor("var(--lumo-success-color)");
 
-        final var uploadSuccessful = new Div(new Text(achievement.title()));
+        final var uploadSuccessful = new Div(new Text(achievement.title.get()));
         uploadSuccessful.getStyle().set("font-weight", "600").set("color", "var(--lumo-success-text-color)");
 
-        final var info = new Div(uploadSuccessful, new Div(new Text(achievement.description())));
+        final var info = new Div(uploadSuccessful, new Div(new Text(achievement.description.get())));
         info.getStyle().set("font-size", "var(--lumo-font-size-s)").set("color", "var(--lumo-secondary-text-color)");
 
         HorizontalLayout layout = new HorizontalLayout(icon, info);

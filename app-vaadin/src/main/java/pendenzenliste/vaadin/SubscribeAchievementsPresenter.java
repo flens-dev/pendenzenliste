@@ -53,9 +53,12 @@ public class SubscribeAchievementsPresenter implements SubscribeAchievementsOutp
      */
     @Override
     public void displayUnlockedAchievement(final String name) {
-        viewModel.unlockedAchievement.set(new UnlockedAchievementDTO(
-                TITLES.getOrDefault(name, name),
-                DESCRIPTION.getOrDefault(name, name)));
+        final UnlockedAchievementViewModel achievement = new UnlockedAchievementViewModel();
+
+        achievement.title.set(TITLES.getOrDefault(name, name));
+        achievement.description.set(DESCRIPTION.getOrDefault(name, name));
+        
+        viewModel.unlockedAchievement.set(achievement);
     }
 
     /**

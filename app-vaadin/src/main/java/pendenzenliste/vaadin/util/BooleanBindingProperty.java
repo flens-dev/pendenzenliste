@@ -1,4 +1,6 @@
-package pendenzenliste.vaadin;
+package pendenzenliste.vaadin.util;
+
+import pendenzenliste.vaadin.util.BindingProperty;
 
 /**
  * A boolean specific binding property.

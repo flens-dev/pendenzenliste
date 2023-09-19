@@ -87,7 +87,7 @@ configure(subprojects.findAll()) {
         ignoreFailures = true
     }
 
-    tasks.matching { it.name.startsWith("spotbugs") }.each {
+    tasks.matching { it.name.contains("spotbugs") }.each {
         if (it.name.contains("Test")) {
             it.enabled = false
         }

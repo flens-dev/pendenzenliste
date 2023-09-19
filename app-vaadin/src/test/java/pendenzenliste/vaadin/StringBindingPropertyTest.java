@@ -1,76 +1,72 @@
 package pendenzenliste.vaadin;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.vaadin.flow.component.textfield.TextField;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import pendenzenliste.vaadin.util.StringBindingProperty;
 
-class StringBindingPropertyTest
-{
-  @Test
-  public void bindTwoWay_textFieldUpdate()
-  {
-    final var textField = new TextField();
+import static org.assertj.core.api.Assertions.assertThat;
 
-    final var property = new StringBindingProperty();
+class StringBindingPropertyTest {
+    @Test
+    public void bindTwoWay_textFieldUpdate() {
+        final var textField = new TextField();
 
-    property.bindTwoWay(textField);
+        final var property = new StringBindingProperty();
 
-    textField.setValue("Test");
+        property.bindTwoWay(textField);
 
-    final var assertions = new SoftAssertions();
+        textField.setValue("Test");
 
-    assertions.assertThat(property.get()).isEqualTo("Test");
-    assertions.assertThat(textField.getValue()).isEqualTo("Test");
+        final var assertions = new SoftAssertions();
 
-    assertions.assertAll();
-  }
+        assertions.assertThat(property.get()).isEqualTo("Test");
+        assertions.assertThat(textField.getValue()).isEqualTo("Test");
 
-  @Test
-  public void bindTwoWay_propertyUpdate()
-  {
-    final var textField = new TextField();
+        assertions.assertAll();
+    }
 
-    final var property = new StringBindingProperty();
+    @Test
+    public void bindTwoWay_propertyUpdate() {
+        final var textField = new TextField();
 
-    property.bindTwoWay(textField);
+        final var property = new StringBindingProperty();
 
-    property.set("Test");
+        property.bindTwoWay(textField);
 
-    final var assertions = new SoftAssertions();
+        property.set("Test");
 
-    assertions.assertThat(property.get()).isEqualTo("Test");
-    assertions.assertThat(textField.getValue()).isEqualTo("Test");
+        final var assertions = new SoftAssertions();
 
-    assertions.assertAll();
-  }
+        assertions.assertThat(property.get()).isEqualTo("Test");
+        assertions.assertThat(textField.getValue()).isEqualTo("Test");
 
-  @Test
-  public void bind_propertyShouldNotBeUpdatedOnFieldUpdate()
-  {
-    final var textField = new TextField();
+        assertions.assertAll();
+    }
 
-    final var property = new StringBindingProperty("initial value");
+    @Test
+    public void bind_propertyShouldNotBeUpdatedOnFieldUpdate() {
+        final var textField = new TextField();
 
-    property.bind(textField::setValue);
+        final var property = new StringBindingProperty("initial value");
 
-    textField.setValue("Test");
+        property.bind(textField::setValue);
 
-    assertThat(property.get()).isEqualTo("initial value");
-  }
+        textField.setValue("Test");
 
-  @Test
-  public void bind_textFieldShouldBeUpdatedOnPropertyUpdate()
-  {
-    final var textField = new TextField();
+        assertThat(property.get()).isEqualTo("initial value");
+    }
 
-    final var property = new StringBindingProperty("initial value");
+    @Test
+    public void bind_textFieldShouldBeUpdatedOnPropertyUpdate() {
+        final var textField = new TextField();
 
-    property.bind(textField::setValue);
+        final var property = new StringBindingProperty("initial value");
 
-    property.set("Test");
+        property.bind(textField::setValue);
 
-    assertThat(property.get()).isEqualTo("Test");
-  }
+        property.set("Test");
+
+        assertThat(property.get()).isEqualTo("Test");
+    }
 }

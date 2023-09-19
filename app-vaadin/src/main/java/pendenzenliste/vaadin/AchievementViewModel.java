@@ -1,7 +1,7 @@
 package pendenzenliste.vaadin;
 
-import pendenzenliste.vaadin.util.BindingProperty;
-import pendenzenliste.vaadin.util.StringBindingProperty;
+import pendenzenliste.vaadin.binding.BindingProperty;
+import pendenzenliste.vaadin.binding.StringBindingProperty;
 
 import java.time.LocalDateTime;
 

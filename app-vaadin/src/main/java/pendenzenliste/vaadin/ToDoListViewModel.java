@@ -1,8 +1,8 @@
 package pendenzenliste.vaadin;
 
-import pendenzenliste.vaadin.util.BindingProperty;
-import pendenzenliste.vaadin.util.BooleanBindingProperty;
-import pendenzenliste.vaadin.util.StringBindingProperty;
+import pendenzenliste.vaadin.binding.BindingProperty;
+import pendenzenliste.vaadin.binding.BooleanBindingProperty;
+import pendenzenliste.vaadin.binding.StringBindingProperty;
 
 import java.util.ArrayList;
 import java.util.Collection;

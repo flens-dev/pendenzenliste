@@ -1,4 +1,4 @@
-package pendenzenliste.vaadin.util;
+package pendenzenliste.vaadin.binding;
 
 /**
  * A string binding property.

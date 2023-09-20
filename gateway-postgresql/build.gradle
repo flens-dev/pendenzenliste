@@ -19,8 +19,8 @@ dependencies {
     implementation "org.flywaydb:flyway-core:${flywayVersion}"
     implementation "com.zaxxer:HikariCP:${hikariVersion}"
 
-    flywayMigration 'com.h2database:h2:2.1.214'
-    jooqGenerator 'com.h2database:h2:2.1.214'
+    flywayMigration "com.h2database:h2:${h2Version}"
+    jooqGenerator "com.h2database:h2:${h2Version}"
 }
 
 flyway {

@@ -19,7 +19,7 @@ include 'gateway'
 include 'gateway-acceptance-test'
 include 'gateway-filesystem'
 include 'gateway-inmemory'
-include 'gateway-postgresql'
+include 'gateway-postgresql-jooq'
 include 'gateway-redis'
 
 include 'messaging'

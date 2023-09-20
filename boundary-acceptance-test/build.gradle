@@ -18,7 +18,7 @@ dependencies {
 
     integrationTestImplementation project(':gateway-filesystem')
     integrationTestImplementation project(':gateway-inmemory')
-    integrationTestImplementation project(':gateway-postgresql')
+    integrationTestImplementation project(':gateway-postgresql-jooq')
     integrationTestImplementation project(':gateway-redis')
     integrationTestImplementation project(':messaging-inmemory')
 

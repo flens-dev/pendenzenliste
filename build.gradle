@@ -81,7 +81,7 @@ configure(subprojects.findAll()) {
     }
 
     project.spotbugs {
-        toolVersion = '4.7.3'
+        toolVersion = '4.8.0'
 
         //TODO: Set this flag to false as soon as the issues are fixed
         ignoreFailures = true

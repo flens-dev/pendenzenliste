@@ -4,7 +4,7 @@ buildscript {
     }
 }
 plugins {
-    id "com.github.node-gradle.node" version "3.5.1"
+    id "com.github.node-gradle.node" version "7.0.1"
     id 'org.springframework.boot' version '3.0.0'
     id 'java'
     id 'com.vaadin' version "${vaadinVersion}"

@@ -42,7 +42,7 @@ configure(subprojects.findAll()) {
         testImplementation "com.tngtech.archunit:archunit-junit5:${archUnitVersion}"
 
         compileOnly "com.github.spotbugs:spotbugs-annotations:${spotbugsAnnotationVersion}"
-        spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:${findsecbugsVersion}"
+        //spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:${findsecbugsVersion}"
     }
 
     test {

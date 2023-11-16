@@ -12,6 +12,15 @@ import java.io.Serializable;
  */
 public record AchievementEntity(IdentityValueObject identity, AchievementValueType name,
                                 StateValueType state, UnlockedTimestampValueType unlocked)
-    implements Serializable
-{
+        implements Serializable {
+
+    /**
+     * Unlocks the achievement.
+     *
+     * @return The unlocked achievement.
+     */
+    public AchievementEntity unlock() {
+        return new AchievementEntity(identity(), name(), StateValueType.UNLOCKED,
+                UnlockedTimestampValueType.now());
+    }
 }

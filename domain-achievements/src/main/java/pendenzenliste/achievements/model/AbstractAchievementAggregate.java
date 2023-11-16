@@ -66,9 +66,7 @@ public abstract class AbstractAchievementAggregate
     @Override
     public void unlockIfCompleted() {
         if (isCompleted() && isLocked()) {
-            achievement =
-                    new AchievementEntity(achievement.identity(), achievement.name(), StateValueType.UNLOCKED,
-                            UnlockedTimestampValueType.now());
+            achievement = achievement.unlock();
 
             events.add(new AchievementEventEntity(null,
                     new AchievementUnlockedEvent(LocalDateTime.now(), achievement.name())));

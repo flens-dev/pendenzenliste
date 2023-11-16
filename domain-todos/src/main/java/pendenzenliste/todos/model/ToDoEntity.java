@@ -66,19 +66,34 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
     }
 
     /**
-     * Updates the todo.
+     * Changes the headline
      *
-     * @param headline    The headline.
-     * @param description The description.
+     * @param headline The headline.
      * @return The updated todo.
      */
-    public ToDoEntity update(HeadlineValueObject headline, DescriptionValueObject description) {
-        return new ToDoEntity(identity(),
+    public ToDoEntity changeHeadline(HeadlineValueObject headline) {
+        return new ToDoEntity(identity,
                 headline,
                 description,
                 created,
                 LastModifiedTimestampValueObject.now(),
                 completed,
-                state());
+                state);
+    }
+
+    /**
+     * Describes the todo.
+     *
+     * @param description The new description.
+     * @return The updated todo.
+     */
+    public ToDoEntity describe(DescriptionValueObject description) {
+        return new ToDoEntity(identity,
+                headline,
+                description,
+                created,
+                LastModifiedTimestampValueObject.now(),
+                completed,
+                state);
     }
 }

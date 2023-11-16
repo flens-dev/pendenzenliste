@@ -90,7 +90,8 @@ public class ToDoAggregate implements HasCapabilities<ToDoCapabilityValueObject>
      * @param command The command that should be used to update the todo.
      */
     public void update(final UpdateToDoCommand command) {
-        todo = todo.update(command.headline(), command.description());
+        todo = todo.changeHeadline(command.headline())
+                .describe(command.description());
 
         repository.store(this);
         eventBus.publish(new ToDoUpdatedEvent(LocalDateTime.now(), todo.identity()));

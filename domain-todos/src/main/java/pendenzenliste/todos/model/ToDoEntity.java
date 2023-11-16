@@ -17,6 +17,68 @@ public record ToDoEntity(IdentityValueObject identity, HeadlineValueObject headl
                          DescriptionValueObject description, CreatedTimestampValueObject created,
                          LastModifiedTimestampValueObject lastModified,
                          CompletedTimestampValueObject completed, ToDoStateValueObject state)
-    implements Entity<IdentityValueObject>, Serializable
-{
+        implements Entity<IdentityValueObject>, Serializable {
+
+    /**
+     * Checks whether the todo is currently open.
+     *
+     * @return True if the todo is currently open, otherwise false.
+     */
+    public boolean isOpen() {
+        return ToDoStateValueObject.OPEN.equals(state);
+    }
+
+    /**
+     * Checks whether the todo has been completed.
+     *
+     * @return True if the todo has been completed, otherwise false.
+     */
+    public boolean isClosed() {
+        return ToDoStateValueObject.COMPLETED.equals(state);
+    }
+
+    /**
+     * Completes the todo.
+     *
+     * @return The completed todo.
+     */
+    public ToDoEntity complete() {
+        return new ToDoEntity(identity, headline,
+                description, created,
+                LastModifiedTimestampValueObject.now(),
+                CompletedTimestampValueObject.now(),
+                ToDoStateValueObject.COMPLETED);
+    }
+
+    /**
+     * Reopens the todo.
+     *
+     * @return The reopened todo.
+     */
+    public ToDoEntity reopen() {
+        return new ToDoEntity(identity,
+                headline,
+                description,
+                created,
+                LastModifiedTimestampValueObject.now(),
+                null,
+                ToDoStateValueObject.OPEN);
+    }
+
+    /**
+     * Updates the todo.
+     *
+     * @param headline    The headline.
+     * @param description The description.
+     * @return The updated todo.
+     */
+    public ToDoEntity update(HeadlineValueObject headline, DescriptionValueObject description) {
+        return new ToDoEntity(identity(),
+                headline,
+                description,
+                created,
+                LastModifiedTimestampValueObject.now(),
+                completed,
+                state());
+    }
 }

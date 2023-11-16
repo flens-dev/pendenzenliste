@@ -15,9 +15,7 @@ import pendenzenliste.gateway.redis.RedisToDoGateway;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.gateway.filesystem.FilesystemToDoGateway;
-import pendenzenliste.todos.model.IdentityValueObject;
-import pendenzenliste.todos.model.ToDoAggregate;
-import pendenzenliste.todos.model.ToDoStateValueObject;
+import pendenzenliste.todos.model.*;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
@@ -69,7 +67,18 @@ public class ToDoGatewayAcceptanceTestSteps {
     @Given("that the following todos exist:")
     public void givenThatTheFollowingTodosExist(final DataTable data) {
         for (final Map<String, String> row : data.asMaps()) {
-            final var todo = ToDoAggregate.builder().identity(row.get("identity")).headline(row.get("headline")).description(Optional.ofNullable(row.get("description")).orElse("")).created(mapDate(row.get("created"))).lastModified(mapDate(row.get("last modified"))).completed(mapDate(row.get("completed"))).state(ToDoStateValueObject.valueOf(row.get("state"))).build();
+            final var todo = new ToDoAggregate(new ToDoEntity(
+                    new IdentityValueObject(row.get("identity")),
+                    new HeadlineValueObject(row.get("headline")),
+                    new DescriptionValueObject(Optional.ofNullable(row.get("description")).orElse("")),
+                    new CreatedTimestampValueObject(LocalDateTime.parse(row.get("created"))),
+                    new LastModifiedTimestampValueObject(LocalDateTime.parse(row.get("last modified"))),
+                    Optional.ofNullable(row.getOrDefault("completed", null))
+                            .map(LocalDateTime::parse)
+                            .map(CompletedTimestampValueObject::new)
+                            .orElse(null),
+                    ToDoStateValueObject.valueOf(row.get("state"))
+            ), gateway, EventBus.defaultEventBus());
 
             gateway.store(todo);
         }
@@ -82,7 +91,15 @@ public class ToDoGatewayAcceptanceTestSteps {
 
     @Then("the todo should have the following data:")
     public void thenTheTodoShouldHaveTheFollowingData(final DataTable data) {
-        final var expectedTodo = ToDoAggregate.builder().identity(data.row(1).get(0)).headline(data.row(1).get(1)).description(Optional.ofNullable(data.row(1).get(2)).orElse("")).created(mapDate(data.row(1).get(3))).lastModified(mapDate(data.row(1).get(4))).completed(mapDate(data.row(1).get(5))).state(ToDoStateValueObject.valueOf(data.row(1).get(6))).build();
+        final var expectedTodo = new ToDoAggregate(new ToDoEntity(
+                new IdentityValueObject(data.row(1).get(0)),
+                new HeadlineValueObject(data.row(1).get(1)),
+                new DescriptionValueObject(Optional.ofNullable(data.row(1).get(2)).orElse("")),
+                new CreatedTimestampValueObject(mapDate(data.row(1).get(3))),
+                new LastModifiedTimestampValueObject(mapDate(data.row(1).get(4))),
+                Optional.ofNullable(mapDate(data.row(1).get(5))).map(CompletedTimestampValueObject::new).orElse(null),
+                ToDoStateValueObject.valueOf(data.row(1).get(6))
+        ), gateway, EventBus.defaultEventBus());
 
         assertThat(todo).map(ToDoAggregate::aggregateRoot).hasValue(expectedTodo.aggregateRoot());
     }

@@ -8,6 +8,7 @@ import pendenzenliste.todos.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
+import pendenzenliste.todos.model.CompleteToDoCommand;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoCapabilityValueObject;
 
@@ -62,9 +63,7 @@ public class CompleteToDoUseCase implements CompleteToDoInputBoundary {
                 return new ToDoUpdateFailedResponse("The ToDo cannot be completed in its current state");
             }
 
-            todo.get().complete();
-
-            gateway.store(todo.get());
+            todo.get().complete(new CompleteToDoCommand());
 
             return new ToDoUpdatedResponse();
         } catch (final IllegalArgumentException e) {

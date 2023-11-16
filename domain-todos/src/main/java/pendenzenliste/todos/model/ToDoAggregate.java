@@ -1,301 +1,98 @@
 package pendenzenliste.todos.model;
 
-import java.io.Serializable;
+import pendenzenliste.messaging.EventBus;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
 /**
  * An aggregate that can be used to represent a todo.
  */
-public class ToDoAggregate implements Serializable, HasCapabilities<ToDoCapabilityValueObject>
-{
-  private ToDoEntity todo;
-  private final List<ToDoEventEntity> events;
-
-  /**
-   * Creates a new instance.
-   *
-   * @param todo   The todo that should be represented by this instance.
-   * @param events The events that should be represented by this instance.
-   */
-  public ToDoAggregate(final ToDoEntity todo, final Collection<ToDoEventEntity> events)
-  {
-
-    this.todo = requireNonNull(todo, "The todo may not be null");
-    this.events = new ArrayList<>(requireNonNull(events, "The events may not be null"));
-  }
-
-  /**
-   * The aggregate root.
-   *
-   * @return The aggregate root.
-   */
-  public ToDoEntity aggregateRoot()
-  {
-    return todo;
-  }
-
-  /**
-   * The events.
-   *
-   * @return The events.
-   */
-  public List<ToDoEventEntity> events()
-  {
-    return new ArrayList<>(events);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public Collection<ToDoCapabilityValueObject> capabilities()
-  {
-    final Collection<ToDoCapabilityValueObject> capabilities = new ArrayList<>();
-
-    if (ToDoStateValueObject.OPEN.equals(aggregateRoot().state()))
-    {
-      capabilities.add(ToDoCapabilityValueObject.COMPLETE);
-      capabilities.add(ToDoCapabilityValueObject.UPDATE);
-      capabilities.add(ToDoCapabilityValueObject.DELETE);
-    }
-
-    if (ToDoStateValueObject.COMPLETED.equals(aggregateRoot().state()))
-    {
-      capabilities.add(ToDoCapabilityValueObject.REOPEN);
-    }
-
-    return capabilities;
-  }
-
-  /**
-   * Completes the todo.
-   */
-  public void complete()
-  {
-    todo = new ToDoEntity(aggregateRoot().identity(), aggregateRoot().headline(),
-        aggregateRoot().description(), aggregateRoot().created(),
-        LastModifiedTimestampValueObject.now(), CompletedTimestampValueObject.now(),
-        ToDoStateValueObject.COMPLETED);
-
-    events.add(new ToDoEventEntity(null,
-        new ToDoCompletedEvent(LocalDateTime.now(), aggregateRoot().identity())));
-  }
-
-  /**
-   * Reopens a previously closed ToDo.
-   */
-  public void reopen()
-  {
-    todo = new ToDoEntity(aggregateRoot().identity(), aggregateRoot().headline(),
-        aggregateRoot().description(), aggregateRoot().created(),
-        LastModifiedTimestampValueObject.now(), null, ToDoStateValueObject.OPEN);
-
-    events.add(new ToDoEventEntity(null,
-        new ToDoReopenedEvent(LocalDateTime.now(), aggregateRoot().identity())));
-  }
-
-  /**
-   * Updates the todo with the given data.
-   *
-   * @param headline    The headline.
-   * @param description The description.
-   */
-  public void update(final HeadlineValueObject headline, final DescriptionValueObject description)
-  {
-    todo =
-        new ToDoEntity(aggregateRoot().identity(), headline, description, aggregateRoot().created(),
-            LastModifiedTimestampValueObject.now(), aggregateRoot().completed(),
-            aggregateRoot().state());
-
-
-    events.add(new ToDoEventEntity(null,
-        new ToDoUpdatedEvent(LocalDateTime.now(), aggregateRoot().identity())));
-  }
-
-  /**
-   * Replaces the old event with the new event.
-   *
-   * @param oldEvent The old event.
-   * @param newEvent The new event.
-   */
-  public void replaceEvent(final ToDoEventEntity oldEvent, final ToDoEventEntity newEvent)
-  {
-    final int index = events.indexOf(oldEvent);
-
-    events.set(index, newEvent);
-  }
-
-  /**
-   * Creates a builder.
-   *
-   * @return The builder.
-   */
-  public static Builder builder()
-  {
-    return new Builder();
-  }
-
-  /**
-   * Appends the given event.
-   *
-   * @param event The event that should be appended.
-   */
-  public void appendEvent(final ToDoEvent event)
-  {
-    events.add(new ToDoEventEntity(null, event));
-  }
-
-  /**
-   * A builder for the todo aggregate.
-   */
-  public static class Builder
-  {
-    private IdentityValueObject identity;
-    private HeadlineValueObject headline;
-
-    private DescriptionValueObject description;
-
-    private CreatedTimestampValueObject created;
-
-    private LastModifiedTimestampValueObject lastModified;
-    private CompletedTimestampValueObject completed;
-    private ToDoStateValueObject state;
-
-    private final Collection<ToDoEventEntity> events = new ArrayList<>();
+public class ToDoAggregate implements HasCapabilities<ToDoCapabilityValueObject> {
+    private ToDoEntity todo;
+    private final ToDoRepository repository;
+    private final EventBus eventBus;
 
     /**
-     * Sets the identity.
+     * Creates a new instance.
      *
-     * @param identity The identity.
-     * @return The builder.
+     * @param todo       The todo that should be represented by this instance.
+     * @param repository The repository.
+     * @param eventBus   The event bus.
      */
-    public Builder identity(final String identity)
-    {
-      this.identity = new IdentityValueObject(identity);
-
-      return this;
+    public ToDoAggregate(final ToDoEntity todo,
+                         final ToDoRepository repository,
+                         final EventBus eventBus) {
+        this.todo = requireNonNull(todo, "The todo may not be null");
+        this.repository = requireNonNull(repository, "The repository may not be null");
+        this.eventBus = requireNonNull(eventBus, "The event bus may not be null");
     }
 
     /**
-     * Sets a random identity.
+     * The aggregate root.
      *
-     * @return The builder.
+     * @return The aggregate root.
      */
-    public Builder randomIdentity()
-    {
-      this.identity = IdentityValueObject.random();
-      return this;
+    public ToDoEntity aggregateRoot() {
+        return todo;
     }
 
     /**
-     * Sets the headline.
-     *
-     * @param headline The headline.
-     * @return The builder.
+     * {@inheritDoc}
      */
-    public Builder headline(final String headline)
-    {
-      this.headline = new HeadlineValueObject(headline);
-      return this;
+    @Override
+    public Collection<ToDoCapabilityValueObject> capabilities() {
+        final Collection<ToDoCapabilityValueObject> capabilities = new ArrayList<>();
+
+        if (aggregateRoot().isOpen()) {
+            capabilities.add(ToDoCapabilityValueObject.COMPLETE);
+            capabilities.add(ToDoCapabilityValueObject.UPDATE);
+            capabilities.add(ToDoCapabilityValueObject.DELETE);
+        }
+
+        if (aggregateRoot().isClosed()) {
+            capabilities.add(ToDoCapabilityValueObject.REOPEN);
+        }
+
+        return capabilities;
     }
 
     /**
-     * Sets the description.
+     * Completes the todo.
      *
-     * @param description The description.
-     * @return The builder.
+     * @param command The command.
      */
-    public Builder description(final String description)
-    {
-      this.description = new DescriptionValueObject(description);
-      return this;
+    public void complete(final CompleteToDoCommand command) {
+        todo = todo.complete();
+
+        repository.store(this);
+        eventBus.publish(new ToDoCompletedEvent(LocalDateTime.now(), aggregateRoot().identity()));
     }
 
     /**
-     * Sets the created timestamp.
+     * Reopens the todo.
      *
-     * @param created The created timestamp.
-     * @return The builder.
+     * @param command The command that should be executed.
      */
-    public Builder created(final LocalDateTime created)
-    {
-      this.created = new CreatedTimestampValueObject(created);
-      return this;
+    public void reopen(final ReopenToDoCommand command) {
+        todo = todo.reopen();
+
+        repository.store(this);
+        eventBus.publish(new ToDoReopenedEvent(LocalDateTime.now(), aggregateRoot().identity()));
     }
 
     /**
-     * Sets the last modified timestamp.
+     * Updates the todo based on the given command.
      *
-     * @param lastModified The last modified timestamp.
-     * @return The builder.
+     * @param command The command that should be used to update the todo.
      */
-    public Builder lastModified(final LocalDateTime lastModified)
-    {
-      this.lastModified = new LastModifiedTimestampValueObject(lastModified);
-      return this;
+    public void update(final UpdateToDoCommand command) {
+        todo = todo.update(command.headline(), command.description());
+
+        repository.store(this);
+        eventBus.publish(new ToDoUpdatedEvent(LocalDateTime.now(), todo.identity()));
     }
-
-    /**
-     * Sets the completed timestamp.
-     *
-     * @param completed The completed timestamp.
-     * @return The builder.
-     */
-    public Builder completed(final LocalDateTime completed)
-    {
-      if (completed == null)
-      {
-        this.completed = null;
-      } else
-      {
-        this.completed = new CompletedTimestampValueObject(completed);
-      }
-
-      return this;
-    }
-
-    /**
-     * Sets the state.
-     *
-     * @param state The state.
-     * @return The builder.
-     */
-    public Builder state(final ToDoStateValueObject state)
-    {
-      this.state = state;
-      return this;
-    }
-
-    /**
-     * Adds the given events.
-     *
-     * @param events The events.
-     * @return The builder.
-     */
-    public Builder withEvents(final ToDoEvent... events)
-    {
-      Arrays.stream(events).map(event -> new ToDoEventEntity(null, event))
-          .forEach(this.events::add);
-
-      return this;
-    }
-
-    /**
-     * Builds the aggregate.
-     *
-     * @return The aggregate.
-     */
-    public ToDoAggregate build()
-    {
-      return new ToDoAggregate(
-          new ToDoEntity(identity, headline, description, created, lastModified, completed, state),
-          events);
-    }
-  }
 }

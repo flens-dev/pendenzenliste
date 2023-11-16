@@ -8,10 +8,7 @@ import pendenzenliste.todos.boundary.out.ToDoUpdatedResponse;
 import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
-import pendenzenliste.todos.model.DescriptionValueObject;
-import pendenzenliste.todos.model.HeadlineValueObject;
-import pendenzenliste.todos.model.IdentityValueObject;
-import pendenzenliste.todos.model.ToDoCapabilityValueObject;
+import pendenzenliste.todos.model.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -66,9 +63,7 @@ public class UpdateToDoUseCase implements UpdateToDoInputBoundary {
                 return new ToDoUpdateFailedResponse("The ToDo cannot be updated in its current state");
             }
 
-            todo.get().update(headline, description);
-
-            gateway.store(todo.get());
+            todo.get().update(new UpdateToDoCommand(headline, description));
 
             return new ToDoUpdatedResponse();
         } catch (final IllegalArgumentException e) {

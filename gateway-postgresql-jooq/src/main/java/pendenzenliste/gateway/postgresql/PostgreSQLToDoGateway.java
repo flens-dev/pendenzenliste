@@ -9,8 +9,6 @@ import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -66,17 +64,6 @@ public final class PostgreSQLToDoGateway implements ToDoGateway {
      */
     @Override
     public void store(final ToDoAggregate todo) {
-        final Collection<ToDoEvent> eventQueue = new ArrayList<>();
-
-        for (final ToDoEventEntity event :
-                todo.events()
-                        .stream()
-                        .filter(event -> event.identity() == null)
-                        .toList()) {
-            todo.replaceEvent(event, event.withIdentity(IdentityValueObject.random()));
-            eventQueue.add(event.event());
-        }
-
         sql.transaction(t -> {
             final var transaction = DSL.using(t);
 
@@ -108,8 +95,6 @@ public final class PostgreSQLToDoGateway implements ToDoGateway {
 
             //TODO: Persist the events
         });
-
-        eventQueue.forEach(eventBus::publish);
     }
 
     /**
@@ -126,7 +111,17 @@ public final class PostgreSQLToDoGateway implements ToDoGateway {
      *
      * @return The mapping function.
      */
-    private static Function<TodosRecord, ToDoAggregate> mapRecord() {
-        return record -> new ToDoAggregate.Builder().identity(record.getId()).completed(record.getCompleted()).created(record.getCreated()).description(record.getDescription()).headline(record.getHeadline()).lastModified(record.getLastModified()).state(ToDoStateValueObject.valueOf(record.getState())).build();
+    private Function<TodosRecord, ToDoAggregate> mapRecord() {
+        return record -> new ToDoAggregate(new ToDoEntity(
+                new IdentityValueObject(record.getId()),
+                new HeadlineValueObject(record.getHeadline()),
+                new DescriptionValueObject(record.getDescription()),
+                new CreatedTimestampValueObject(record.getCreated()),
+                new LastModifiedTimestampValueObject(record.getLastModified()),
+                Optional.ofNullable(record.getCompleted()).map(CompletedTimestampValueObject::new).orElse(null),
+                ToDoStateValueObject.valueOf(record.getState())
+        ),
+                this,
+                eventBus);
     }
 }

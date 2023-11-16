@@ -39,7 +39,7 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory {
      */
     @Override
     public CreateToDoInputBoundary create() {
-        return new CreateToDoUseCase(provider.getInstance(), outputBoundaryFactory.create());
+        return new CreateToDoUseCase(provider.getInstance(), outputBoundaryFactory.create(), eventBus);
     }
 
     /**

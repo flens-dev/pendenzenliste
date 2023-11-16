@@ -9,6 +9,7 @@ import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
 import pendenzenliste.todos.boundary.out.UpdateToDoResponse;
 import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
+import pendenzenliste.todos.model.ReopenToDoCommand;
 import pendenzenliste.todos.model.ToDoCapabilityValueObject;
 
 import static java.util.Objects.requireNonNull;
@@ -61,9 +62,7 @@ public class ReopenToDoUseCase implements ReopenToDoInputBoundary {
                 return new ToDoUpdateFailedResponse("The ToDo cannot be reset in its current state");
             }
 
-            todo.get().reopen();
-
-            gateway.store(todo.get());
+            todo.get().reopen(new ReopenToDoCommand());
 
             return new ToDoUpdatedResponse();
         } catch (final IllegalArgumentException e) {

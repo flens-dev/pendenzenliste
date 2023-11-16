@@ -67,7 +67,7 @@ public class ToDoSteps {
 
     @Given("that the following ToDo exists:")
     public void givenThatTheFollowingToDoExists(DataTable data) {
-        data.asMaps().stream().map(ToDoSteps::parseToDoFrom).forEach(gateway::store);
+        data.asMaps().stream().map(this::parseToDoFrom).forEach(gateway::store);
     }
 
     @Given("that I enter the headline {string}")
@@ -185,8 +185,19 @@ public class ToDoSteps {
      * @param row The row that should be parsed.
      * @return The parsed entity.
      */
-    private static ToDoAggregate parseToDoFrom(final Map<String, String> row) {
-        return ToDoAggregate.builder().identity(row.get("identity")).headline(row.get("headline")).description(row.get("description")).created(LocalDateTime.parse(row.get("created"))).lastModified(LocalDateTime.parse(row.get("last modified"))).completed(Optional.ofNullable(row.getOrDefault("completed", null)).map(LocalDateTime::parse).orElse(null)).state(ToDoStateValueObject.valueOf(row.get("state"))).build();
+    private ToDoAggregate parseToDoFrom(final Map<String, String> row) {
+        return new ToDoAggregate(new ToDoEntity(
+                new IdentityValueObject(row.get("identity")),
+                new HeadlineValueObject(row.get("headline")),
+                new DescriptionValueObject(row.get("description")),
+                new CreatedTimestampValueObject(LocalDateTime.parse(row.get("created"))),
+                new LastModifiedTimestampValueObject(LocalDateTime.parse(row.get("last modified"))),
+                new CompletedTimestampValueObject(
+                        Optional.ofNullable(row.getOrDefault("completed", null))
+                                .map(LocalDateTime::parse)
+                                .orElse(null)),
+                ToDoStateValueObject.valueOf(row.get("state"))
+        ), gateway, eventPublisher);
     }
 
     @Then("a {string} should have been published")
@@ -287,7 +298,7 @@ public class ToDoSteps {
 
             @Override
             public void handleSuccessfulResponse(FetchedToDoListResponse response) {
-                final var expectedToDos = data.asMaps().stream().map(ToDoSteps::parseToDoFrom).toList();
+                final var expectedToDos = data.asMaps().stream().map(map -> parseToDoFrom(map)).toList();
 
                 final SoftAssertions assertions = new SoftAssertions();
 

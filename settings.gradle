@@ -26,3 +26,4 @@ include 'messaging'
 include 'messaging-inmemory'
 
 include 'util-serialization'
+include 'vaadin-binding-properties'

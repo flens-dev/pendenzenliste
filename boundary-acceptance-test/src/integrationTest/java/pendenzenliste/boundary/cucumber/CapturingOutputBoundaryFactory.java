@@ -12,6 +12,8 @@ public class CapturingOutputBoundaryFactory implements ToDoOutputBoundaryFactory
 
     public FetchToDoListResponse fetchListResponse;
 
+    public PurgeToDosResponse purgeResponse;
+
     @Override
     public CreateToDoOutputBoundary create() {
         return new CreateToDoOutputBoundary() {
@@ -73,6 +75,16 @@ public class CapturingOutputBoundaryFactory implements ToDoOutputBoundaryFactory
             @Override
             public void handleFailedResponse(final ToDoUpdateFailedResponse response) {
                 updateResponse = response;
+            }
+        };
+    }
+
+    @Override
+    public PurgeToDoOutputBoundary purge() {
+        return new PurgeToDoOutputBoundary() {
+            @Override
+            public void handleSuccessfulResponse(final PurgedToDosResponse response) {
+                purgeResponse = response;
             }
         };
     }

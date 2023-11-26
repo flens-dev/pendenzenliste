@@ -52,4 +52,8 @@ public class ToDoRequestBuilder {
     public ReopenToDoRequest buildReopenRequest() {
         return new ReopenToDoRequest(id);
     }
+
+    public PurgeOldToDosRequest buildPurgeRequest() {
+        return new PurgeOldToDosRequest();
+    }
 }

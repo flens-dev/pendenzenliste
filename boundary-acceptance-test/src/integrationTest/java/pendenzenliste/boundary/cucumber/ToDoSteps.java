@@ -107,6 +107,17 @@ public class ToDoSteps {
         factory.update().execute(builder.buildUpdateRequest());
     }
 
+    @When("I try to purge the todos")
+    public void whenITryToPurgeTheTodos() {
+        factory.purgeOldToDos().execute(builder.buildPurgeRequest());
+    }
+
+    @Then("purging the todos should have succeeded")
+    public void thenPurgingTheTodosShouldHaveSucceeded() {
+        outputBoundaryFactory.purgeResponse.applyTo(response ->
+                assertThat(response.deletedToDoIds()).isNotEmpty());
+    }
+
     @Then("fetching the ToDo should have failed with the message: {string}")
     public void thenFetchingTheToDoShouldHaveFailedWithTheMessage(final String expectedMessage) {
         outputBoundaryFactory.fetchResponse.applyTo(new FetchToDoOutputBoundary() {
@@ -142,6 +153,7 @@ public class ToDoSteps {
                 assertions.assertThat(response.created()).isEqualTo(todo.aggregateRoot().created().value());
                 assertions.assertThat(response.lastModified()).isEqualTo(todo.aggregateRoot().lastModified().value());
                 assertions.assertThat(response.state()).isEqualTo(todo.aggregateRoot().state().name());
+                assertions.assertThat(response.completed()).isEqualTo(response.completed());
 
                 assertions.assertAll();
             }

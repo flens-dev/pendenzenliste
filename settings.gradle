@@ -25,5 +25,6 @@ include 'gateway-redis'
 include 'messaging'
 include 'messaging-inmemory'
 
+include 'util-domain'
 include 'util-serialization'
 include 'vaadin-binding-properties'

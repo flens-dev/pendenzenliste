@@ -1,5 +1,6 @@
 package pendenzenliste.todos.model;
 
+import pendenzenliste.domain.util.HasCapabilities;
 import pendenzenliste.messaging.EventBus;
 
 import java.time.LocalDateTime;

@@ -1,5 +1,7 @@
 package pendenzenliste.todos.model;
 
+import pendenzenliste.domain.util.Entity;
+
 import java.io.Serializable;
 
 /**

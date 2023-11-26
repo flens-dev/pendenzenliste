@@ -2,4 +2,5 @@ dependencies {
     api project(':domain-todos')
     api project(':domain-achievements')
     api project(':domain-statistics')
+    api project(':util-domain')
 }

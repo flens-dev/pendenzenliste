@@ -1,4 +1,4 @@
-package pendenzenliste.todos.model;
+package pendenzenliste.domain.util;
 
 import java.util.Collection;
 

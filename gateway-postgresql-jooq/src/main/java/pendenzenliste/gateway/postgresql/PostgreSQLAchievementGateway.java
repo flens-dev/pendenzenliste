@@ -3,10 +3,7 @@ package pendenzenliste.gateway.postgresql;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import pendenzenliste.achievements.gateway.AchievementGateway;
-import pendenzenliste.achievements.model.AchievementAggregate;
-import pendenzenliste.achievements.model.AchievementEvent;
-import pendenzenliste.achievements.model.AchievementEventEntity;
-import pendenzenliste.achievements.model.IdentityValueObject;
+import pendenzenliste.achievements.model.*;
 import pendenzenliste.gateway.postgresql.generated.public_.Tables;
 import pendenzenliste.gateway.postgresql.generated.public_.tables.records.AchievementsRecord;
 import pendenzenliste.messaging.EventBus;
@@ -64,6 +61,14 @@ public final class PostgreSQLAchievementGateway implements AchievementGateway {
                 .fetch()
                 .stream()
                 .map(mapRecord());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Stream<AchievementAggregate> fetchLockedAchievements() {
+        return fetchAll().filter(achievement -> StateValueType.LOCKED.equals(achievement.aggregateRoot().state()));
     }
 
     /**

@@ -20,6 +20,7 @@ defaultTasks("clean", "build")
 
 dependencies {
     implementation project(':boundary')
+    implementation project(':vaadin-binding-properties')
 
     runtimeOnly project(':boundary-usecases')
     runtimeOnly project(':gateway-filesystem')

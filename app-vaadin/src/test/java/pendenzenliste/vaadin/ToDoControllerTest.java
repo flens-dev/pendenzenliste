@@ -1,7 +1,7 @@
 package pendenzenliste.vaadin;
 
 import org.junit.jupiter.api.Test;
-import pendenzenliste.achievements.boundary.in.AchievementInputBoundaryFactory;
+import pendenzenliste.achievements.boundary.in.*;
 import pendenzenliste.todos.boundary.in.*;
 
 import static org.mockito.Mockito.*;
@@ -157,5 +157,33 @@ class ToDoControllerTest {
         controller.subscribeToDoList();
 
         verify(inputBoundary, times(1)).execute(new SubscribeToDoListRequest());
+    }
+
+    @Test
+    public void subscribeAchievements() {
+        var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
+        var inputBoundary = mock(SubscribeAchievementsInputBoundary.class);
+        var achievementFactory = mock(AchievementInputBoundaryFactory.class);
+        when(achievementFactory.subscribe()).thenReturn(inputBoundary);
+
+        var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
+
+        controller.subscribeAchievements();
+
+        verify(inputBoundary, times(1)).execute(new SubscribeAchievementsRequest());
+    }
+
+    @Test
+    public void fetchAchievementList() {
+        var inputBoundaryFactory = mock(ToDoInputBoundaryFactory.class);
+        var inputBoundary = mock(FetchAchievementListInputBoundary.class);
+        var achievementFactory = mock(AchievementInputBoundaryFactory.class);
+        when(achievementFactory.list()).thenReturn(inputBoundary);
+
+        var controller = new ToDoController(inputBoundaryFactory, achievementFactory);
+
+        controller.fetchAchievementList();
+
+        verify(inputBoundary, times(1)).execute(new FetchAchievementListRequest());
     }
 }

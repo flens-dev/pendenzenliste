@@ -10,10 +10,7 @@ import java.util.stream.Stream;
 import static java.util.Objects.requireNonNull;
 
 import pendenzenliste.achievements.gateway.AchievementGateway;
-import pendenzenliste.achievements.model.AchievementAggregate;
-import pendenzenliste.achievements.model.AchievementEvent;
-import pendenzenliste.achievements.model.AchievementEventEntity;
-import pendenzenliste.achievements.model.IdentityValueObject;
+import pendenzenliste.achievements.model.*;
 import pendenzenliste.filesystem.util.FileStorage;
 import pendenzenliste.messaging.EventBus;
 
@@ -56,6 +53,14 @@ public class FilesystemAchievementGateway implements AchievementGateway
   public Stream<AchievementAggregate> fetchAll()
   {
     return storage.getOr(new ConcurrentHashMap<>()).values().stream();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Stream<AchievementAggregate> fetchLockedAchievements() {
+    return fetchAll().filter(achievement -> StateValueType.LOCKED.equals(achievement.aggregateRoot().state()));
   }
 
   /**

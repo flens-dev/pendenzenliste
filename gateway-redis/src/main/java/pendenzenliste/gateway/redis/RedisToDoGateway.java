@@ -134,4 +134,13 @@ public class RedisToDoGateway implements ToDoGateway {
             }
         }
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Stream<ToDoAggregate> fetchAllCompletedBefore(final LocalDateTime timestamp) {
+        return fetchAll().filter(todo -> todo.aggregateRoot().isClosed())
+                .filter(todo -> todo.aggregateRoot().completed().isBefore(timestamp));
+    }
 }

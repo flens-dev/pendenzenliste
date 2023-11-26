@@ -68,8 +68,8 @@ public class ToDoAggregate implements HasCapabilities<ToDoCapabilityValueObject>
     public void complete(final CompleteToDoCommand command) {
         todo = todo.complete();
 
-        repository.store(this);
-        eventBus.publish(new ToDoCompletedEvent(LocalDateTime.now(), aggregateRoot().identity()));
+        save();
+        publishEvent(new ToDoCompletedEvent(LocalDateTime.now(), aggregateRoot().identity()));
     }
 
     /**
@@ -80,8 +80,8 @@ public class ToDoAggregate implements HasCapabilities<ToDoCapabilityValueObject>
     public void reopen(final ReopenToDoCommand command) {
         todo = todo.reopen();
 
-        repository.store(this);
-        eventBus.publish(new ToDoReopenedEvent(LocalDateTime.now(), aggregateRoot().identity()));
+        save();
+        publishEvent(new ToDoReopenedEvent(LocalDateTime.now(), aggregateRoot().identity()));
     }
 
     /**
@@ -93,7 +93,23 @@ public class ToDoAggregate implements HasCapabilities<ToDoCapabilityValueObject>
         todo = todo.changeHeadline(command.headline())
                 .describe(command.description());
 
+        save();
+        publishEvent(new ToDoUpdatedEvent(LocalDateTime.now(), todo.identity()));
+    }
+
+    /**
+     * Saves the aggregate.
+     */
+    private void save() {
         repository.store(this);
-        eventBus.publish(new ToDoUpdatedEvent(LocalDateTime.now(), todo.identity()));
+    }
+
+    /**
+     * Publishes the given event.
+     *
+     * @param event The event.
+     */
+    private void publishEvent(final ToDoEvent event) {
+        eventBus.publish(event);
     }
 }

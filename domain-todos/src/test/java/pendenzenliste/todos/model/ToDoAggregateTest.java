@@ -17,7 +17,7 @@ class ToDoAggregateTest {
         final var todo = createOpenTodo();
 
         assertThat(todo.capabilities())
-                .contains(ToDoCapabilityValueObject.COMPLETE,
+                .containsExactly(ToDoCapabilityValueObject.COMPLETE,
                         ToDoCapabilityValueObject.UPDATE,
                         ToDoCapabilityValueObject.DELETE);
     }
@@ -27,7 +27,8 @@ class ToDoAggregateTest {
         final var todo = createCompletedTodo();
 
         assertThat(todo.capabilities())
-                .contains(ToDoCapabilityValueObject.REOPEN);
+                .containsExactly(ToDoCapabilityValueObject.REOPEN,
+                        ToDoCapabilityValueObject.DELETE);
     }
 
     @Test

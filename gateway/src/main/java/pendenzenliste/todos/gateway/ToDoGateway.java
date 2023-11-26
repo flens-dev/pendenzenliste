@@ -4,6 +4,7 @@ import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoAggregate;
 import pendenzenliste.todos.model.ToDoService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -33,4 +34,12 @@ public interface ToDoGateway extends ToDoService {
      * @return The stream of all todos.
      */
     Stream<ToDoAggregate> fetchAll();
+
+    /**
+     * Fetches all todos that have been completed before the given timestamp.
+     *
+     * @param timestamp The timestamp.
+     * @return The todos that have been completed before the given timestamp.
+     */
+    Stream<ToDoAggregate> fetchAllCompletedBefore(LocalDateTime timestamp);
 }

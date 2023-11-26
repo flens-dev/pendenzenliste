@@ -1,10 +1,7 @@
 package pendenzenliste.discord4j;
 
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
-import pendenzenliste.todos.boundary.out.FetchToDoListOutputBoundary;
-import pendenzenliste.todos.boundary.out.FetchToDoOutputBoundary;
-import pendenzenliste.todos.boundary.out.ToDoOutputBoundaryFactory;
-import pendenzenliste.todos.boundary.out.UpdateToDoOutputBoundary;
+import pendenzenliste.todos.boundary.out.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -59,5 +56,13 @@ public final class ToDoPresenterFactory implements ToDoOutputBoundaryFactory {
     @Override
     public UpdateToDoOutputBoundary update() {
         return new UpdateToDoPresenter(viewModel, event);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PurgeToDoOutputBoundary purge() {
+        throw new UnsupportedOperationException();
     }
 }

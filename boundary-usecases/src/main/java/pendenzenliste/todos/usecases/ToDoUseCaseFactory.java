@@ -98,4 +98,12 @@ public class ToDoUseCaseFactory implements ToDoInputBoundaryFactory {
     public UpdateToDoInputBoundary update() {
         return new UpdateToDoUseCase(provider.getInstance(), outputBoundaryFactory.update());
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PurgeOldToDosInputBoundary purgeOldToDos() {
+        return new PurgeOldToDosUseCase(provider.getInstance(), outputBoundaryFactory.purge());
+    }
 }

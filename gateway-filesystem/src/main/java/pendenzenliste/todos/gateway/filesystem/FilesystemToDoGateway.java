@@ -80,4 +80,13 @@ public class FilesystemToDoGateway implements ToDoGateway {
         return storage.getOr(new ConcurrentHashMap<>()).values().stream()
                 .map(todo -> new ToDoAggregate(todo, this, eventBus));
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Stream<ToDoAggregate> fetchAllCompletedBefore(final LocalDateTime timestamp) {
+        return fetchAll().filter(todo -> todo.aggregateRoot().isClosed())
+                .filter(todo -> todo.aggregateRoot().completed().isBefore(timestamp));
+    }
 }

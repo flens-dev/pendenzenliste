@@ -56,6 +56,7 @@ public class ToDoAggregate implements HasCapabilities<ToDoCapabilityValueObject>
 
         if (aggregateRoot().isClosed()) {
             capabilities.add(ToDoCapabilityValueObject.REOPEN);
+            capabilities.add(ToDoCapabilityValueObject.DELETE);
         }
 
         return capabilities;

@@ -67,4 +67,13 @@ public final class InMemoryToDoGateway implements ToDoGateway {
     public Stream<ToDoAggregate> fetchAll() {
         return STORE.values().stream();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Stream<ToDoAggregate> fetchAllCompletedBefore(final LocalDateTime timestamp) {
+        return fetchAll().filter(todo -> todo.aggregateRoot().isClosed())
+                .filter(todo -> todo.aggregateRoot().completed().isBefore(timestamp));
+    }
 }

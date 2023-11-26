@@ -3,7 +3,7 @@ package pendenzenliste.achievements.gateway.filesystem;
 import pendenzenliste.achievements.gateway.AchievementGateway;
 import pendenzenliste.achievements.gateway.AchievementGatewayProvider;
 import pendenzenliste.achievements.model.AchievementAggregate;
-import pendenzenliste.achievements.model.AchievementSeed;
+import pendenzenliste.achievements.model.AchievementFactory;
 import pendenzenliste.messaging.EventBus;
 
 import java.util.Collection;
@@ -23,7 +23,7 @@ public class FilesystemAchievementGatewayProvider implements AchievementGatewayP
         //TODO: Find a better way to seed the data
         final Collection<AchievementAggregate> storedAchievements = INSTANCE.fetchAll().toList();
 
-        for (final AchievementAggregate achievement : AchievementSeed.seededAchievements()) {
+        for (final AchievementAggregate achievement : AchievementFactory.initialAchievements()) {
             if (storedAchievements.stream().noneMatch(
                     stored -> stored.aggregateRoot().name().equals(achievement.aggregateRoot().name()))) {
                 INSTANCE.store(achievement);

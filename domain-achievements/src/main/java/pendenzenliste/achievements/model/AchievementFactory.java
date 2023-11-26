@@ -4,15 +4,15 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * A seed for the achievements.
+ * A factory for the creation of initial achievements.
  */
-public class AchievementSeed {
+public class AchievementFactory {
     /**
-     * The achievements that should be seeded.
+     * The initial achievements that should be seeded.
      *
-     * @return The achievements that should be seeded.
+     * @return The initial achievements that should be seeded.
      */
-    public static Collection<AchievementAggregate> seededAchievements() {
+    public static Collection<AchievementAggregate> initialAchievements() {
         return List.of(
                 DonezoAchievementAggregate.builder()
                         .state(StateValueType.LOCKED)

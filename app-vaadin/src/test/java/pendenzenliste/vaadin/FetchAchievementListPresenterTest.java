@@ -126,7 +126,7 @@ class FetchAchievementListPresenterTest {
                 List.of(new AchievementResponseModel("ALL_DONE", "UNLOCKED", LocalDateTime.now()))));
 
         final String expectedTitle = "All done!";
-        final String expectedDescription = "Hooray, you completed all of your todos!";
+        final String expectedDescription = "You did it! You completed all of your todos!";
 
         assertUnlockedAchievement(viewModel, expectedTitle, expectedDescription);
     }

@@ -10,4 +10,7 @@ runVaadinApp:
 runJavaFxApp:
 	./gradlew app-javafx:run
 
+integrationTest:
+	./gradlew integrationTest
+
 .PHONY: build runJavaFxApp

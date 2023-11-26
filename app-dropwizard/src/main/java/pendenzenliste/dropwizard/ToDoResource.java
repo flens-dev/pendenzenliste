@@ -1,10 +1,6 @@
 package pendenzenliste.dropwizard;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -69,6 +65,19 @@ public class ToDoResource
     final var controller = new ToDoController(inputBoundaryFactory);
 
     controller.fetch(id);
+
+    return viewModel.response;
+  }
+
+  @POST
+  public Response create(JsonCreateToDoData data) {
+    final var viewModel = new HttpResponseViewModel();
+    final var outputBoundaryFactory = new JsonToDoPresenterFactory(viewModel);
+    final var inputBoundaryFactory = provider.getInstance(outputBoundaryFactory);
+
+    final var controller = new ToDoController(inputBoundaryFactory);
+
+    controller.create(data);
 
     return viewModel.response;
   }

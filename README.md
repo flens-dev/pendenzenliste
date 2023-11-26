@@ -2,6 +2,7 @@
 
 ![Build](https://github.com/flens-dev/pendenzenliste/actions/workflows/gradle.yml/badge.svg)
 ![Nightly](https://github.com/flens-dev/pendenzenliste/actions/workflows/nightly.yml/badge.svg)
+![codecov](https://codecov.io/gh/flens-dev/pendenzenliste/branch/main/graph/badge.svg)
 
 Pendenzenliste is a highly over-engineered ToDo application that implements a CLEAN-Architecture approach around a
 domain core that has been designed based on the DDD principles.

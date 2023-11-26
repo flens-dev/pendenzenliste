@@ -59,11 +59,6 @@ configure(subprojects.findAll()) {
     tasks.test {
         finalizedBy(tasks.jacocoTestReport)
     }
-
-    tasks.integrationTest {
-        finalizedBy(tasks.jacocoTestReport)
-    }
-
     tasks.jacocoTestReport {
         dependsOn(tasks.test)
     }

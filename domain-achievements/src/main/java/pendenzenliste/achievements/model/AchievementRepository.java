@@ -23,6 +23,13 @@ public interface AchievementRepository {
     Stream<AchievementAggregate> fetchAll();
 
     /**
+     * Fetches the locked achievements.
+     *
+     * @return The locked achievements.
+     */
+    Stream<AchievementAggregate> fetchLockedAchievements();
+
+    /**
      * Stores the given achievement.
      *
      * @param achievement The achievement.

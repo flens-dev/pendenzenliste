@@ -13,21 +13,21 @@ import static java.util.Objects.requireNonNull;
  */
 public class ToDoAggregate implements HasCapabilities<ToDoCapabilityValueObject> {
     private ToDoEntity todo;
-    private final ToDoRepository repository;
+    private final ToDoService service;
     private final EventBus eventBus;
 
     /**
      * Creates a new instance.
      *
-     * @param todo       The todo that should be represented by this instance.
-     * @param repository The repository.
-     * @param eventBus   The event bus.
+     * @param todo     The todo that should be represented by this instance.
+     * @param service  The service.
+     * @param eventBus The event bus.
      */
     public ToDoAggregate(final ToDoEntity todo,
-                         final ToDoRepository repository,
+                         final ToDoService service,
                          final EventBus eventBus) {
         this.todo = requireNonNull(todo, "The todo may not be null");
-        this.repository = requireNonNull(repository, "The repository may not be null");
+        this.service = requireNonNull(service, "The service may not be null");
         this.eventBus = requireNonNull(eventBus, "The event bus may not be null");
     }
 
@@ -101,7 +101,7 @@ public class ToDoAggregate implements HasCapabilities<ToDoCapabilityValueObject>
      * Saves the aggregate.
      */
     private void save() {
-        repository.store(this);
+        service.store(this);
     }
 
     /**

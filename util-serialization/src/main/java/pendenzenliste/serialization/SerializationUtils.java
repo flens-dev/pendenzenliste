@@ -43,7 +43,7 @@ public final class SerializationUtils {
     public static <T> T deserializeObject(final byte[] data, final Class<T> type) {
         if (data != null) {
             try (final ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(data))) {
-                return (T) in.readObject();
+                return type.cast(in.readObject());
             } catch (final IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }

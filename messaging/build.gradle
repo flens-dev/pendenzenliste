@@ -1,7 +1,0 @@
-pmd {
-    ignoreFailures = false
-}
-
-spotbugs {
-    ignoreFailures = false
-}

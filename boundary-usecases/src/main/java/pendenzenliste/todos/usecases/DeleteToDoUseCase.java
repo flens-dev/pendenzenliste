@@ -11,8 +11,6 @@ import pendenzenliste.todos.gateway.ToDoGateway;
 import pendenzenliste.todos.model.IdentityValueObject;
 import pendenzenliste.todos.model.ToDoCapabilityValueObject;
 
-import java.util.function.Function;
-
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -74,15 +72,5 @@ public class DeleteToDoUseCase implements DeleteToDoInputBoundary {
         } catch (final IllegalArgumentException e) {
             return new ToDoUpdateFailedResponse(e.getMessage());
         }
-    }
-
-    /**
-     * Maps the deleted flag to an appropriate response.
-     *
-     * @return The mapping function.
-     */
-    private static Function<Boolean, UpdateToDoResponse> mapDeletedFlagToResponse() {
-        return deleted -> deleted ? new ToDoUpdatedResponse() :
-                new ToDoUpdateFailedResponse("Failed to delete the ToDo");
     }
 }

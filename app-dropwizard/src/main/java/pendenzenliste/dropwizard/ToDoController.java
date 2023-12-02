@@ -1,9 +1,6 @@
 package pendenzenliste.dropwizard;
 
-import pendenzenliste.todos.boundary.in.CreateToDoRequest;
-import pendenzenliste.todos.boundary.in.FetchToDoRequest;
-import pendenzenliste.todos.boundary.in.FetchTodoListRequest;
-import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.todos.boundary.in.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -45,5 +42,14 @@ public class ToDoController {
      */
     public void create(final JsonCreateToDoData data) {
         todoFactory.create().execute(new CreateToDoRequest(data.getHeadline(), data.getDescription()));
+    }
+
+    /**
+     * Deletes the given todo.
+     *
+     * @param id The ID of the todo that should be deleted.
+     */
+    public void delete(final String id) {
+        todoFactory.delete().execute(new DeleteToDoRequest(id));
     }
 }

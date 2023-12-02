@@ -4,10 +4,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pendenzenliste.todos.boundary.in.*;
-import pendenzenliste.todos.boundary.out.FetchToDoFailedResponse;
-import pendenzenliste.todos.boundary.out.FetchedToDoListResponse;
-import pendenzenliste.todos.boundary.out.ToDoCreationFailedResponse;
-import pendenzenliste.todos.boundary.out.ToDoOutputBoundaryFactory;
+import pendenzenliste.todos.boundary.out.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -101,6 +98,51 @@ class ToDoResourceTest {
         final var assertions = new SoftAssertions();
 
         assertions.assertThat(response.getStatus()).isEqualTo(400);
+
+        assertions.assertAll();
+    }
+
+    @Test
+    public void delete_failed() {
+        final DeleteToDoInputBoundary deleteUseCase = mock(DeleteToDoInputBoundary.class);
+        when(inputFactory.delete()).thenReturn(deleteUseCase);
+        doAnswer(in -> {
+            for (final ToDoOutputBoundaryFactory factory : outputBoundaryFactories) {
+                factory.update()
+                        .handleFailedResponse(new ToDoUpdateFailedResponse("Something bad happened"));
+            }
+            return null;
+        }).when(deleteUseCase).execute(any());
+
+        final var resource = new ToDoResource(provider);
+
+        final var response = resource.delete("42");
+
+        final var assertions = new SoftAssertions();
+
+        assertions.assertThat(response.getStatus()).isEqualTo(400);
+
+        assertions.assertAll();
+    }
+
+    @Test
+    public void delete_success() {
+        final DeleteToDoInputBoundary deleteUseCase = mock(DeleteToDoInputBoundary.class);
+        when(inputFactory.delete()).thenReturn(deleteUseCase);
+        doAnswer(in -> {
+            for (final ToDoOutputBoundaryFactory factory : outputBoundaryFactories) {
+                factory.update().handleSuccessfulResponse(new ToDoUpdatedResponse());
+            }
+            return null;
+        }).when(deleteUseCase).execute(any());
+
+        final var resource = new ToDoResource(provider);
+
+        final var response = resource.delete("42");
+
+        final var assertions = new SoftAssertions();
+
+        assertions.assertThat(response.getStatus()).isEqualTo(200);
 
         assertions.assertAll();
     }

@@ -83,4 +83,18 @@ public class ToDoResource {
 
         return viewModel.response;
     }
+
+    @DELETE
+    @Path("{id}")
+    public Response delete(@PathParam("id") final String id) {
+      final var viewModel = new HttpResponseViewModel();
+      final var outputBoundaryFactory = new JsonToDoPresenterFactory(viewModel);
+      final var inputBoundaryFactory = provider.getInstance(outputBoundaryFactory);
+
+      final var controller = new ToDoController(inputBoundaryFactory);
+
+      controller.delete(id);
+
+      return viewModel.response;
+    }
 }

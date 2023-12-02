@@ -27,7 +27,7 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory {
      */
     @Override
     public FetchToDoOutputBoundary fetch() {
-        return new FetchToDoPresenter();
+        return new FetchToDoPresenter(new CommandLineResult());
     }
 
     /**

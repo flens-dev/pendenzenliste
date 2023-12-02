@@ -28,7 +28,7 @@ public class CreateToDoPresenter implements CreateToDoOutputBoundary {
     @Override
     public void handleSuccessfulResponse(final ToDoCreatedResponse response) {
         result.write(response.identity());
-        result.exitSuccessful();
+        result.exitNoError();
     }
 
     /**

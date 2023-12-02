@@ -24,7 +24,7 @@ public class CommandLineResult {
     /**
      * Exits the program with a non-error code.
      */
-    public void exitSuccessful() {
+    public void exitNoError() {
         System.exit(0);
     }
 

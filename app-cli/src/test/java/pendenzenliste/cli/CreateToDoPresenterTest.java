@@ -17,7 +17,7 @@ class CreateToDoPresenterTest {
         presenter.handleSuccessfulResponse(new ToDoCreatedResponse("42"));
 
         verify(result, times(1)).write("42");
-        verify(result, times(1)).exitSuccessful();
+        verify(result, times(1)).exitNoError();
     }
 
     @Test

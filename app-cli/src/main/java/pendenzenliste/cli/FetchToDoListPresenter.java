@@ -50,7 +50,7 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary {
             result.writeNewLine();
         }
 
-        result.exitSuccessful();
+        result.exitNoError();
     }
 
     /**

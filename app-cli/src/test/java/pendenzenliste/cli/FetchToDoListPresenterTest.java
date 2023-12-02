@@ -44,6 +44,6 @@ class FetchToDoListPresenterTest {
                 ))
         ));
 
-        verify(result, times(1)).exitSuccessful();
+        verify(result, times(1)).exitNoError();
     }
 }

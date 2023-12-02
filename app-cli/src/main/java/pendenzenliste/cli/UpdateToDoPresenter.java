@@ -26,7 +26,7 @@ public class UpdateToDoPresenter implements UpdateToDoOutputBoundary {
      */
     @Override
     public void handleSuccessfulResponse(final ToDoUpdatedResponse response) {
-        result.exitSuccessful();
+        result.exitNoError();
     }
 
     /**

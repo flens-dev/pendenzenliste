@@ -16,7 +16,7 @@ class UpdateToDoPresenterTest {
 
         presenter.handleSuccessfulResponse(new ToDoUpdatedResponse());
 
-        verify(result, times(1)).exitSuccessful();
+        verify(result, times(1)).exitNoError();
     }
 
     @Test

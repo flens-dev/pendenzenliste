@@ -41,7 +41,7 @@ public class ToDoController {
      * @param data The data of the todo that should be created.
      */
     public void create(final JsonCreateToDoData data) {
-        todoFactory.create().execute(new CreateToDoRequest(data.getHeadline(), data.getDescription()));
+        todoFactory.create().execute(new CreateToDoRequest(data.headline(), data.description()));
     }
 
     /**

@@ -35,7 +35,7 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory {
      */
     @Override
     public UpdateToDoOutputBoundary update() {
-        return new UpdateToDoPresenter();
+        return new UpdateToDoPresenter(new CommandLineResult());
     }
 
     /**

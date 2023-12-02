@@ -8,6 +8,7 @@ import pendenzenliste.todos.model.ToDoAggregate;
 import pendenzenliste.todos.model.ToDoDeletedEvent;
 import pendenzenliste.todos.model.ToDoEntity;
 
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class FilesystemToDoGateway implements ToDoGateway {
      * @param eventBus The event bus.
      */
     public FilesystemToDoGateway(final String path, final EventBus eventBus) {
-        storage = new FileStorage<>(requireNonNull(path, "The path may not be null"));
+        storage = new FileStorage<>(Paths.get(requireNonNull(path, "The path may not be null")));
         this.eventBus = requireNonNull(eventBus, "The event bus may not be null");
     }
 

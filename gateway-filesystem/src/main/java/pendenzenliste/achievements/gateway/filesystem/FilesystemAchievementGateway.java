@@ -1,5 +1,6 @@
 package pendenzenliste.achievements.gateway.filesystem;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class FilesystemAchievementGateway implements AchievementGateway
    */
   public FilesystemAchievementGateway(final String path, final EventBus eventBus)
   {
-    this.storage = new FileStorage<>(requireNonNull(path, "The path may not be null"));
+    this.storage = new FileStorage<>(Paths.get(requireNonNull(path, "The path may not be null")));
     this.eventBus = requireNonNull(eventBus, "The event bus may not be null");
   }
 

@@ -17,7 +17,7 @@ import static java.util.Objects.requireNonNull;
 public class FileStorage<T> {
     private FileTime lastModified = null;
 
-    private final String path;
+    private final Path path;
 
     private T cachedData;
 
@@ -26,7 +26,7 @@ public class FileStorage<T> {
      *
      * @param path The path.
      */
-    public FileStorage(final String path) {
+    public FileStorage(final Path path) {
         this.path = requireNonNull(path, "The path may not be null");
     }
 
@@ -46,8 +46,6 @@ public class FileStorage<T> {
      * Flushes the store to the disk.
      */
     public void flushToDisk(final T data) {
-        final Path path = Path.of(this.path);
-
         if (!Files.exists(path)) {
             try {
                 Files.createFile(path);
@@ -56,7 +54,7 @@ public class FileStorage<T> {
             }
         }
 
-        try (final ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(this.path))) {
+        try (final ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(this.path.toFile()))) {
             os.writeObject(data);
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -70,7 +68,7 @@ public class FileStorage<T> {
         boolean hasBeenModified = false;
 
         try {
-            final var currentTimestamp = Files.getLastModifiedTime(Path.of(path));
+            final var currentTimestamp = Files.getLastModifiedTime(path);
 
             hasBeenModified = !Objects.equals(currentTimestamp, lastModified);
         } catch (final IOException e) {
@@ -78,7 +76,7 @@ public class FileStorage<T> {
         }
 
         if (hasBeenModified) {
-            try (final ObjectInputStream in = new ObjectInputStream(new FileInputStream(path))) {
+            try (final ObjectInputStream in = new ObjectInputStream(new FileInputStream(path.toFile()))) {
                 cachedData = (T) in.readObject();
             } catch (final IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);

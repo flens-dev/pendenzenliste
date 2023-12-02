@@ -112,14 +112,14 @@ public final class PostgreSQLToDoGateway implements ToDoGateway {
      * @return The mapping function.
      */
     private Function<TodosRecord, ToDoAggregate> mapRecord() {
-        return record -> new ToDoAggregate(new ToDoEntity(
-                new IdentityValueObject(record.getId()),
-                new HeadlineValueObject(record.getHeadline()),
-                new DescriptionValueObject(record.getDescription()),
-                new CreatedTimestampValueObject(record.getCreated()),
-                new LastModifiedTimestampValueObject(record.getLastModified()),
-                Optional.ofNullable(record.getCompleted()).map(CompletedTimestampValueObject::new).orElse(null),
-                ToDoStateValueObject.valueOf(record.getState())
+        return row -> new ToDoAggregate(new ToDoEntity(
+                new IdentityValueObject(row.getId()),
+                new HeadlineValueObject(row.getHeadline()),
+                new DescriptionValueObject(row.getDescription()),
+                new CreatedTimestampValueObject(row.getCreated()),
+                new LastModifiedTimestampValueObject(row.getLastModified()),
+                Optional.ofNullable(row.getCompleted()).map(CompletedTimestampValueObject::new).orElse(null),
+                ToDoStateValueObject.valueOf(row.getState())
         ),
                 this,
                 eventBus);

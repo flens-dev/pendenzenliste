@@ -4,6 +4,8 @@ import discord4j.core.DiscordClient;
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent;
 import discord4j.core.object.command.ApplicationCommandInteractionOption;
 import discord4j.core.object.command.ApplicationCommandInteractionOptionValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pendenzenliste.todos.boundary.in.*;
 import reactor.core.publisher.Mono;
 
@@ -13,6 +15,8 @@ import java.util.List;
  * An application that can be used to run a discord bot.
  */
 public final class DiscordBot {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiscordBot.class);
 
     private static final List<String> COMMANDS = List.of("complete-todo.json",
             "create-todo.json",
@@ -34,7 +38,7 @@ public final class DiscordBot {
         try {
             new GlobalCommandRegistrar(gateway.getRestClient()).registerCommands(COMMANDS);
         } catch (final Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Failed to register commands", e);
         }
 
         final var factory = ToDoInputBoundaryFactoryProvider.defaultProvider();

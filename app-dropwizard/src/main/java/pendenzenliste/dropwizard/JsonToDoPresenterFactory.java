@@ -24,7 +24,7 @@ public class JsonToDoPresenterFactory implements ToDoOutputBoundaryFactory {
      */
     @Override
     public CreateToDoOutputBoundary create() {
-        throw new UnsupportedOperationException();
+        return new JsonCreateToDoPresenter(viewModel);
     }
 
     /**
@@ -48,7 +48,7 @@ public class JsonToDoPresenterFactory implements ToDoOutputBoundaryFactory {
      */
     @Override
     public UpdateToDoOutputBoundary update() {
-        throw new UnsupportedOperationException();
+        return new JsonUpdateToDoPresenter(viewModel);
     }
 
     /**

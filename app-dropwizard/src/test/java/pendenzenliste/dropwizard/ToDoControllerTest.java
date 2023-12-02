@@ -1,48 +1,57 @@
 package pendenzenliste.dropwizard;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import org.junit.jupiter.api.Test;
-import pendenzenliste.todos.boundary.in.FetchToDoInputBoundary;
-import pendenzenliste.todos.boundary.in.FetchToDoListInputBoundary;
-import pendenzenliste.todos.boundary.in.FetchToDoRequest;
-import pendenzenliste.todos.boundary.in.FetchTodoListRequest;
-import pendenzenliste.todos.boundary.in.ToDoInputBoundaryFactory;
+import pendenzenliste.todos.boundary.in.*;
 
-class ToDoControllerTest
-{
-  @Test
-  public void list()
-  {
-    final var factory = mock(ToDoInputBoundaryFactory.class);
-    final var inputBoundary = mock(FetchToDoListInputBoundary.class);
+import static org.mockito.Mockito.*;
 
-    when(factory.list()).thenReturn(inputBoundary);
+class ToDoControllerTest {
+    @Test
+    public void list() {
+        final var factory = mock(ToDoInputBoundaryFactory.class);
+        final var inputBoundary = mock(FetchToDoListInputBoundary.class);
 
-    final var controller = new ToDoController(factory);
+        when(factory.list()).thenReturn(inputBoundary);
 
-    controller.list();
+        final var controller = new ToDoController(factory);
 
-    verify(inputBoundary, times(1))
-        .execute(new FetchTodoListRequest());
-  }
+        controller.list();
 
-  @Test
-  public void fetch()
-  {
-    final var factory = mock(ToDoInputBoundaryFactory.class);
-    final var inputBoundary = mock(FetchToDoInputBoundary.class);
+        verify(inputBoundary, times(1))
+                .execute(new FetchTodoListRequest());
+    }
 
-    when(factory.fetch()).thenReturn(inputBoundary);
+    @Test
+    public void fetch() {
+        final var factory = mock(ToDoInputBoundaryFactory.class);
+        final var inputBoundary = mock(FetchToDoInputBoundary.class);
 
-    final var controller = new ToDoController(factory);
+        when(factory.fetch()).thenReturn(inputBoundary);
 
-    controller.fetch("42");
+        final var controller = new ToDoController(factory);
 
-    verify(inputBoundary, times(1))
-        .execute(new FetchToDoRequest("42"));
-  }
+        controller.fetch("42");
+
+        verify(inputBoundary, times(1))
+                .execute(new FetchToDoRequest("42"));
+    }
+
+    @Test
+    public void create() {
+        final var factory = mock(ToDoInputBoundaryFactory.class);
+        final var inputBoundary = mock(CreateToDoInputBoundary.class);
+
+        when(factory.create()).thenReturn(inputBoundary);
+
+        final var controller = new ToDoController(factory);
+
+        doAnswer(invocation -> {
+            return null;
+        }).when(inputBoundary).execute(new CreateToDoRequest("Headline", "Description"));
+
+        controller.create(new JsonCreateToDoData("Headline", "Description"));
+
+        verify(inputBoundary, times(1))
+                .execute(new CreateToDoRequest("Headline", "Description"));
+    }
 }

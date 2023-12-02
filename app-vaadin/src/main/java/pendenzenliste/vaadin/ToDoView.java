@@ -42,8 +42,6 @@ public class ToDoView extends Component implements HasSize, HasComponents, HasSl
 
         this.viewModel = requireNonNull(viewModel, "The view model may not be null");
 
-        final var ui = UI.getCurrent();
-
         this.viewModel.todos.bind(items -> ui.access(() -> todoList.setItems(items)));
         this.viewModel.headline.bindTwoWay(editor.getHeadlineField());
         this.viewModel.description.bindTwoWay(editor.getDescriptionField());

@@ -5,17 +5,30 @@ import pendenzenliste.todos.boundary.out.FetchToDoListOutputBoundary;
 import pendenzenliste.todos.boundary.out.FetchedToDoListResponse;
 import pendenzenliste.todos.boundary.out.ToDoListResponseModel;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * A presenter that can be used to handle the results of a fetch todo list request.
  */
 public class FetchToDoListPresenter implements FetchToDoListOutputBoundary {
+    private final CommandLineResult result;
+
+    /**
+     * Creates a new instance.
+     *
+     * @param result The result that should be used by this instance.
+     */
+    public FetchToDoListPresenter(final CommandLineResult result) {
+        this.result = requireNonNull(result, "The result may not be null");
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void handleFailedResponse(final FetchToDoListFailedResponse response) {
-        System.out.println(response.reason());
-        System.exit(0);
+        result.write(response.reason());
+        result.exitGeneralFailure();
     }
 
     /**
@@ -24,20 +37,20 @@ public class FetchToDoListPresenter implements FetchToDoListOutputBoundary {
     @Override
     public void handleSuccessfulResponse(final FetchedToDoListResponse response) {
         for (final ToDoListResponseModel todo : response.todos()) {
-            System.out.println("Identity: " + todo.identity());
-            System.out.println("Headline: " + todo.headline());
-            System.out.println("State: " + todo.state());
-            System.out.println("Created: " + todo.created());
-            System.out.println("LastModified: " + todo.lastModified());
-            System.out.println("Completed: " + todo.completed());
+            result.write("Identity: " + todo.identity());
+            result.write("Headline: " + todo.headline());
+            result.write("State: " + todo.state());
+            result.write("Created: " + todo.created());
+            result.write("LastModified: " + todo.lastModified());
+            result.write("Completed: " + todo.completed());
 
-            System.out.println("--------------------------------------------");
-            System.out.println(todo.description());
-            System.out.println("--------------------------------------------");
-            System.out.println();
+            result.write("--------------------------------------------");
+            result.write(todo.description());
+            result.write("--------------------------------------------");
+            result.writeNewLine();
         }
 
-        System.exit(0);
+        result.exitSuccessful();
     }
 
     /**

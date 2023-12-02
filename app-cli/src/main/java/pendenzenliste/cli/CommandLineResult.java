@@ -15,6 +15,13 @@ public class CommandLineResult {
     }
 
     /**
+     * Writes a newline character.
+     */
+    public void writeNewLine() {
+        System.out.println();
+    }
+
+    /**
      * Exits the program with a non-error code.
      */
     public void exitSuccessful() {

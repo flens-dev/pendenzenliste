@@ -14,6 +14,9 @@ public final class AchievementTranslationUtils {
     private AchievementTranslationUtils() {
     }
 
+    public static final String LOCKED_TITLE = "Hidden";
+    public static final String LOCKED_DESCRIPTION = "This achievement is hidden";
+
     private static final Map<String, String> TITLES = new ConcurrentHashMap<>();
     private static final Map<String, String> DESCRIPTION = new ConcurrentHashMap<>();
 
@@ -61,23 +64,5 @@ public final class AchievementTranslationUtils {
      */
     public static String getDescriptionOf(final String achievementType) {
         return DESCRIPTION.getOrDefault(achievementType, achievementType);
-    }
-
-    /**
-     * The locked title.
-     *
-     * @return The locked title.
-     */
-    public static String getLockedTitle() {
-        return "Hidden";
-    }
-
-    /**
-     * Retrieves the locked description.
-     *
-     * @return The locked description.
-     */
-    public static String getLockedDescription() {
-        return "This achievement is hidden";
     }
 }

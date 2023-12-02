@@ -46,8 +46,8 @@ public class FetchAchievementListPresenter implements FetchAchievementListOutput
                 viewModel.title.set(AchievementTranslationUtils.getTitleOf(achievement.name()));
                 viewModel.description.set(AchievementTranslationUtils.getDescriptionOf(achievement.name()));
             } else {
-                viewModel.title.set(AchievementTranslationUtils.getLockedTitle());
-                viewModel.description.set(AchievementTranslationUtils.getLockedDescription());
+                viewModel.title.set(AchievementTranslationUtils.LOCKED_TITLE);
+                viewModel.description.set(AchievementTranslationUtils.LOCKED_DESCRIPTION);
             }
 
             viewModel.unlocked.set(achievement.unlocked());

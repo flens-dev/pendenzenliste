@@ -11,7 +11,7 @@ public class ToDoPresenterFactory implements ToDoOutputBoundaryFactory {
      */
     @Override
     public CreateToDoOutputBoundary create() {
-        return new CreateToDoPresenter();
+        return new CreateToDoPresenter(new CommandLineResult());
     }
 
     /**

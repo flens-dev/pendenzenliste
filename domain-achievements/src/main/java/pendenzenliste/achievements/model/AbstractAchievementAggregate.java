@@ -25,9 +25,9 @@ public abstract class AbstractAchievementAggregate
      * @param events        The events that should be represented by this instance.
      * @param progressItems The progress that should be represented by this instance.
      */
-    public AbstractAchievementAggregate(final AchievementEntity achievement,
-                                        final Collection<AchievementEventEntity> events,
-                                        final Collection<ProgressItemEntity> progressItems) {
+    protected AbstractAchievementAggregate(final AchievementEntity achievement,
+                                           final Collection<AchievementEventEntity> events,
+                                           final Collection<ProgressItemEntity> progressItems) {
         this.achievement = requireNonNull(achievement, "The achievement may not be null");
         this.events = new ArrayList<>(requireNonNull(events, "The events may not be null"));
         this.progressItems =

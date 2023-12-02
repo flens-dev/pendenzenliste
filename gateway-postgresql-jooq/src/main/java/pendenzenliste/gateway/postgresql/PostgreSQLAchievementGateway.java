@@ -47,7 +47,7 @@ public final class PostgreSQLAchievementGateway implements AchievementGateway {
                 .where(Tables.ACHIEVEMENTS.ID.eq(identity.value()))
                 .limit(1)
                 .fetchOptional()
-                .map(mapRecord());
+                .map(mapRow());
     }
 
 
@@ -60,7 +60,7 @@ public final class PostgreSQLAchievementGateway implements AchievementGateway {
         return sql.selectFrom(Tables.ACHIEVEMENTS)
                 .fetch()
                 .stream()
-                .map(mapRecord());
+                .map(mapRow());
     }
 
     /**
@@ -122,8 +122,8 @@ public final class PostgreSQLAchievementGateway implements AchievementGateway {
      *
      * @return The mapping function.
      */
-    private static Function<AchievementsRecord, AchievementAggregate> mapRecord() {
+    private static Function<AchievementsRecord, AchievementAggregate> mapRow() {
         //TODO: Properly map the records into AchievementAggregate instances
-        return record -> null;
+        return row -> null;
     }
 }

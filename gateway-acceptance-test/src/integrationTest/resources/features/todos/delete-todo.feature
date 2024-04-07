@@ -15,11 +15,12 @@ Feature: Delete todo
     Then deleting the todo should have failed
 
     Examples:
-      | backend    |
-      | redis      |
-      | inmemory   |
-      | filesystem |
-      | postgresql |
+      | backend       |
+      | eclipse-store |
+      | redis         |
+      | inmemory      |
+      | filesystem    |
+      | postgresql    |
 
   Scenario Outline: Delete existing todo - <backend>
 
@@ -34,8 +35,9 @@ Feature: Delete todo
     Then deleting the todo should have succeeded
 
     Examples:
-      | backend    |
-      | redis      |
-      | inmemory   |
-      | filesystem |
-      | postgresql |
+      | backend       |
+      | eclipse-store |
+      | redis         |
+      | inmemory      |
+      | filesystem    |
+      | postgresql    |

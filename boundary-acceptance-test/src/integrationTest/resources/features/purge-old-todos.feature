@@ -22,6 +22,11 @@ Feature: Purge Old ToDos
 
     Then fetching the ToDo should have failed with the message: 'The ToDo does not exist'
 
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
+
     @redis
     Examples:
       | backend |

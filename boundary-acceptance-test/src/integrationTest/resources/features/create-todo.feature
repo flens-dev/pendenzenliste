@@ -14,6 +14,11 @@ Feature: Create ToDo
 
     Then creating the todo should have failed with the message 'The value may not be null'
 
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
+
     @redis
     Examples:
       | backend |
@@ -45,6 +50,11 @@ Feature: Create ToDo
 
     Then creating the todo should have failed with the message 'The value may not be null'
 
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
+
     @redis
     Examples:
       | backend |
@@ -74,6 +84,11 @@ Feature: Create ToDo
     When I try to create the todo
 
     Then creating the todo should have succeeded
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:

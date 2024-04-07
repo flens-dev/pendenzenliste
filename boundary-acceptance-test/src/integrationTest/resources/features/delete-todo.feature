@@ -14,6 +14,11 @@ Feature: Delete ToDo
 
     Then the todo update should have failed with the message: 'The value may not be null'
 
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
+
     @redis
     Examples:
       | backend |
@@ -43,6 +48,11 @@ Feature: Delete ToDo
     When I try to delete the ToDo
 
     Then the todo update should have failed with the message: 'The value may not be empty'
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:
@@ -74,6 +84,11 @@ Feature: Delete ToDo
     When I try to delete the ToDo
 
     Then the todo update should have failed with the message: 'The ToDo does not exist'
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:
@@ -113,6 +128,11 @@ Feature: Delete ToDo
     When I try to fetch the ToDo
 
     Then fetching the ToDo should have failed with the message: 'The ToDo does not exist'
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:

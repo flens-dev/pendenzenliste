@@ -17,6 +17,7 @@ include 'domain-todos'
 
 include 'gateway'
 include 'gateway-acceptance-test'
+include 'gateway-eclipse-store'
 include 'gateway-filesystem'
 include 'gateway-inmemory'
 include 'gateway-postgresql-jooq'

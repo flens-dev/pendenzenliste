@@ -13,6 +13,11 @@ Feature: Complete ToDo
 
     Then the todo update should have failed with the message: 'The value may not be null'
 
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
+
     @redis
     Examples:
       | backend |
@@ -41,6 +46,11 @@ Feature: Complete ToDo
     When I try to complete the ToDo
 
     Then the todo update should have failed with the message: 'The value may not be empty'
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:
@@ -71,6 +81,11 @@ Feature: Complete ToDo
     When I try to complete the ToDo
 
     Then the todo update should have failed with the message: 'The ToDo does not exist'
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:
@@ -105,6 +120,11 @@ Feature: Complete ToDo
 
     Then the todo update should have failed with the message: 'The ToDo cannot be completed in its current state'
 
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
+
     @redis
     Examples:
       | backend |
@@ -138,6 +158,11 @@ Feature: Complete ToDo
 
     Then the todo update should have been successful
 
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
+
     @redis
     Examples:
       | backend |
@@ -152,7 +177,7 @@ Feature: Complete ToDo
     Examples:
       | backend    |
       | filesystem |
-    
+
     @postgresql
     Examples:
       | backend    |

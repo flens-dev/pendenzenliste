@@ -14,6 +14,11 @@ Feature: Fetch ToDo
 
     Then fetching the ToDo should have failed with the message: 'The value may not be null'
 
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
+
     @redis
     Examples:
       | backend |
@@ -43,6 +48,11 @@ Feature: Fetch ToDo
     When I try to fetch the ToDo
 
     Then fetching the ToDo should have failed with the message: 'The value may not be empty'
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:
@@ -74,6 +84,11 @@ Feature: Fetch ToDo
     When I try to fetch the ToDo
 
     Then fetching the ToDo should have failed with the message: 'The ToDo does not exist'
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:
@@ -109,6 +124,11 @@ Feature: Fetch ToDo
     Then the fetched Todo should have the following values:
       | identity | headline | description | created             | last modified       | state |
       | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | OPEN  |
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:

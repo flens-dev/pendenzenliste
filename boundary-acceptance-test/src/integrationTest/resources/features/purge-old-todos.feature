@@ -44,5 +44,8 @@ Feature: Purge Old ToDos
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |

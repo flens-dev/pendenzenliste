@@ -36,8 +36,11 @@ Feature: Reset ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |
 
   Scenario Outline: Empty ID - <backend>
 
@@ -71,8 +74,11 @@ Feature: Reset ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |
 
   Scenario Outline: ToDo does not exist - <backend>
 
@@ -107,8 +113,11 @@ Feature: Reset ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |
 
   Scenario Outline: ToDo is open - <backend>
 
@@ -145,9 +154,12 @@ Feature: Reset ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
-
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |
+    
   Scenario Outline: Reset ToDo - <backend>
 
     Given that I configure the application to use the '<backend>' todo gateway
@@ -183,5 +195,8 @@ Feature: Reset ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |

@@ -36,8 +36,11 @@ Feature: Create ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |
 
   Scenario Outline: No description - <backend>
 
@@ -72,8 +75,11 @@ Feature: Create ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |
 
   Scenario Outline: Successful creation - <backend>
     Given that I configure the application to use the '<backend>' todo gateway
@@ -104,8 +110,11 @@ Feature: Create ToDo
     Examples:
       | backend    |
       | filesystem |
-    
+
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |

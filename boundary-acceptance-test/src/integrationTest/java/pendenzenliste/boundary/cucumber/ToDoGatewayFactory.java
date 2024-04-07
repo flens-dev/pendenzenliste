@@ -6,6 +6,8 @@ import org.jooq.impl.DSL;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
+import pendenzenliste.acceptancetests.ToolVersion;
+import pendenzenliste.acceptancetests.VersionParser;
 import pendenzenliste.gateway.inmemory.InMemoryToDoGateway;
 import pendenzenliste.gateway.postgresql.PostgreSQLToDoGateway;
 import pendenzenliste.gateway.redis.RedisToDoGateway;
@@ -47,7 +49,9 @@ public class ToDoGatewayFactory {
      * @return The todo gateway.
      */
     public ToDoGateway create(final String type) {
-        switch (type) {
+        ToolVersion toolVersion = VersionParser.parse(type);
+
+        switch (toolVersion.tool()) {
             case "redis":
                 return createRedisGateway();
 
@@ -58,7 +62,7 @@ public class ToDoGatewayFactory {
                 return createFilesystemGateway();
 
             case "postgresql":
-                return createPostgreSQLGateway();
+                return createPostgreSQLGateway(toolVersion);
 
             case "eclipse-store":
                 return createEclipseStoreGateway();
@@ -92,8 +96,11 @@ public class ToDoGatewayFactory {
      *
      * @return The PostgreSQL gateway.
      */
-    private ToDoGateway createPostgreSQLGateway() {
-        final var postgresql = new PostgreSQLContainer<>("postgres:15.4-alpine3.18")
+    private ToDoGateway createPostgreSQLGateway(final ToolVersion toolVersion) {
+        final String version = toolVersion.version()
+                .orElseThrow(() -> new IllegalArgumentException("Missing version parameter: " + toolVersion));
+
+        final var postgresql = new PostgreSQLContainer<>("postgres:" + version)
                 .withDatabaseName("pendenzenliste");
 
         postgresql.start();

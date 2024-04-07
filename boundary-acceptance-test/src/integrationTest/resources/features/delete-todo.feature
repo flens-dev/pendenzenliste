@@ -36,8 +36,11 @@ Feature: Delete ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |
 
   Scenario Outline: Empty ID - <backend>
 
@@ -71,8 +74,11 @@ Feature: Delete ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |
 
   Scenario Outline: ToDo does not exist - <backend>
 
@@ -107,8 +113,11 @@ Feature: Delete ToDo
 
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |
 
   Scenario Outline: Deleting the ToDo succeeds - <backend>
 
@@ -148,8 +157,11 @@ Feature: Delete ToDo
     Examples:
       | backend    |
       | filesystem |
-    
+
     @postgresql
     Examples:
-      | backend    |
-      | postgresql |
+      | backend          |
+      | postgresql:16.2  |
+      | postgresql:15.6  |
+      | postgresql:14.11 |
+      | postgresql:13.14 |

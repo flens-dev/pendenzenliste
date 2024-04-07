@@ -14,6 +14,11 @@ Feature: Fetch todo list
 
     Then the ToDo list should be empty
 
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
+
     @redis
     Examples:
       | backend |
@@ -47,6 +52,11 @@ Feature: Fetch todo list
     Then the ToDo list should contain the following ToDos
       | identity | headline | description | created             | last modified       | state |
       | 42       | Test     | Lorem ipsum | 2022-01-01T12:00:00 | 2022-01-01T13:00:00 | OPEN  |
+
+    @eclipse-store
+    Examples:
+      | backend       |
+      | eclipse-store |
 
     @redis
     Examples:

@@ -16,11 +16,14 @@ dependencies {
     integrationTestImplementation project(':messaging')
     integrationTestImplementation project(':util-serialization')
 
+    integrationTestImplementation project(':gateway-eclipse-store')
     integrationTestImplementation project(':gateway-filesystem')
     integrationTestImplementation project(':gateway-inmemory')
     integrationTestImplementation project(':gateway-postgresql-jooq')
     integrationTestImplementation project(':gateway-redis')
     integrationTestImplementation project(':messaging-inmemory')
+
+    integrationTestImplementation "org.eclipse.store:storage-embedded:${eclipseStoreVersion}"
 
     integrationTestImplementation "redis.clients:jedis:${jedisVersion}"
 
@@ -60,4 +63,7 @@ tasks.register('integrationTest', Test) {
     systemProperty("cucumber.plugin", "message:build/reports/cucumber.ndjson, timeline:build/reports/timeline, html:build/reports/cucumber.html")
 
     useJUnitPlatform()
+
+    // Required to allow testing of eclipse store based gateways
+    jvmArgs = ['--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED']
 }

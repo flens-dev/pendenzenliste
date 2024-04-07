@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(':domain')
+    implementation project(':gateway')
+    implementation project(':messaging')
+
+    implementation "org.eclipse.store:storage-embedded:${eclipseStoreVersion}"
+}

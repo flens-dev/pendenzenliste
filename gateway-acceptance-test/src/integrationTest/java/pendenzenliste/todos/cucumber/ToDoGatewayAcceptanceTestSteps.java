@@ -14,6 +14,7 @@ import pendenzenliste.gateway.postgresql.PostgreSQLToDoGateway;
 import pendenzenliste.gateway.redis.RedisToDoGateway;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.gateway.ToDoGateway;
+import pendenzenliste.todos.gateway.eclipsestore.EclipseStoreToDoGatewayProvider;
 import pendenzenliste.todos.gateway.filesystem.FilesystemToDoGateway;
 import pendenzenliste.todos.model.*;
 import redis.clients.jedis.Jedis;
@@ -55,12 +56,14 @@ public class ToDoGatewayAcceptanceTestSteps {
     @Given("that I configure the application to use the {string} todo gateway")
     public void givenThatIConfigureTheApplicationToUseTheBackendTodoGateway(final String type) {
         switch (type) {
+            case "eclipse-store" -> this.gateway = createEclipseStoreGateway();
             case "redis" -> this.gateway = createRedisGateway();
             case "inmemory" -> this.gateway = createInMemoryGateway();
             case "filesystem" -> this.gateway = createFilesystemGateway();
             case "postgresql" -> this.gateway = createPostgreSQLGateway();
 
-            default -> throw new IllegalStateException("Unexpected value: " + type);
+            default ->
+                    throw new IllegalStateException("Unexpected value: " + type);
         }
     }
 
@@ -130,6 +133,16 @@ public class ToDoGatewayAcceptanceTestSteps {
      */
     private ToDoGateway createInMemoryGateway() {
         return new InMemoryToDoGateway(EventBus.defaultEventBus());
+    }
+
+
+    /**
+     * Creates an eclipse store gateway.
+     *
+     * @return The eclipse store gateway.
+     */
+    private ToDoGateway createEclipseStoreGateway() {
+        return new EclipseStoreToDoGatewayProvider().getInstance();
     }
 
     /**

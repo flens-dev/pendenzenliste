@@ -1,5 +1,6 @@
 package pendenzenliste.boundary.cucumber;
 
+import org.eclipse.store.storage.embedded.types.EmbeddedStorage;
 import org.flywaydb.core.Flyway;
 import org.jooq.impl.DSL;
 import org.testcontainers.containers.GenericContainer;
@@ -10,6 +11,7 @@ import pendenzenliste.gateway.postgresql.PostgreSQLToDoGateway;
 import pendenzenliste.gateway.redis.RedisToDoGateway;
 import pendenzenliste.messaging.EventBus;
 import pendenzenliste.todos.gateway.ToDoGateway;
+import pendenzenliste.todos.gateway.eclipsestore.EclipseStoreTodoGateway;
 import pendenzenliste.todos.gateway.filesystem.FilesystemToDoGateway;
 import redis.clients.jedis.Jedis;
 
@@ -58,8 +60,30 @@ public class ToDoGatewayFactory {
             case "postgresql":
                 return createPostgreSQLGateway();
 
+            case "eclipse-store":
+                return createEclipseStoreGateway();
+
             default:
                 throw new IllegalStateException("Unknown backend " + type);
+        }
+    }
+
+    /**
+     * Creates the eclipse store gateway.
+     *
+     * @return The eclipse store gateway.
+     */
+    private ToDoGateway createEclipseStoreGateway() {
+        try {
+            final var storageManager = EmbeddedStorage.start(
+                    Files.createTempDirectory("todos")
+            );
+
+            storageManager.storeRoot();
+
+            return new EclipseStoreTodoGateway(storageManager, eventBus);
+        } catch (final Throwable e) {
+            throw new IllegalStateException("Failed to create Eclipse Store Gateway", e);
         }
     }
 

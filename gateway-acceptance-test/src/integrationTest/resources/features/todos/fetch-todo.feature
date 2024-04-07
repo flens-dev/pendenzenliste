@@ -15,11 +15,12 @@ Feature: Fetch todo
     Then I should have received no todo
 
     Examples:
-      | backend    |
-      | inmemory   |
-      | filesystem |
-      | redis      |
-      | postgresql |
+      | backend       |
+      | eclipse-store |
+      | inmemory      |
+      | filesystem    |
+      | redis         |
+      | postgresql    |
 
   Scenario Outline: Todo exists - <backend>
 
@@ -37,8 +38,9 @@ Feature: Fetch todo
       | 42       | Take out the trash |             | 2023-01-01T00:00:00.000 | 2023-01-01T00:00:00.000 |           | OPEN  |
 
     Examples:
-      | backend    |
-      | inmemory   |
-      | filesystem |
-      | redis      |
-      | postgresql |
+      | backend       |
+      | eclipse-store |
+      | inmemory      |
+      | filesystem    |
+      | redis         |
+      | postgresql    |
